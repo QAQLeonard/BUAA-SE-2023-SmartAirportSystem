@@ -9,38 +9,39 @@ export default new Router({
         {
             path:'/home',
             name:'机场主页',
-            iconClass:'',
+            iconClass:'fa fa-plane',
+            // hidden:true,
             redirect:'/home/ticketbook',
             component:()=>import('@/components/Home'),
             children:[
                 {
                     path: '/home/ticketbook',
                     name:'机票预订',
-                    iconClass:'',
+                    iconClass:'fa fa-fighter-jet',
                     component:()=>import('@/components/ji-chang-zhu-ye/TicketBook')
                 },
                 {
                     path: '/home/myorder',
                     name:'我的订单',
-                    iconClass:'',
+                    iconClass:'fa fa-cny',
                     component:()=>import('@/components/ji-chang-zhu-ye/MyOrder')
                 },
                 {
                     path: '/home/parkingbook',
                     name:'停车位预订',
-                    iconClass:'',
+                    iconClass:'fa fa-car',
                     component:()=>import('@/components/ji-chang-zhu-ye/ParkingBook')
                 },
                 {
                     path: '/home/baggagetracking',
                     name:'行李跟踪',
-                    iconClass:'',
+                    iconClass:'fa fa-suitcase',
                     component:()=>import('@/components/ji-chang-zhu-ye/BaggageTracking')
                 },
                 {
                     path: '/home/scheduleview',
                     name:'航班表查看',
-                    iconClass:'',
+                    iconClass:'fa fa-table',
                     component:()=>import('@/components/ji-chang-zhu-ye/ScheduleView')
                 },
             ]
@@ -48,19 +49,19 @@ export default new Router({
         {
             path:'/home',
             name:'机场报修',
-            iconClass:'',
+            iconClass:'fa fa-wrench',
             component:()=>import('@/components/Home'),
             children:[
                 {
                     path: '/home/createrequest',
                     name:'创建请求',
-                    iconClass:'',
+                    iconClass:'fa fa-tasks',
                     component:()=>import('@/components/ji-chang-bao-xiu/CreateRequest')
                 },
                 {
                     path: '/home/handleaffair',
                     name:'处理事务',
-                    iconClass:'',
+                    iconClass:'fa fa-check',
                     component:()=>import('@/components/ji-chang-bao-xiu/HandleAffair')
                 },
             ]
@@ -68,25 +69,25 @@ export default new Router({
         {
             path:'/home',
             name:'机场管理',
-            iconClass:'',
+            iconClass:'fa fa-user-plus',
             component:()=>import('@/components/Home'),
             children:[
                 {
                     path: '/home/approvalrequest',
                     name:'审批请求',
-                    iconClass:'',
+                    iconClass:'fa fa-bookmark',
                     component:()=>import('@/components/ji-chang-guan-li/ApprovalRequest')
                 },
                 {
                     path: '/home/dataviewing',
                     name:'数据查看',
-                    iconClass:'',
+                    iconClass:'fa fa-line-chart',
                     component:()=>import('@/components/ji-chang-guan-li/DataViewing')
                 },
                 {
                     path: '/home/importflights',
                     name:'导入航班',
-                    iconClass:'',
+                    iconClass:'fa fa-cloud-upload',
                     component:()=>import('@/components/ji-chang-guan-li/ImportFlights')
                 },
             ]
@@ -94,19 +95,19 @@ export default new Router({
         {
             path:'/home',
             name:'商家入驻',
-            iconClass:'',
+            iconClass:'fa fa-handshake-o',
             component:()=>import('@/components/Home'),
             children:[
                 {
                     path: '/home/myshop',
                     name:'我的店铺',
-                    iconClass:'',
+                    iconClass:'fa fa-shopping-bag',
                     component:()=>import('@/components/shang-jia-ru-zhu/MyShop')
                 },
                 {
                     path: '/home/residencyapplication',
                     name:'入驻申请',
-                    iconClass:'',
+                    iconClass:'fa fa-sign-in',
                     component:()=>import('@/components/shang-jia-ru-zhu/ResidencyApplication')
                 },
             ]
@@ -114,25 +115,25 @@ export default new Router({
         {
             path:'/home',
             name:'航司',
-            iconClass:'',
+            iconClass:'fa fa-vcard',
             component:()=>import('@/components/Home'),
             children:[
                 {
                     path: '/home/bin',
                     name:'回收站',
-                    iconClass:'',
+                    iconClass:'fa fa-trash',
                     component:()=>import('@/components/hang-si/Bin')
                 },
                 {
                     path: '/home/flightrelease',
                     name:'航班发布',
-                    iconClass:'',
+                    iconClass:'fa fa-sitemap',
                     component:()=>import('@/components/hang-si/FlightRelease')
                 },
                 {
                     path: '/home/publishedflights',
                     name:'已发布',
-                    iconClass:'',
+                    iconClass:'fa fa-anchor',
                     component:()=>import('@/components/hang-si/PublishedFlights')
                 },
             ]
@@ -140,19 +141,19 @@ export default new Router({
         {
             path:'/home',
             name:'个人中心',
-            iconClass:'',
+            iconClass:'fa fa-users',
             component:()=>import('@/components/Home'),
             children:[
                 {
                     path: '/home/personalinformation',
                     name:'个人信息',
-                    iconClass:'',
+                    iconClass:'fa fa-user',
                     component:()=>import('@/components/ge-ren-zhong-xin/PersonalInformation')
                 },
                 {
                     path: '/home/myalerts',
                     name:'我的通知',
-                    iconClass:'',
+                    iconClass:'fa fa-bell',
                     component:()=>import('@/components/ge-ren-zhong-xin/MyAlerts')
                 },
             ]
@@ -160,13 +161,13 @@ export default new Router({
         {
             path:'/home',
             name:'客服',
-            iconClass:'',
+            iconClass:'fa fa-comments',
             component:()=>import('@/components/Home'),
             children:[
                 {
                     path: '/home/customerservice',
                     name:'客服界面',
-                    iconClass:'',
+                    iconClass:'fa fa-comment ',
                     component:()=>import('@/components/ke-fu/CustomerService')
                 },
             ]

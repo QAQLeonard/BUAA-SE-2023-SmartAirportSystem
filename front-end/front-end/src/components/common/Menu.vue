@@ -43,6 +43,7 @@ export default {
             height: 100%;
             .fa {
                 margin-right: 10px;
+                color: #fff;
             }
         }
 

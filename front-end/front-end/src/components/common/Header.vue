@@ -18,7 +18,7 @@
 <style lang="scss" scoped>
     .header{
         .el-header {
-            background-color: #2578b5;
+            background-color: #00bfff;
             color: #fff;
             line-height: 60px;
             display: flex;
