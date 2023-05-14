@@ -1,6 +1,18 @@
 <template>
     <div class="bin">
-        <!-- 机票预订 -->
+        <!-- 回收站 -->
+        <!-- 查询和重置 -->
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
+            <el-form-item label="查询">
+                <el-input v-model="formInline.id" placeholder="请输入航班号"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="find">查询</el-button>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="reset">重置</el-button>
+            </el-form-item>
+        </el-form>
         <el-table :data="comData" border style="width: 100%">
             <el-table-column prop="id" label="航班号" align="center"></el-table-column>
             <el-table-column prop="start" label="起点" align="center"></el-table-column>
@@ -35,8 +47,8 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
-                
+                state: 3
+
 
             }, {
                 id: "F102",
@@ -46,8 +58,8 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
-                
+                state: 3
+
 
             }, {
                 id: "F103",
@@ -57,8 +69,8 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
-                
+                state: 3
+
 
             }, {
                 id: "F104",
@@ -68,7 +80,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F105",
@@ -78,7 +90,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F106",
@@ -88,7 +100,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F107",
@@ -98,7 +110,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
             }, {
                 id: "F108",
                 start: "北京",
@@ -107,7 +119,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F109",
@@ -117,7 +129,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
             }, {
                 id: "F110",
                 start: "北京",
@@ -126,7 +138,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F111",
@@ -136,7 +148,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F112",
@@ -146,8 +158,8 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
-                
+                state: 3
+
 
             }, {
                 id: "F113",
@@ -157,7 +169,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F114",
@@ -167,7 +179,7 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
 
             }, {
                 id: "F115",
@@ -177,15 +189,24 @@ export default {
                 endtime: '05月13日15:00',
                 price: '666',
                 seat: '190',
-                state:3
+                state: 3
             },],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
-            total: 15
+            total: 15,
+            formInline: {
+                id: ''
+            }
         }
     },
     methods: {
-        
+        find(){
+
+        },
+        reset(){
+            this.formInline={}
+        },
+
         handleSizeChange(val) {
             this.pageSize = val
             this.currentPage = 1
@@ -197,7 +218,7 @@ export default {
         },
         changeData() {
             this.tableData.forEach(item => {
-                item.state===1 ? (item.statetext='已发布'):item.state === 2?(item.statetext = '未发布'):(item.statetext = '回收站中')
+                item.state === 1 ? (item.statetext = '已发布') : item.state === 2 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         }
     },
@@ -205,13 +226,27 @@ export default {
         comData() {
             return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
         }
-    }, created(){
+    }, created() {
         this.changeData()
     },
 }
 </script>
 <style lang="scss">
 .bin {
+
+    .demo-form-inline,
+    .el-form-item {
+        text-align: left;
+    }
+
+    .demo-form-inline {
+        .el-form-item {
+            .el-input {
+                width: 120px;
+            }
+        }
+    }
+
     .el-pagination {
         text-align: left;
         margin-top: 20px;
