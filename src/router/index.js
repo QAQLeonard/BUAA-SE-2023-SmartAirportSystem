@@ -7,6 +7,12 @@ Vue.use(Router)
 export default new Router({
     routes: [
         {
+            path:'/',
+            name:'首页',
+            redirect:'/login',
+            //iconClass:'fa fa-plane',
+        },
+        {
             path:'/home',
             name:'机场主页',
             iconClass:'fa fa-plane',
@@ -173,10 +179,10 @@ export default new Router({
             ]
         },
         {
-            path:'/home',
+            path:'/login',
             name:'注册/登陆',
             iconClass:'fa fa-sign-in',
-            component:()=>import('@/components/Home'),
+            component:()=>import('@/components/zhuce-denglu/RegisterTo'),
             children:[
                 {
                     path: '/home/register',
@@ -184,6 +190,7 @@ export default new Router({
                     iconClass:'fa fa-registered ',
                     component:()=>import('@/components/zhuce-denglu/RegisterTo')
                 },
+                
             ]
         }
     ],

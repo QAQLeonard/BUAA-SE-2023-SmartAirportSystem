@@ -116,6 +116,7 @@ export default {
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 alert('submit!');
+                this.$router.replace('/home')
             } else {
                 console.log('error submit!!');
                 return false;
