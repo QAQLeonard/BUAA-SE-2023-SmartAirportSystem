@@ -1,5 +1,6 @@
 <template>
-    <div>
-       我的通知 
-    </div>
+  <div>
+    alert
+  </div>
+
 </template>
