@@ -24,7 +24,7 @@
             <el-table-column prop="seat" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit()"></el-button>
+                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
                 </template>
             </el-table-column>
@@ -68,7 +68,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                <el-button type="primary" @click="check('form')">确 定</el-button>
             </div>
         </el-dialog>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
@@ -95,14 +95,20 @@ export default {
 
             },
             rules: {
-
+                id: [{required:true,message:'请输入航班号'}],
+                start: [{required:true,message:'请输入起点'}],
+                destination: [{required:true,message:'请输入终点'}],
+                starttime: [{required:true}],
+                endtime: [{required:true}],
+                price:[{required:true,message:'请输入航班价格'}],
+                seat: [{required:true,message:'请输入航班座位数量'}],
             },
             tableData: [{
                 id: "F101",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -112,8 +118,8 @@ export default {
                 id: "F102",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -123,8 +129,8 @@ export default {
                 id: "F103",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -134,8 +140,8 @@ export default {
                 id: "F104",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -144,8 +150,8 @@ export default {
                 id: "F105",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -154,8 +160,8 @@ export default {
                 id: "F106",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -164,8 +170,8 @@ export default {
                 id: "F107",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -173,8 +179,8 @@ export default {
                 id: "F108",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -183,8 +189,8 @@ export default {
                 id: "F109",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -192,8 +198,8 @@ export default {
                 id: "F110",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -202,8 +208,8 @@ export default {
                 id: "F111",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -212,8 +218,8 @@ export default {
                 id: "F112",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -223,8 +229,8 @@ export default {
                 id: "F113",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -233,8 +239,8 @@ export default {
                 id: "F114",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -243,8 +249,8 @@ export default {
                 id: "F115",
                 start: "北京",
                 destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
+                starttime: '05-13-12:00',
+                endtime: '05-13-15:00',
                 price: '666',
                 seat: '190',
                 state: 1
@@ -258,11 +264,25 @@ export default {
         }
     },
     methods: {
-        edit() {
+        getData(){
+            //查询数据
+        },
+        edit(row) {
             this.dialogFormVisible = true
+            this.form = {...row}
         },
         find() {
 
+        },
+        check(form){
+            console.log(form,this.form)
+            this.$refs[form].validate(valid=>{
+                if(valid){
+                    //如果通过，执行对应操作
+                    this.dialogFormVisible = false
+                    this.$message({ message: '修改数据成功', type: 'success' })
+                }
+            })
         },
         reset() {
             this.formInline = {}
