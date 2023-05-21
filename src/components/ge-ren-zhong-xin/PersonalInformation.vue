@@ -1,157 +1,117 @@
 <template>
-    <div>
-        <el-tabs type="border-card" >
-            <el-tab-pane label="旅客注册" >
-                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="账号" prop="account">
-                    <el-input v-model="ruleForm.account"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码" prop="pass">
-                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off" placeholder="8-16位由大小写字母、数字组成的密码"></el-input>
-                    </el-form-item>
-                    <el-form-item label="确认密码" prop="checkPass">
-                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder="确认密码"></el-input>
-                    </el-form-item>
-                    <el-form-item label="电话" prop="phoneNumber">
-                    <el-input type="tel" v-model="ruleForm.phoneNumber" id="phone" name="phone">
-                    </el-input>
-                    <el-button id="sendCodeBtn" type="info" round @click="sendVerificationCode()">
-                    发送验证码
-                    </el-button>
-                    </el-form-item>
-                    <el-form-item label="验证码" prop="account">
-                    <el-input v-model="ruleForm.Checkcode"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                    <el-button @click="resetForm('ruleForm')">重置</el-button>
-                    </el-form-item>
-                </el-form>
-            </el-tab-pane>
-            <el-tab-pane label="职工注册" >
-                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="账号" prop="account">
-                    <el-input v-model="ruleForm.account"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码" prop="pass">
-                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off" placeholder="8-16位由大小写字母、数字组成的密码"></el-input>
-                    </el-form-item>
-                    <el-form-item label="确认密码" prop="checkPass">
-                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder="确认密码"></el-input>
-                    </el-form-item>
-                    <el-form-item label="电话" prop="phoneNumber">
-                    <el-input type="tel" v-model="ruleForm.phoneNumber" id="phone" name="phone">
-                    </el-input>
-                    <el-button id="sendCodeBtn" type="info" round @click="sendVerificationCode()">
-                    发送验证码
-                    </el-button>
-                    </el-form-item>
-                    <el-form-item label="验证码" prop="account">
-                    <el-input v-model="ruleForm.Checkcode"></el-input>
-                    </el-form-item>
-                    <el-form-item label="职工号" prop="account">
-                    <el-input v-model="ruleForm.Workid"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                    <el-button @click="resetForm('ruleForm')">重置</el-button>
-                    </el-form-item>
-                </el-form> 
-            </el-tab-pane>
-        </el-tabs>
+    <div class="personalInfo">
+        <el-avatar shape="square" :size="150" :src="squareUrl"></el-avatar>
+        <el-form ref="form" :model="form" label-width="80px" :disabled.sync="disabled">
+            <el-form-item label="用户名" class="userName">
+                <el-input v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="性别" class="genderCheck userName" >
+                <el-radio label="男" v-model="form.gender">男</el-radio>
+                <el-radio label="女" v-model="form.gender">女</el-radio>
+            </el-form-item>
+            <el-form-item label="手机号">
+                <el-input v-model="form.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="个性签名">
+                <el-input type="textarea" v-model="form.note"></el-input>
+            </el-form-item>
+        </el-form>
+        <el-form class="workCheck">
+            <el-form-item label="工号认证" :model="form" label-width="80px">
+                <el-input type="password" v-model="form.name"></el-input>
+                <el-button type="primary" @click="check()"> 点击认证</el-button>
+            </el-form-item>
+        </el-form>
+        <template>
+            <div class="operate">
+                <el-button type="primary" @click="edit()"> 编辑个人信息</el-button>
+                <el-button type="primary" @click="submit()"> 保存</el-button>
+            </div>
+        </template>
+        
     </div>
 </template>
 <script>
 export default {
     data() {
-        
-        var validatePass = (rule, value, callback) => {
-        var patrn=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/;
-        if (value === '') {
-            callback(new Error('请输入密码'));
-        } 
-        else if(value.length<8||value.length>16){
-            callback(new Error('密码要在8-16位'));
-        }
-        else if(!patrn.test(value)){
-            callback(new Error('密码只能由大小写字母和数字组成'));
-        }
-        else {
-            if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-            }
-            callback();
-            }
-        };
-        var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-            callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.pass) {
-            callback(new Error('两次输入密码不一致!'));
-        } else {
-            callback();
-        }
-        };
-        var generateVerificationCode= ()=>{
-            return Math.floor(Math.random() * 900000 + 100000);
-        };
-        var sendVerificationCode= ()=>{
-            var phoneInput = document.getElementById("phone");
-            var sendCodeBtn = document.getElementById("sendCodeBtn");
-            sendCodeBtn.disabled = true;
-            setTimeout(function() {
-            var code = this.generateVerificationCode();
-            sessionStorage.setItem("verificationCode", code);
-            alert("验证码已发送到您的手机，请注意查收！");
-            sendCodeBtn.disabled = false;
-            } , 2000);
-        };
-        var verifyCode=(rule, value, callback)=>{
-        var storedCode = sessionStorage.getItem("verificationCode");
-        if (value === storedCode) {
-            alert("验证码正确！");
-        } else {
-        callback(new Error('验证码错误'));
-        }
-        }
         return {
-        ruleForm: {
-            pass: '',
-            checkPass: '',
-            phoneNumber:'',
-            account:'',
-            Workid:'',
-            Checkcode:'',
-        },
-
-        rules: {
-            pass: [
-                { validator: validatePass, trigger: 'blur' }
-            ],
-            checkPass: [
-                { validator: validatePass2, trigger: 'blur' }
-            ],
-            Checkcode:[
-                {validator:verifyCode,trigger:'blur'}
-            ]
+            form: {
+                name: 'test',
+                gender: '女',
+                phone: '13211223344',
+                note: 'Hello',
+                worknum: 'SXC114514'
+            },
+            disabled: true,
+            checked: false,
+            squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
         }
-        };
     },
     methods: {
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-            if (valid) {
-                alert('submit!');
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
-            });
+        onSubmit() {
+            console.log('submit!');
         },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
+        check() {
+            if (this.checked === false) {
+                this.$message({ message: '认证成功', type: 'success' })
+                this.checked = true
+            } else {
+                this.$message({ message: '不能重复认证！', type: 'error' })
+            }
+        },
+        edit() {
+            this.disabled = false
+        },
+        submit() {
+            this.disabled = true
         }
-        
     }
 }
 </script>
+<style lang="scss" scoped>
+.personalInfo {
+    margin-top: 40px;
+    .el-avatar{
+        float: right;
+        margin-right: 300px;
+    }
+    .operate{
+        margin-top: 100px;
+    }
+    .userName{
+        height: 40px;
+    }
+    .el-form-item {
+        margin-left: 150px;
+    }
+    .workCheck {
+        width: 50%;
+
+        .el-form-item {
+            // background-color: blue;
+            .el-input {
+                margin-left: 0px;
+                width: 60%;
+                // background-color: aquamarine;
+            }
+
+            .el-button {
+                display: inline-block;
+                float: right;
+                // width: 60px;
+                // background-color: aqua;
+            }
+        }
+    }
+
+    .el-form {
+        .el-form-item {
+            width: 50%;
+        }
+
+        .genderCheck {
+            width: 15%;
+        }
+    }
+}
+</style>
