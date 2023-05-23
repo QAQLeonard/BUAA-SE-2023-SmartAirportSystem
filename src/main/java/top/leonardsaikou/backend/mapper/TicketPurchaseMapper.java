@@ -2,9 +2,10 @@ package top.leonardsaikou.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import top.leonardsaikou.backend.entity.Ticket;
+import top.leonardsaikou.backend.entity.TicketPurchase;
+
 
 @Mapper
-public interface TicketMapper extends BaseMapper<Ticket>{
+public interface TicketPurchaseMapper extends BaseMapper<TicketPurchase> {
 
 }
