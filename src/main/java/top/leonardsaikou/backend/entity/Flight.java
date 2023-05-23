@@ -1,12 +1,14 @@
-package com.se.backend.entity;
+package top.leonardsaikou.backend.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import javax.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "flights")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Flight
 {
     @Id

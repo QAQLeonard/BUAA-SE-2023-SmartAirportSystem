@@ -1,13 +1,15 @@
-package com.se.backend.entity;
+package top.leonardsaikou.backend.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import javax.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "repair_requests")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RepairRequest
 {
     @Id

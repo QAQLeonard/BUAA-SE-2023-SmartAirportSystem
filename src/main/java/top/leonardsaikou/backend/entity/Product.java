@@ -1,11 +1,14 @@
-package com.se.backend.entity;
+package top.leonardsaikou.backend.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product
 {
     @Id

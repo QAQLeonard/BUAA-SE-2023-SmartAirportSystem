@@ -1,12 +1,15 @@
-package com.se.backend.entity;
+package top.leonardsaikou.backend.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import javax.persistence.*;
+
+import lombok.*;
 
 @Entity
 @Table(name = "users")
 @Data
-public class Users
+@NoArgsConstructor
+@AllArgsConstructor
+public class User
 {
     @Id
     private String username;
@@ -14,4 +17,5 @@ public class Users
     private String id;
     private String avatar;
     private String role;
+
 }

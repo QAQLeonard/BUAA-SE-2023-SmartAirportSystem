@@ -1,4 +1,4 @@
-package com.se.backend;
+package top.leonardsaikou.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

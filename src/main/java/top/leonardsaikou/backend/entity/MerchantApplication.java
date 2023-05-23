@@ -1,12 +1,14 @@
-package com.se.backend.entity;
+package top.leonardsaikou.backend.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "merchant_applications")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MerchantApplication
 {
     @Id
