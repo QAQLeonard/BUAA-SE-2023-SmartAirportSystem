@@ -1,11 +1,12 @@
 package top.leonardsaikou.backend.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "products")
+@TableName("products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

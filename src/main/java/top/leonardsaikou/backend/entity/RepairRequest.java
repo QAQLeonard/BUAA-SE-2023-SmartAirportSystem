@@ -1,12 +1,14 @@
 package top.leonardsaikou.backend.entity;
 
 import javax.persistence.*;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "repair_requests")
+@TableName("repair_requests")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -18,12 +18,21 @@ public class UserController
         this.userMapper = userMapper;
     }
 
-    @ApiOperation("获取用户信息")
+    @ApiOperation("获取全部用户信息")
     @GetMapping("/user")
     public String getUser()
     {
-        List<User> usersList = userMapper.find();
+        List<User> usersList = userMapper.selectList(null);
         System.out.println(usersList);
+        return "user";
+    }
+
+    @ApiOperation("根据id获取单个用户信息")
+    @GetMapping("/user/{id}")
+    public String getUserById(@PathVariable String id)
+    {
+        User user = userMapper.selectById(id);
+        System.out.println(user);
         return "user";
     }
 

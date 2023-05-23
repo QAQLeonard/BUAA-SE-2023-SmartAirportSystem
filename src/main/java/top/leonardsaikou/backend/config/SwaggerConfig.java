@@ -34,8 +34,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                // com包下所有API都交给Swagger2管理
-                .apis(RequestHandlerSelectors.basePackage("com"))
+                // top包下所有API都交给Swagger2管理
+                .apis(RequestHandlerSelectors.basePackage("top"))
                 .paths(PathSelectors.any()).build();
     }
 
