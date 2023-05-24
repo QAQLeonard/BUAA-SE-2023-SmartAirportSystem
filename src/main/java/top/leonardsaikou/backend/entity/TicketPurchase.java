@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@TableName("ticket_purchases")
+@Table(schema = "se_db",name = "ticket_purchases")
 @Data
 public class TicketPurchase
 {

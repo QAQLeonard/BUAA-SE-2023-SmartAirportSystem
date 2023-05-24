@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 @Entity
-@TableName("tickets")
+@Table(schema = "se_db",name = "tickets")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

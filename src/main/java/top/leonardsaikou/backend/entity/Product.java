@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@TableName("products")
+@Table(schema = "se_db",name = "products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
