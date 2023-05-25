@@ -16,12 +16,12 @@ public class FlightController {
         this.flightMapper = flightMapper;
     }
 
-    @ApiOperation("获取全部航班信息")
+    @ApiOperation("获取全部航班信息,返回值为所有航班信息的数量")
     @GetMapping("/flight")
-    public String getFlight() {
+    public int getFlight() {
         List<Flight> flightList = flightMapper.selectList(null);
         System.out.println(flightList);
-        return "flight";
+        return flightList.size();
     }
 
     @ApiOperation("根据id获取单个航班信息")
@@ -61,4 +61,15 @@ public class FlightController {
         }
         return "fail";
     }
+
+    @ApiOperation("查询特定航班,提供起点，终点")
+    @GetMapping("/flight/{departureCity}/{arrivalCity}")
+    public String getFlightByCity(@PathVariable String departureCity,@PathVariable String arrivalCity) {
+        List<Flight> flightList = flightMapper.selectByCity(departureCity,arrivalCity);
+        System.out.println(flightList);
+        return "flight";
+    }
+
+
+
 }
