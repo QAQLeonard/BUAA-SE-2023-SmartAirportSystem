@@ -22,6 +22,11 @@ public class RepairRequest
     private String approverId;
     @Column(name = "request_date")
     private LocalDate requestDate;
+    /**
+     * status:
+     * 0: Unresolved
+     * 1: Resolved
+     */
     private String status;
     private String description;
 }
