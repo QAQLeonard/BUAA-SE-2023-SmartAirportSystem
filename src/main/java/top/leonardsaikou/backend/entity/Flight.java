@@ -1,8 +1,6 @@
 package top.leonardsaikou.backend.entity;
 
 import javax.persistence.*;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 import java.time.LocalDateTime;
