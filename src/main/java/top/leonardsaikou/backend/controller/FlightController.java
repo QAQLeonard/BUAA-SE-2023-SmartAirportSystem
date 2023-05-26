@@ -35,10 +35,14 @@ public class FlightController {
 
     @ApiOperation("根据id获取单个航班信息")
     @GetMapping("/flight/{id}")
-    public String getFlightById(@PathVariable String id) {
+    public String getFlightById(@PathVariable String id) throws JsonProcessingException{
         Flight flight = flightMapper.selectById(id);
-        System.out.println(flight);
-        return "flight";
+        //System.out.println(flight);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flight);
+        return "{"+"\"TotalNumber\":" + 1 + ",\"flightData\":"+ json + "}";
     }
 
     @ApiOperation("插入航班信息")
@@ -73,18 +77,26 @@ public class FlightController {
 
     @ApiOperation("查询特定航班,提供起点，终点")
     @GetMapping("/flight/{departureCity}/{arrivalCity}")
-    public String getFlightByCity(@PathVariable String departureCity,@PathVariable String arrivalCity) {
+    public String getFlightByCity(@PathVariable String departureCity,@PathVariable String arrivalCity) throws JsonProcessingException{
         List<Flight> flightList = flightMapper.selectByCity(departureCity,arrivalCity);
-        System.out.println(flightList);
-        return "flight";
+        //System.out.println(flightList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flightList);
+        return "{"+"\"TotalNumber\":" + flightList.size() + ",\"flightData\":"+ json + "}";
     }
 
     @ApiOperation("查询回收站中的航班,返回值为回收站中航班的数量")
     @GetMapping("/flight/recycle")
-    public int getRecycleBin() {
+    public String getRecycleBin() throws JsonProcessingException{
         List<Flight> flightList = flightMapper.selectRecycleBin();
-        System.out.println(flightList);
-        return flightList.size();
+        //System.out.println(flightList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flightList);
+        return "{"+"\"TotalNumber\":" + flightList.size() + ",\"flightData\":"+ json + "}";
     }
 
     @ApiOperation("恢复按钮：修改特定航班的状态，前端提供航班号，从“回收站中”改为“未发布”。")
@@ -99,18 +111,26 @@ public class FlightController {
 
     @ApiOperation("查询：前端提供航班号，查找对应航班号且状态为“回收站中”的航班。")
     @GetMapping("/flight/recycle/{id}")
-    public String getRecycleBinById(@PathVariable String id) {
+    public String getRecycleBinById(@PathVariable String id) throws JsonProcessingException{
         List<Flight> flightList = flightMapper.selectRecycleBinById(id);
-        System.out.println(flightList);
-        return "success\n" + flightList.toString();
+        //System.out.println(flightList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flightList);
+        return "{"+"\"TotalNumber\":" + flightList.size() + ",\"flightData\":"+ json + "}";
     }
 
     @ApiOperation("查询未发布的航班,返回值为未发布航班的数量")
     @GetMapping("/flight/unpublished")
-    public String getUnpublished() {
+    public String getUnpublished() throws JsonProcessingException{
         List<Flight> flightList = flightMapper.selectUnpublished();
-        System.out.println(flightList);
-        return flightList.size() + "\n" + flightList;
+        //System.out.println(flightList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flightList);
+        return "{"+"\"TotalNumber\":" + flightList.size() + ",\"flightData\":"+ json + "}";
     }
 
 
