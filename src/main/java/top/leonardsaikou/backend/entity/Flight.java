@@ -1,11 +1,14 @@
 package top.leonardsaikou.backend.entity;
 
 import javax.persistence.*;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 import java.time.LocalDateTime;
 @Entity
 @Table(schema = "se_db",name = "flights")
+@TableName("flights")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(schema = "se_db",name = "products")
+@TableName("products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

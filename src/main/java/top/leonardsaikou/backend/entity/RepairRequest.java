@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(schema = "se_db",name = "repair_requests")
+@TableName("repair_requests")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
