@@ -7,6 +7,7 @@ import lombok.*;
 
 @Entity
 @Table(schema = "se_db",name = "parking_spaces")
+@TableName("parking_spaces")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

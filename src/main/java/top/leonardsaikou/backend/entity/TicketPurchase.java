@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(schema = "se_db", name = "ticket_purchases")
+@TableName("ticket_purchases")
 @Data
 public class TicketPurchase
 {

@@ -18,10 +18,10 @@ public class FlightController {
 
     @ApiOperation("获取全部航班信息,返回值为所有航班信息的数量")
     @GetMapping("/flight")
-    public int getFlight() {
+    public String getFlight() {
         List<Flight> flightList = flightMapper.selectList(null);
         System.out.println(flightList);
-        return flightList.size();
+        return flightList.size() + "\n" + flightList.toString();
     }
 
     @ApiOperation("根据id获取单个航班信息")

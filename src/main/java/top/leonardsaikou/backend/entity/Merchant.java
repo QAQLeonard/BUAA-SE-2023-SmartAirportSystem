@@ -7,6 +7,7 @@ import lombok.*;
 
 @Entity
 @Table(schema = "se_db",name = "merchants")
+@TableName("merchants")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
