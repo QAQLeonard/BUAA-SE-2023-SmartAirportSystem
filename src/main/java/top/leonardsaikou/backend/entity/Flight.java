@@ -13,6 +13,8 @@ public class Flight
 {
     @Id
     private String id;
+    @Column(name = "flight_id")
+    private String FlightId;
     @Column(name = "departure_date_time")
     private LocalDateTime departureDateTime;
     @Column(name = "arrival_date_time")
