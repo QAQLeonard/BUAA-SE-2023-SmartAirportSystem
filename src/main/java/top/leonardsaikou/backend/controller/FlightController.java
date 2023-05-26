@@ -70,6 +70,39 @@ public class FlightController {
         return "flight";
     }
 
+    @ApiOperation("查询回收站中的航班,返回值为回收站中航班的数量")
+    @GetMapping("/flight/recycle")
+    public int getRecycleBin() {
+        List<Flight> flightList = flightMapper.selectRecycleBin();
+        System.out.println(flightList);
+        return flightList.size();
+    }
 
+    @ApiOperation("恢复按钮：修改特定航班的状态，前端提供航班号，从“回收站中”改为“未发布”。")
+    @PutMapping("/flight/recover/{id}")
+    public String recoverFlight(@PathVariable String id) {
+        int i = flightMapper.recoverFlight(id);
+        if (i > 0) {
+            return "success";
+        }
+        return "fail";
+    }
+
+    @ApiOperation("查询：前端提供航班号，查找对应航班号且状态为“回收站中”的航班。")
+    @GetMapping("/flight/recycle/{id}")
+    public String getRecycleBinById(@PathVariable String id) {
+        List<Flight> flightList = flightMapper.selectRecycleBinById(id);
+        System.out.println(flightList);
+        return "success\n" + flightList.toString();
+    }
+
+    @ApiOperation("查询未发布的航班,返回值为未发布航班的数量")
+    @GetMapping("/flight/unpublished")
+    public int getUnpublished() {
+        List<Flight> flightList = flightMapper.selectUnpublished();
+        System.out.println(flightList);
+        return flightList.size();
+    }
+    
 
 }
