@@ -22,9 +22,21 @@ public class Flight
     @Column(name = "arrival_city")
     private String arrivalCity;
     private float fare;
+    /**
+     * status:
+     * -1: Deleted
+     * 0: Unpublished
+     * 1: Published but not yet checked-in
+     * 2: Check-in in progress
+     * 3: In-flight, yet to arrive
+     * 4: Arrived at destination
+     * 5: Delayed
+     */
     private String status;
+    // Total Seats
     @Column(name = "available_seats")
     private int availableSeats;
+    // Remaining Seats
     @Column(name = "remaining_seats")
     private int remainingSeats;
 }
