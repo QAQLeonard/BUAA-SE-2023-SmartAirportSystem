@@ -1,5 +1,9 @@
 package top.leonardsaikou.backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import top.leonardsaikou.backend.entity.Flight;
 import top.leonardsaikou.backend.mapper.FlightMapper;
 import io.swagger.annotations.ApiOperation;
@@ -18,10 +22,15 @@ public class FlightController {
 
     @ApiOperation("获取全部航班信息,返回值为所有航班信息的数量")
     @GetMapping("/flight")
-    public String getFlight() {
+    public String getFlight() throws JsonProcessingException
+    {
         List<Flight> flightList = flightMapper.selectList(null);
-        System.out.println(flightList);
-        return flightList.size() + "\n" + flightList.toString();
+        //System.out.println(flightList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flightList);
+        return "{"+"\"TotalNumber\":" + flightList.size() + ",\"flightData\":"+ json + "}";
     }
 
     @ApiOperation("根据id获取单个航班信息")
