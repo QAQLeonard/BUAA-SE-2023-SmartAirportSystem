@@ -165,20 +165,6 @@ export default new Router({
             ]
         },
         {
-            path:'/home',
-            name:'客服',
-            iconClass:'fa fa-comments',
-            component:()=>import('@/components/Home'),
-            children:[
-                {
-                    path: '/home/customerservice',
-                    name:'客服界面',
-                    iconClass:'fa fa-comment ',
-                    component:()=>import('@/components/ke-fu/CustomerService')
-                },
-            ]
-        },
-        {
             path:'/login',
             name:'注册/登陆',
             iconClass:'fa fa-sign-in',
