@@ -100,7 +100,7 @@ public class FlightController {
     }
 
     @ApiOperation("恢复按钮：修改特定航班的状态，前端提供航班号，从“回收站中”改为“未发布”。")
-    @PutMapping("/flight/recover/{id}")
+    @PutMapping("/flight/recover/deletedToUnpublished/{id}")
     public String recoverFlight(@PathVariable String id) {
         int i = flightMapper.recoverFlight(id);
         if (i > 0) {
@@ -137,6 +137,16 @@ public class FlightController {
     @PutMapping("/flight/publish/{id}")
     public String publishFlight(@PathVariable String id) {
         int i = flightMapper.publishFlight(id);
+        if (i > 0) {
+            return "success";
+        }
+        return "fail";
+    }
+
+    @ApiOperation("前端提供航班号，将状态从“未发布”改为“回收站中”。")
+    @PutMapping("/flight/recycle/unpublishedToDeleted/{id}")
+    public String deleteFlight(@PathVariable String id) {
+        int i = flightMapper.deleteFlight(id);
         if (i > 0) {
             return "success";
         }

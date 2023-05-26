@@ -28,4 +28,8 @@ public interface FlightMapper extends BaseMapper<Flight> {
     @Update("update flights set status = '1' where id = #{id} and status = '0'")
     int publishFlight(String id);
 
+    @Update("update flights set status = '-1' where id = #{id} and status = '0'")
+    int deleteFlight(String id);
+
+
 }
