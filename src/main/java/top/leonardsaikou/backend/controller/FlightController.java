@@ -98,11 +98,11 @@ public class FlightController {
 
     @ApiOperation("查询未发布的航班,返回值为未发布航班的数量")
     @GetMapping("/flight/unpublished")
-    public int getUnpublished() {
+    public String getUnpublished() {
         List<Flight> flightList = flightMapper.selectUnpublished();
         System.out.println(flightList);
-        return flightList.size();
+        return flightList.size() + "\n" + flightList;
     }
-    
+
 
 }

@@ -5,8 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import top.leonardsaikou.backend.entity.Flight;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -27,5 +25,7 @@ public interface FlightMapper extends BaseMapper<Flight> {
     @Select("select * from flights where status = '0'")
     List<Flight> selectUnpublished();
 
+    @Update("update flights set status = '1' where id = #{id} and status = '0'")
+    int publishFlight(String id);
 
 }
