@@ -133,5 +133,15 @@ public class FlightController {
         return "{"+"\"TotalNumber\":" + flightList.size() + ",\"flightData\":"+ json + "}";
     }
 
+    @ApiOperation("发布航班：前端提供航班号，修改对应航班号的状态为“已发布”。")
+    @PutMapping("/flight/publish/{id}")
+    public String publishFlight(@PathVariable String id) {
+        int i = flightMapper.publishFlight(id);
+        if (i > 0) {
+            return "success";
+        }
+        return "fail";
+    }
+
 
 }
