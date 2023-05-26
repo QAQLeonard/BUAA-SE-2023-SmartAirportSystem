@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import top.leonardsaikou.backend.entity.Flight;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -14,15 +15,17 @@ public interface FlightMapper extends BaseMapper<Flight> {
     @Select("select * from flights where departure_city = #{departureCity} or arrival_city = #{arrivalCity}")
     List<Flight> selectByCity(String departureCity, String arrivalCity);
 
-    @Select("select * from flights where status = '回收站中'")
+    @Select("select * from flights where status = '-1'")
     List<Flight> selectRecycleBin();
 
-    @Update("update flights set status = '未发布' where id = #{id} and status = '回收站中'")
+    @Update("update flights set status = '0' where id = #{id} and status = '-1'")
     int recoverFlight(String id);
 
-    //查询：前端提供航班号，查找对应航班号且状态为“回收站中”的航班。
-    @Select("select * from flights where id = #{id} and status = '回收站中'")
+    @Select("select * from flights where id = #{id} and status = '-1'")
     List<Flight> selectRecycleBinById(String id);
+
+    @Select("select * from flights where status = '0'")
+    List<Flight> selectUnpublished();
 
 
 }
