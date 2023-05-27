@@ -4,11 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.format.annotation.DateTimeFormat;
 import top.leonardsaikou.backend.entity.Ticket;
 import top.leonardsaikou.backend.mapper.TicketMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -99,5 +102,11 @@ public class TicketController
             // 否则，增加当前最大的ticket ID
             return "T" + String.format("%04d", maxIdNum + 1);
         }
+    }
+
+    @ApiOperation("获取某一天的所有票价之和")
+    @GetMapping("/totalTicketPrice/{date}")
+    public Double getTotalTicketPrice(@PathVariable("date") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date) {
+        return ticketMapper.selectTotalPriceByDate(date);
     }
 }

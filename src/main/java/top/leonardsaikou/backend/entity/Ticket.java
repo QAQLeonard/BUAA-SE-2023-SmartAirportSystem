@@ -17,8 +17,8 @@ public class Ticket
 {
     @Id
     private String id;
-    @Column(name = "flight_number")
-    private String flightNumber;
+    @Column(name = "flight_id")
+    private String flightId;
     @Column(name = "passenger_id")
     private String passengerId;
     @Column(name = "seat_number")
