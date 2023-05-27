@@ -16,6 +16,7 @@ public class Flight
 {
     @Id
     private String id;
+    //航班号
     @Column(name = "flight_id")
     private String FlightId;
     @Column(name = "departure_date_time")

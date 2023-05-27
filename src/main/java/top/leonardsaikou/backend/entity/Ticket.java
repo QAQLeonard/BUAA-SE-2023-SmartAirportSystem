@@ -17,8 +17,8 @@ public class Ticket
 {
     @Id
     private String id;
-    @Column(name = "flight_id")
-    private String flightId;
+    @Column(name = "flight_number")
+    private String flightNumber;
     @Column(name = "passenger_id")
     private String passengerId;
     @Column(name = "seat_number")
@@ -26,7 +26,7 @@ public class Ticket
     @Column(name = "ticket_price")
     private Double ticketPrice;
     /**
-     * Payment Method:
+     * Payment Status:
      * 0: Not paid
      * 1: Paid by credit card
      * 2: Paid by cash

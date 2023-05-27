@@ -37,4 +37,7 @@ public interface FlightMapper extends BaseMapper<Flight> {
     @Update("update flights set status = '-1' where id = #{id} and status = '1'")
     int flightPublishedToDelete(String id);
 
+    @Select("SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) FROM flights")
+    int selectMaxId();
+
 }
