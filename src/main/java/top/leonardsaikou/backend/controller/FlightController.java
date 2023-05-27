@@ -88,7 +88,7 @@ public class FlightController {
     }
 
     @ApiOperation("查询回收站中的航班,返回值为回收站中航班的数量")
-    @GetMapping("/flight/recycle")
+    @GetMapping("/flight/deleted")
     public String getRecycleBin() throws JsonProcessingException{
         List<Flight> flightList = flightMapper.selectRecycleBin();
         //System.out.println(flightList);
@@ -110,7 +110,7 @@ public class FlightController {
     }
 
     @ApiOperation("查询：前端提供航班号，查找对应航班号且状态为“回收站中”的航班。")
-    @GetMapping("/flight/recycle/{id}")
+    @GetMapping("/flight/deleted/{id}")
     public String getRecycleBinById(@PathVariable String id) throws JsonProcessingException{
         List<Flight> flightList = flightMapper.selectRecycleBinById(id);
         //System.out.println(flightList);
@@ -144,7 +144,7 @@ public class FlightController {
     }
 
     @ApiOperation("前端提供航班号，将状态从“未发布”改为“回收站中”。")
-    @PutMapping("/flight/recycle/unpublishedToDeleted/{id}")
+    @PutMapping("/flight/recover/unpublishedToDeleted/{id}")
     public String deleteFlight(@PathVariable String id) {
         int i = flightMapper.deleteFlight(id);
         if (i > 0) {
