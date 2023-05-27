@@ -1,5 +1,9 @@
 package top.leonardsaikou.backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import top.leonardsaikou.backend.entity.Merchant;
 import top.leonardsaikou.backend.mapper.MerchantMapper;
 import io.swagger.annotations.ApiOperation;
@@ -19,20 +23,27 @@ public class MerchantController
 
     @ApiOperation("获取全部商家信息")
     @GetMapping("/merchant")
-    public List<Merchant> getMerchants()
+    public String getMerchants() throws JsonProcessingException
     {
         List<Merchant> merchantsList = merchantMapper.selectList(null);
-        System.out.println(merchantsList);
-        return merchantsList;
+        //System.out.println(merchantsList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(merchantsList);
+        return "{"+"\"TotalNumber\":" + merchantsList.size() + ",\"merchantData\":"+ json + "}";
     }
 
     @ApiOperation("根据id获取单个商家信息")
     @GetMapping("/merchant/{id}")
-    public Merchant getMerchantById(@PathVariable String id)
+    public String getMerchantById(@PathVariable String id) throws JsonProcessingException
     {
         Merchant merchant = merchantMapper.selectById(id);
-        System.out.println(merchant);
-        return merchant;
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(merchant);
+        return "{"+"\"TotalNumber\":" + 1 + ",\"merchantData\":"+ json + "}";
     }
 
     @ApiOperation("插入商家信息")

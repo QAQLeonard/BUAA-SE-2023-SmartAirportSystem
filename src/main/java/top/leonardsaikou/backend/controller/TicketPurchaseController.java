@@ -1,5 +1,9 @@
 package top.leonardsaikou.backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import top.leonardsaikou.backend.entity.TicketPurchase;
 import top.leonardsaikou.backend.mapper.TicketPurchaseMapper;
 import io.swagger.annotations.ApiOperation;
@@ -19,20 +23,28 @@ public class TicketPurchaseController
 
     @ApiOperation("获取全部票据购买信息")
     @GetMapping("/ticketPurchase")
-    public List<TicketPurchase> getTicketPurchases()
+    public String getTicketPurchases() throws JsonProcessingException
     {
         List<TicketPurchase> ticketPurchaseList = ticketPurchaseMapper.selectList(null);
-        System.out.println(ticketPurchaseList);
-        return ticketPurchaseList;
+        //System.out.println(ticketPurchaseList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(ticketPurchaseList);
+        return "{"+"\"TotalNumber\":" + ticketPurchaseList.size() + ",\"ticketPurchaseData\":"+ json + "}";
     }
 
     @ApiOperation("根据id获取单个票据购买信息")
     @GetMapping("/ticketPurchase/{id}")
-    public TicketPurchase getTicketPurchaseById(@PathVariable String id)
+    public String getTicketPurchaseById(@PathVariable String id) throws JsonProcessingException
     {
         TicketPurchase ticketPurchase = ticketPurchaseMapper.selectById(id);
-        System.out.println(ticketPurchase);
-        return ticketPurchase;
+        //System.out.println(ticketPurchase);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(ticketPurchase);
+        return "{"+"\"TotalNumber\":" + 1 + ",\"ticketPurchaseData\":"+ json + "}";
     }
 
     @ApiOperation("插入票据购买信息")

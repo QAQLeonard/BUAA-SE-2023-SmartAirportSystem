@@ -1,5 +1,9 @@
 package top.leonardsaikou.backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import top.leonardsaikou.backend.entity.ParkingSpace;
 import top.leonardsaikou.backend.mapper.ParkingSpaceMapper;
 import io.swagger.annotations.ApiOperation;
@@ -19,20 +23,28 @@ public class ParkingSpaceController
 
     @ApiOperation("获取全部停车位信息")
     @GetMapping("/parkingSpace")
-    public List<ParkingSpace> getParkingSpaces()
+    public String getParkingSpaces() throws JsonProcessingException
     {
         List<ParkingSpace> parkingSpacesList = parkingSpaceMapper.selectList(null);
-        System.out.println(parkingSpacesList);
-        return parkingSpacesList;
+        //System.out.println(parkingSpacesList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(parkingSpacesList);
+        return "{"+"\"TotalNumber\":" + parkingSpacesList.size() + ",\"parkingSpaceData\":"+ json + "}";
     }
 
     @ApiOperation("根据id获取单个停车位信息")
     @GetMapping("/parkingSpace/{id}")
-    public ParkingSpace getParkingSpaceById(@PathVariable String id)
+    public String getParkingSpaceById(@PathVariable String id) throws JsonProcessingException
     {
         ParkingSpace parkingSpace = parkingSpaceMapper.selectById(id);
-        System.out.println(parkingSpace);
-        return parkingSpace;
+        //System.out.println(parkingSpace);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(parkingSpace);
+        return "{"+"\"TotalNumber\":" + 1 + ",\"parkingSpaceData\":"+ json + "}";
     }
 
     @ApiOperation("插入停车位信息")

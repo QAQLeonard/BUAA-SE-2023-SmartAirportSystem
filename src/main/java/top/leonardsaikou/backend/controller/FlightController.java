@@ -146,12 +146,33 @@ public class FlightController {
     @ApiOperation("前端提供航班号，将状态从“未发布”改为“回收站中”。")
     @PutMapping("/flight/recover/unpublishedToDeleted/{id}")
     public String deleteFlight(@PathVariable String id) {
-        int i = flightMapper.deleteFlight(id);
+        int i = flightMapper.flightUnpublishedToDelete(id);
         if (i > 0) {
             return "success";
         }
         return "fail";
     }
 
+    @ApiOperation("查询已发布的航班,返回值为已发布航班的数量")
+    @GetMapping("/flight/published")
+    public String getPublished() throws JsonProcessingException{
+        List<Flight> flightList = flightMapper.selectPublished();
+        //System.out.println(flightList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flightList);
+        return "{"+"\"TotalNumber\":" + flightList.size() + ",\"flightData\":"+ json + "}";
+    }
+
+    @ApiOperation("前端提供航班号，将状态从“已发布”改为“回收站中”")
+    @PutMapping("/flight/recover/publishedToDeleted/{id}")
+    public String deletePublishedFlight(@PathVariable String id) {
+        int i = flightMapper.flightPublishedToDelete(id);
+        if (i > 0) {
+            return "success";
+        }
+        return "fail";
+    }
 
 }
