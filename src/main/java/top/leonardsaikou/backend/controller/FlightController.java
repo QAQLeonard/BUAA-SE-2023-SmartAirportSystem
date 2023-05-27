@@ -198,6 +198,22 @@ public class FlightController
         return "{" + "\"TotalNumber\":" + flightList.size() + ",\"flightData\":" + json + "}";
     }
 
-    
+    @ApiOperation("获取创建新一次飞行的新id")
+    @GetMapping("/flight-id")
+    public String generateNewId()
+    {
+        // 查询当前最大的flight ID
+        int maxIdNum = flightMapper.selectMaxId();
+        if (maxIdNum == 0)
+        {
+            // 如果还没有flight，那么返回 "F0001"
+            return "F0001";
+        }
+        else
+        {
+            // 否则，增加当前最大的flight ID
+            return "F" + String.format("%04d", maxIdNum + 1);
+        }
+    }
 
 }

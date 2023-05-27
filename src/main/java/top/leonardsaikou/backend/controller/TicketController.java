@@ -82,4 +82,22 @@ public class TicketController
         }
         return "fail";
     }
+
+    @ApiOperation("获取创建新一次飞行的新id")
+    @GetMapping("/flight-id")
+    public String generateNewId()
+    {
+        // 查询当前最大的ticket ID
+        int maxIdNum = ticketMapper.selectMaxId();
+        if (maxIdNum == 0)
+        {
+            // 如果还没有ticket，那么返回 "T0001"
+            return "T0001";
+        }
+        else
+        {
+            // 否则，增加当前最大的ticket ID
+            return "T" + String.format("%04d", maxIdNum + 1);
+        }
+    }
 }
