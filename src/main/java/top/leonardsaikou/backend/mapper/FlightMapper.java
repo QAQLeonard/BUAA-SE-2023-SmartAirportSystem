@@ -29,7 +29,12 @@ public interface FlightMapper extends BaseMapper<Flight> {
     int publishFlight(String id);
 
     @Update("update flights set status = '-1' where id = #{id} and status = '0'")
-    int deleteFlight(String id);
+    int flightUnpublishedToDelete(String id);
 
+    @Select("select * from flights where status = '1'")
+    List<Flight> selectPublished();
+
+    @Update("update flights set status = '-1' where id = #{id} and status = '1'")
+    int flightPublishedToDelete(String id);
 
 }
