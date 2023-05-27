@@ -5,6 +5,8 @@ import javax.persistence.*;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(schema = "se_db",name = "tickets")
 @TableName("tickets")
@@ -23,6 +25,15 @@ public class Ticket
     private Integer seatNumber;
     @Column(name = "ticket_price")
     private Double ticketPrice;
+    /**
+     * Payment Method:
+     * 0: Not paid
+     * 1: Paid by credit card
+     * 2: Paid by cash
+     * -1: Refunded
+     */
     @Column(name = "payment_status")
     private Integer paymentStatus;
+    @Column(name = "purchase_datetime")
+    private LocalDateTime purchaseDateTime;
 }

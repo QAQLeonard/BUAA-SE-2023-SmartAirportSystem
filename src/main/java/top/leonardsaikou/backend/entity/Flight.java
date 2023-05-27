@@ -39,8 +39,8 @@ public class Flight
      */
     private String status;
     // Total Seats
-    @Column(name = "available_seats")
-    private int availableSeats;
+    @Column(name = "total_seats")
+    private int totalSeats;
     // Remaining Seats
     @Column(name = "remaining_seats")
     private int remainingSeats;
