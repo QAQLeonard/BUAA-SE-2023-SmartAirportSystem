@@ -87,7 +87,7 @@ public class TicketController
     }
 
     @ApiOperation("获取创建新一次飞行的新id")
-    @GetMapping("/flight-id")
+    @GetMapping("/ticket-id")
     public String generateNewId()
     {
         // 查询当前最大的ticket ID
