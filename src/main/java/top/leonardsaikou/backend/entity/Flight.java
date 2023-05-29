@@ -38,7 +38,7 @@ public class Flight
      * 4: Arrived at destination
      * 5: Delayed
      */
-    private String status;
+    private int status;
     // Total Seats
     @Column(name = "total_seats")
     private int totalSeats;

@@ -9,6 +9,7 @@ import top.leonardsaikou.backend.mapper.FlightMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -190,12 +191,21 @@ public class FlightController
     public String getPublished() throws JsonProcessingException
     {
         List<Flight> flightList = flightMapper.selectPublished();
+        List<Flight> validFlightList = new ArrayList<>();
+        for (int i = 0; i < flightList.size(); i++)
+        {
+            int status = flightList.get(i).getStatus();
+            if (status == 1 || status == 2 || status == 3 || status == 5)
+            {
+                validFlightList.add(flightList.get(i));
+            }
+        }
         //System.out.println(flightList);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(flightList);
-        return "{" + "\"TotalNumber\":" + flightList.size() + ",\"flightData\":" + json + "}";
+        String json = objectMapper.writeValueAsString(validFlightList);
+        return "{" + "\"TotalNumber\":" + validFlightList.size() + ",\"flightData\":" + json + "}";
     }
 
     @ApiOperation("获取创建新一次飞行的新id")
