@@ -166,7 +166,22 @@ export default new Router({
         },
         {
             path:'/login',
-            name:'注册/登陆',
+            name:'登陆',
+            iconClass:'fa fa-sign-in',
+            component:()=>import('@/components/zhuce-denglu/Login'),
+            children:[
+                {
+                    path: '/home/login',
+                    name:'登录界面',
+                    iconClass:'fa fa-registered ',
+                    component:()=>import('@/components/zhuce-denglu/Login')
+                },
+                
+            ]
+        },
+        {
+            path:'/register',
+            name:'注册',
             iconClass:'fa fa-sign-in',
             component:()=>import('@/components/zhuce-denglu/RegisterTo'),
             children:[
