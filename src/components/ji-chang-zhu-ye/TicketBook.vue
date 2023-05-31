@@ -14,165 +14,33 @@
                 <el-button type="primary" @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
-        <el-table :data="comData" border style="width: 100%">
-            <el-table-column prop="id" label="航班号" align="center"></el-table-column>
-            <el-table-column prop="start" label="起点" align="center"></el-table-column>
-            <el-table-column prop="destination" label="终点" align="center"></el-table-column>
-            <el-table-column prop="starttime" label="出发时间" align="center"></el-table-column>
-            <el-table-column prop="endtime" label="到达时间" align="center"></el-table-column>
-            <el-table-column prop="price" label="价格" align="center"></el-table-column>
-            <el-table-column prop="seat" label="剩余座位" align="center"></el-table-column>
+        <el-table :data="tableData" border style="width: 100%">
+            <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
+            <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
+            <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
+            <el-table-column prop="departureDateTime" label="出发时间" align="center"></el-table-column>
+            <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column>
+            <el-table-column prop="fare" label="价格" align="center"></el-table-column>
+            <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="购买" align="center">
                 <template>
                     <el-button type="primary" size="mini" icon="el-icon-s-goods"></el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total">
         </el-pagination>
     </div>
 </template>
 <script>
+import { getFlightAble } from '@/api/api'
+
 export default {
     data() {
         return {
-            tableData: [{
-                id: "F101",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F102",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F103",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F104",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F105",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F106",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F107",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F108",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F109",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F110",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F111",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F112",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F113",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F114",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-
-            }, {
-                id: "F115",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190'
-            },],
+            tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
             total: 15,
@@ -183,6 +51,17 @@ export default {
         }
     },
     methods: {
+        getData(params){
+            //查询数据
+            getFlightAble(params).then(res => {
+                console.log(res)
+                if(res.data.status !== 200){
+                    this.tableData = res.data.flightData
+                    this.total = res.data.TotalNumber
+                    console.log(this.tableData)
+                }
+            })
+        },
         find(){
 
         },
@@ -203,6 +82,9 @@ export default {
         comData() {
             return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
         }
+    },
+    created(){
+        this.getData()
     }
 }
 </script>
