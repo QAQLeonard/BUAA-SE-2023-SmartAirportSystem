@@ -13,7 +13,7 @@
           </el-form-item>
       </el-form>
       <el-table :data="comData" border style="width: 100%">
-          <el-table-column prop="id" label="航班号" align="center"></el-table-column>
+          <el-table-column prop="id" label="车位id" align="center"></el-table-column>
           <el-table-column prop="address" label="车位地址" align="center"></el-table-column>
           <el-table-column prop="status" label="车位状态" align="center"></el-table-column>
           <el-table-column label="预定" align="center">

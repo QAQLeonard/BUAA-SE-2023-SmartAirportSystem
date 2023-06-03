@@ -2,22 +2,22 @@
     <div>
         <el-scrollbar height="400px">
         <el-space fill>
-        <p v-for="item in comData()" :key="item.id" class="scrollbar-demo-item">
-            <el-col>
-            <el-image style="width: 80px; height: 80px" :src="item.src" :fit="fill" />
-            </el-col>
-            <el-col>
-            <el-text class="mx-1"  size="Large" type="warning">{{item.name}}</el-text>
-            </el-col>
-            <el-col>
-            <el-text class="mx-1" type="warning" size="Large" >单价：{{item.price}}</el-text>
-            </el-col>
-            <el-col>
-                <button class="btn btn-primary btn-xs" @click="sub(item)">-</button>
-                <input type="text" v-model="item.num" @blur="changeNum(item)">
-                <button class="btn btn-primary btn-xs"  @click="add(item)">+</button>
-            </el-col>
-        </p>
+            <el-row>
+                <el-col :span="8" v-for="item in this.lists.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)" :key="o" :offset="index > 0 ? 2 : 0">
+                  <el-card :body-style="{ padding: '0px' }">
+                    <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                    <div style="padding: 14px;">
+                      <span>{{item.name}}</span><br>
+                      <el-row><el-col offset="8">{{item.price}}¥</el-col></el-row>
+                      <div class="bottom clearfix">
+                        <time class="time">{{ currentDate }}</time>
+                        <el-button type="text" class="button" @click="add(item)">添加商品</el-button>
+                        <el-button type="text" class="button" @click="sub(item)">删除商品</el-button>
+                      </div>
+                    </div>
+                  </el-card>
+                </el-col>
+              </el-row>
         <el-divider></el-divider>
         <el-row>
             <el-col :offset="7"><i class="fa fa-cart-arrow-down"></i></el-col>
@@ -26,14 +26,10 @@
         <el-button type="success">结算</el-button>
         </el-space>
         </el-scrollbar>
-        <el-pagination
-        :page-size="pageSize"
-        :pager-count="10"
-        :current-page="currentPage"
-        layout="total,sizes,prev, pager, next,jumper"
-        background
-        :total="Total"
-        @size-change="handleSizeChange" @current-change="handleCurrentChange"/>
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+          :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
 
     </div>
 </template>
@@ -46,7 +42,7 @@ export default{
                 {id:1,price:100,name:"aaa",num:0,url:"front-end/front-end/src/components/shang-jia-ru-zhu/photo/img1.jpeg"}
             ],
             currentPage:1,
-            pageSize:20,
+            pageSize:10,
             Total:100,
         }
     },
@@ -56,7 +52,7 @@ export default{
             this.pageSize = val
             this.currentPage = 1
             console.log(`每页 ${val} 条`);
-        },
+            },
         handleCurrentChange(val) {
             this.currentPage = val
             console.log(`当前页: ${val}`);
@@ -78,9 +74,11 @@ export default{
             }
             return t;
         },
+        computed: {
         comData() {
-            return this.lists.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);  
-        },
+          return this.lists.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
+        }
+        }
     
     },
 }
