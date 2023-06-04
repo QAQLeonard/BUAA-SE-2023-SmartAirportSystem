@@ -21,7 +21,7 @@
             <div class="con-box left">
                 <h2><span>天航</span>智慧机场</h2>
                 <p><span>便捷</span>你的出行</p>
-                <img src="/src/assets/img/1.png" alt="图片加载失败">
+                <img src="https://img2.baidu.com/it/u=1091118846,3966823999&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" alt="图片加载失败">
                 <p>没有账号？</p>
                 <button id="login" @click="change()">去注册</button>
                 <button id="login1" @click="change()">密码登录</button>       
@@ -29,7 +29,7 @@
             <div class="con-box right">
                 <h2><span>天航</span>智慧机场</h2>
                 <p><span>便捷</span>你的出行</p>
-                <img src="/src/assets/img/2.png" alt="图片加载失败">
+                <img src="https://photo.16pic.com/00/92/09/16pic_9209376_b.jpg" alt="图片加载失败">
                 <p>密码登录太麻烦？</p>
                 <button id="register" @click="change()">验证码登录</button>
             </div>

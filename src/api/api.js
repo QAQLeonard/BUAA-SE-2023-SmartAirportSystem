@@ -114,17 +114,47 @@ export function editFlight(data)
         data
     })
 }
-
+//获取用户信息
 export function getUserData(id){
     return service({
         method:'get',
-        url:`/user/${id}`,
+        url:`/user/${id}`,//注意，需要在url传参数的不要用单引号，用斜引号，就是你键盘波浪线的那个
         id
     })
 }
 
+//在这里调用接口
+//获取所有航班信息
+export function getAllFlight(params){
+    return service({
+        method:'get',//这里是你的接口调用方式，get、post、delete、put
+        url:'/flight',//这里是你接口的调用路径，你去看星达群里发的接口文档
+        params//这里是你传进来的参数
+    })
+}
+export function SubmitMerchantApp(data){
+    data=JSON.stringify(data);
+    console.log(data);
+    return service({
+        method:'post',
+        url:'/merchant',
+        headers: {'Content-Type': 'application/json'},
+        data:data
+    })
+}
 
-//why
+export function InsertUser(data){
+    data=JSON.stringify(data);
+    //console.log(data);
+    return service({
+        method:'post',
+        url:'/user',
+        headers: {'Content-Type': 'application/json'},
+        data:data
+    })
+}
+
+
 //处理事务界面获取所有报修请求接口
 export function getrepairrequest(params){
     return service({
