@@ -18,14 +18,16 @@
             </el-form-item>
         </el-form>
         <el-table :data="comData" border style="width: 100%">
-            <el-table-column prop="id" label="航班号" align="center"></el-table-column>
-            <el-table-column prop="start" label="起点" align="center"></el-table-column>
-            <el-table-column prop="destination" label="终点" align="center"></el-table-column>
-            <el-table-column prop="starttime" label="出发时间" align="center"></el-table-column>
-            <el-table-column prop="endtime" label="到达时间" align="center"></el-table-column>
-            <el-table-column prop="price" label="价格" align="center"></el-table-column>
+            <!-- 这里，注意你的prop要和你获取的数据的key一样，不然无法一一对应上 -->
+            <el-table-column prop="id" label="航班ID" align="center"></el-table-column>
+            <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
+            <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
+            <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
+            <el-table-column prop="departureDateTime" label="出发时间" align="center"></el-table-column>
+            <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column>
+            <el-table-column prop="fare" label="价格" align="center"></el-table-column>
             <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
-            <el-table-column prop="seat" label="剩余座位" align="center"></el-table-column>
+            <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="操作" align="center" width="180px">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
@@ -75,7 +77,7 @@
                 <el-button type="primary" @click="c_check('form')">确 定</el-button>
             </div>
         </el-dialog>
-
+<!-- 这个弹窗也要把model该成对应的字段名，我在航司界面都改好了，你自己看就行 -->
         <el-dialog title="修改航班信息" :visible.sync="dialogFormVisible" width="600px">
             <el-form :model="form" :rules="rules" ref="form">
                 <el-form-item label="航班号" :label-width="formLabelWidth" prop="id">
@@ -118,26 +120,21 @@
             </div>
         </el-dialog>
 
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total" align="left">
         </el-pagination>
     </div>
 </template>
 <script>
+//导入接口的方法：import语句
+import { getAllFlight } from '@/api/api'
 export default {
     data() {
         return {
             dialogFormVisible: false,
             c_dialogFormVisible: false,
             form: {
-                id: "",
-                start: "",
-                destination: "",
-                starttime: '',
-                endtime: '',
-                price: '',
-                seat: '',
 
             },
             rules: {
@@ -149,158 +146,7 @@ export default {
                 price:[{required:true,message:'请输入航班价格'}],
                 seat: [{required:true,message:'请输入航班座位数量'}],
             },
-            tableData: [{
-                id: "F101",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-
-            }, {
-                id: "F102",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-
-            }, {
-                id: "F103",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-
-            }, {
-                id: "F104",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F105",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F106",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F107",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-            }, {
-                id: "F108",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F109",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-            }, {
-                id: "F110",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F111",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F112",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-
-            }, {
-                id: "F113",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F114",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-
-            }, {
-                id: "F115",
-                start: "北京",
-                destination: "上海",
-                starttime: '05月13日12:00',
-                endtime: '05月13日15:00',
-                price: '666',
-                seat: '190',
-                state: 2
-            },],
+            tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
             total: 15,
@@ -312,6 +158,17 @@ export default {
     methods: {
         getData(){
             //查询数据
+            getAllFlight().then(res=>{
+                console.log(res)//在控制台打印返回值，debug用的
+                //res类似一个返回结构体，里面有返回的状态码，数据（在data字段）
+                if(res.status === 200)//返回值200代表成功
+                {
+                    //把data字段里面的数据赋值给咱们的要渲染的数组
+                    this.tableData = res.data.flightData
+                    this.total = res.data.TotalNumber
+                    this.changeData()
+                }
+            })
         },
         addListener(){
             this.c_dialogFormVisible = true
@@ -353,7 +210,7 @@ export default {
         },
         changeData() {
             this.tableData.forEach(item => {
-                item.state === 1 ? (item.statetext = '已发布') : item.state === 2 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') : item.status === 3 ? (item.statetext = '飞行中') : item.status === 4 ? (item.statetext = '已到达') : item.status === 5 ? (item.statetext = '航班延迟') : item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         },
         del(row) {
@@ -365,8 +222,9 @@ export default {
         comData() {
             return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
         }
-    }, created() {
-        this.changeData()
+    }, created() {//created就是在这个界面的生命周期被创建的时候调用
+        this.getData()
+
     },
 }
 </script>
