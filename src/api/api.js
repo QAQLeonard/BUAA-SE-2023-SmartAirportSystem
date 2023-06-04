@@ -1,5 +1,4 @@
 import service from "./service";
-
 //查询可购买机票接口
 export function getFlightAble(params) {
     return service({
@@ -100,6 +99,26 @@ export function publishFlight(id){
     return service({
         method:'put',
         url:`/flight-publish/${id}`,
+        id
+    })
+}
+//编辑航班信息
+export function editFlight(data)
+{
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/flight',
+        headers: {'Content-Type': 'application/json'},
+        data
+    })
+}
+
+export function getUserData(id){
+    return service({
+        method:'get',
+        url:`/user/${id}`,
         id
     })
 }

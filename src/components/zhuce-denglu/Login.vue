@@ -60,9 +60,9 @@ export default {
         return {
             role0:true,
             form:{
-                username:'admin',
+                username:'',
                 password:'',
-                code:'1234',
+                code:'',
             }
         }
     },
@@ -117,7 +117,7 @@ export default {
     position: absolute;
     top: -10%;
     left: 5%;
-    background-color: #1deaa4;
+    background-color: #69c0ff;
     width: 320px;
     height: 500px;
     border-radius: 5px;
@@ -178,7 +178,7 @@ input::placeholder {
 }
 
 input:focus {
-    color: #a262ad;
+    color: #3377fe;
     outline: none;
     border-bottom: 1px solid #a262ad80;
     transition: 0.5s;
@@ -195,7 +195,7 @@ input:focus::placeholder {
     outline: none;
     border-radius: 8px;
     padding: 13px;
-    color: #a262ad;
+    color: #3377fe;
     letter-spacing: 2px;
     border: none;
     cursor: pointer;
@@ -203,7 +203,7 @@ input:focus::placeholder {
 }
 
 .form-box button:hover {
-    background-color: #a262ad;
+    background-color: #3377fe;
     color: #f6f6f6;
     transition: background-color 0.5s ease;
 }
@@ -246,7 +246,7 @@ input:focus::placeholder {
 }
 
 .con-box span {
-    color: #d3b7d8;
+    color: #69c0ff;
 }
 
 .con-box img {
@@ -259,8 +259,8 @@ input:focus::placeholder {
 .con-box button {
     margin-top: 3%;
     background-color: #fff;
-    color: #a262ad;
-    border: 1px solid #d3b7d8;
+    color: #068ff1;
+    border: 1px solid #69c0ff;
     padding: 6px 10px;
     border-radius: 5px;
     letter-spacing: 1px;
@@ -269,7 +269,7 @@ input:focus::placeholder {
 }
 
 .con-box button:hover {
-    background-color: #d3b7d8;
+    background-color: #69c0ff;
     color: #fff;
 }
 </style>
