@@ -4,7 +4,7 @@
         <!-- 查询和重置 -->
         <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="查询">
-                <el-input v-model="formInline.id" placeholder="请输入航班号"></el-input>
+                <el-input v-model="formInline.id" placeholder="请输入航班ID"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="find">查询</el-button>
@@ -14,14 +14,15 @@
             </el-form-item>
         </el-form>
         <el-table :data="comData" border style="width: 100%">
-            <el-table-column prop="id" label="航班号" align="center"></el-table-column>
-            <el-table-column prop="start" label="起点" align="center"></el-table-column>
-            <el-table-column prop="destination" label="终点" align="center"></el-table-column>
-            <el-table-column prop="starttime" label="出发时间" align="center"></el-table-column>
-            <el-table-column prop="endtime" label="到达时间" align="center"></el-table-column>
-            <el-table-column prop="price" label="价格" align="center"></el-table-column>
+            <el-table-column prop="id" label="航班ID" align="center"></el-table-column>
+            <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
+            <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
+            <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
+            <el-table-column prop="departureDateTime" label="出发时间" align="center"></el-table-column>
+            <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column>
+            <el-table-column prop="fare" label="价格" align="center"></el-table-column>
             <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
-            <el-table-column prop="seat" label="剩余座位" align="center"></el-table-column>
+            <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
@@ -32,38 +33,38 @@
         <!-- 弹窗 -->
         <el-dialog title="修改航班信息" :visible.sync="dialogFormVisible" width="600px">
             <el-form :model="form" :rules="rules" ref="form">
-                <el-form-item label="航班号" :label-width="formLabelWidth" prop="id">
-                    <el-input v-model="form.id" autocomplete="off"></el-input>
+                <el-form-item label="航班号" :label-width="formLabelWidth" prop="flightId">
+                    <el-input v-model="form.flightId" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="起点" :label-width="formLabelWidth" prop="start">
-                    <el-input v-model="form.start" autocomplete="off"></el-input>
+                <el-form-item label="起点" :label-width="formLabelWidth" prop="departureCity">
+                    <el-input v-model="form.departureCity" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="终点" :label-width="formLabelWidth" prop="destination">
-                    <el-input v-model="form.destination" autocomplete="off"></el-input>
+                <el-form-item label="终点" :label-width="formLabelWidth" prop="arrivalCity">
+                    <el-input v-model="form.arrivalCity" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="出发时间" :label-width="formLabelWidth" prop="starttime">
-                    <el-date-picker v-model="form.starttime" format="MM 月 dd 日" value-format="MM-dd" type="date"
-                        placeholder="选择出发日期">
+                <el-form-item label="出发时间" :label-width="formLabelWidth" prop="departureDateTime">
+                    <el-date-picker v-model="form.departureDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+                        type="date" placeholder="选择出发日期">
                     </el-date-picker>
-                    <el-time-picker v-model="form.starttime" :picker-options="{
+                    <el-time-picker v-model="form.departureDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
                     }" placeholder="选择出发时间点">
                     </el-time-picker>
                 </el-form-item>
-                <el-form-item label="到达时间" :label-width="formLabelWidth" prop="endtime">
-                    <el-date-picker v-model="form.endtime" format="MM 月 dd 日" value-format="MM-dd" type="date"
-                        placeholder="选择到达日期">
+                <el-form-item label="到达时间" :label-width="formLabelWidth" prop="arrivalDateTime">
+                    <el-date-picker v-model="form.arrivalDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+                        type="date" placeholder="选择到达日期">
                     </el-date-picker>
-                    <el-time-picker v-model="form.endtime" :picker-options="{
+                    <el-time-picker v-model="form.arrivalDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
                     }" placeholder="选择到达时间点">
                     </el-time-picker>
                 </el-form-item>
-                <el-form-item label="价格" :label-width="formLabelWidth" prop="price">
-                    <el-input v-model="form.price" autocomplete="off"></el-input>
+                <el-form-item label="价格" :label-width="formLabelWidth" prop="fare">
+                    <el-input v-model="form.fare" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="剩余座位" :label-width="formLabelWidth" prop="seat">
-                    <el-input v-model="form.seat" autocomplete="off"></el-input>
+                <el-form-item label="剩余座位" :label-width="formLabelWidth" prop="remainingSeats">
+                    <el-input v-model="form.remainingSeats" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -78,183 +79,24 @@
     </div>
 </template>
 <script>
-
-
+import { getFlightPublished } from '@/api/api'
+import { searchFlightHS } from '@/api/api'
 export default {
     data() {
         return {
             dialogFormVisible: false,
             form: {
-                id: "",
-                start: "",
-                destination: "",
-                starttime: '',
-                endtime: '',
-                price: '',
-                seat: '',
-
             },
             rules: {
-                id: [{required:true,message:'请输入航班号'}],
-                start: [{required:true,message:'请输入起点'}],
-                destination: [{required:true,message:'请输入终点'}],
-                starttime: [{required:true}],
-                endtime: [{required:true}],
-                price:[{required:true,message:'请输入航班价格'}],
-                seat: [{required:true,message:'请输入航班座位数量'}],
+                id: [{ required: true, message: '请输入航班号' }],
+                start: [{ required: true, message: '请输入起点' }],
+                destination: [{ required: true, message: '请输入终点' }],
+                starttime: [{ required: true }],
+                endtime: [{ required: true }],
+                price: [{ required: true, message: '请输入航班价格' }],
+                seat: [{ required: true, message: '请输入航班座位数量' }],
             },
-            tableData: [{
-                id: "F101",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-
-            }, {
-                id: "F102",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-
-            }, {
-                id: "F103",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-
-            }, {
-                id: "F104",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F105",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F106",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F107",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-            }, {
-                id: "F108",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F109",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-            }, {
-                id: "F110",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F111",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F112",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-
-            }, {
-                id: "F113",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F114",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-
-            }, {
-                id: "F115",
-                start: "北京",
-                destination: "上海",
-                starttime: '05-13-12:00',
-                endtime: '05-13-15:00',
-                price: '666',
-                seat: '190',
-                state: 1
-            },],
+            tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
             total: 15,
@@ -264,20 +106,39 @@ export default {
         }
     },
     methods: {
-        getData(){
+        getData() {
             //查询数据
+            getFlightPublished(params).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.tableData = res.data.flightData
+                    this.total = res.data.TotalNumber
+                    console.log(this.tableData)
+                    this.changeData()
+                }
+            })
+        },
+        searchData(id) {
+            searchFlightHS(id).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.tableData = res.data.flightData
+                    this.total = res.data.TotalNumber
+                }
+            })
         },
         edit(row) {
             this.dialogFormVisible = true
-            this.form = {...row}
+            this.form = { ...row }
         },
         find() {
-
+            console.log(this.formInline)
+            this.searchData(this.formInline.id)
         },
-        check(form){
-            console.log(form,this.form)
-            this.$refs[form].validate(valid=>{
-                if(valid){
+        check(form) {
+            console.log(form, this.form)
+            this.$refs[form].validate(valid => {
+                if (valid) {
                     //如果通过，执行对应操作
                     this.dialogFormVisible = false
                     this.$message({ message: '修改数据成功', type: 'success' })
@@ -298,7 +159,7 @@ export default {
         },
         changeData() {
             this.tableData.forEach(item => {
-                item.state === 1 ? (item.statetext = '已发布') : item.state === 2 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') :item.status === 3 ? (item.statetext = '飞行中') :item.status === 4 ? (item.statetext = '已到达') :item.status === 5 ? (item.statetext = '航班延迟') :item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         },
         del(row) {
@@ -311,7 +172,7 @@ export default {
             return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
         }
     }, created() {
-        this.changeData()
+        this.getData()
     },
 }
 </script>

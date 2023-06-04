@@ -4,7 +4,7 @@
         <!-- 查询和重置 -->
         <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="查询">
-                <el-input v-model="formInline.id" placeholder="请输入航班号"></el-input>
+                <el-input v-model="formInline.id" placeholder="请输入航班ID"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="find">查询</el-button>
@@ -14,6 +14,7 @@
             </el-form-item>
         </el-form>
         <el-table :data="comData" border style="width: 100%">
+            <el-table-column prop="id" label="航班ID" align="center"></el-table-column>
             <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
             <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
             <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
@@ -79,6 +80,8 @@
 </template>
 <script>
 import { getFlightUnpublished } from '@/api/api'
+import { searchFlightHS } from '@/api/api'
+
 export default {
     data() {
         return {
@@ -88,13 +91,13 @@ export default {
 
             },
             rules: {
-                id: [{ required: true, message: '请输入航班号' }],
-                start: [{ required: true, message: '请输入起点' }],
-                destination: [{ required: true, message: '请输入终点' }],
-                starttime: [{ required: true }],
-                endtime: [{ required: true }],
-                price: [{ required: true, message: '请输入航班价格' }],
-                seat: [{ required: true, message: '请输入航班座位数量' }],
+                flightId: [{ required: true, message: '请输入航班号' }],
+                departureCity: [{ required: true, message: '请输入起点' }],
+                arrivalCity: [{ required: true, message: '请输入终点' }],
+                departureDateTime: [{ required: true }],
+                arrivalDateTime: [{ required: true }],
+                fare: [{ required: true, message: '请输入航班价格' }],
+                remainingSeats: [{ required: true, message: '请输入航班座位数量' }],
             },
             tableData: [],
             currentPage: 1,//当前页数
@@ -114,6 +117,17 @@ export default {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
                     console.log(this.tableData)
+                    this.changeData()
+                }
+            })
+        },
+        searchData(id){
+            searchFlightHS(id).then(res=>{
+                console.log(res)
+                if(res.status === 200)
+                {
+                    this.tableData = res.data.flightData
+                    this.total = res.data.TotalNumber
                 }
             })
         },
@@ -137,10 +151,12 @@ export default {
             this.$message({ message: '删除数据成功', type: 'success' })
         },
         find() {
-
+            console.log(this.formInline)
+            this.searchData(this.formInline.id)
         },
         reset() {
             this.formInline = {}
+            this.getData()
         },
         handleSizeChange(val) {
             this.pageSize = val
@@ -153,7 +169,7 @@ export default {
         },
         changeData() {
             this.tableData.forEach(item => {
-                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') :item.status === 3 ? (item.statetext = '飞行中') :item.status === 4 ? (item.statetext = '已到达') :item.status === 5 ? (item.statetext = '航班延迟') :item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         }
     },
@@ -163,7 +179,7 @@ export default {
         }
     }, created() {
         this.getData()
-        this.changeData()
+
     },
 }
 </script>

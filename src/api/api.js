@@ -8,7 +8,7 @@ export function getFlightAble(params){
         params
     })
 }
-
+//航司航班发布界面获取所有航班信息接口
 export function getFlightUnpublished(params){
     return service({
         method:'get',
@@ -16,6 +16,7 @@ export function getFlightUnpublished(params){
         params
     })
 }
+//机票预订界面搜索接口
 export function searchFlightTB(start,dest){
     return service({
         method:'get',
@@ -24,4 +25,45 @@ export function searchFlightTB(start,dest){
         dest
     })
 }
+//航司三个界面搜索航班的接口
+export function searchFlightHS(id){
+    return service({
+        method:'get',
+        url:`/flight/${id}`,
+        id
+    })
+}
 
+//航司已发布界面获取所有航班信息接口
+export function getFlightPublished(params){
+    return service({
+        method:'get',
+        url:'/flight-published',
+        params
+    })
+}
+//航司回收站界面获取所有界面接口
+export function getFlightDeleted(params){
+    return service({
+        method:'get',
+        url:'/flight-deleted',
+        params
+    })
+}
+
+//航司回收站界面搜索航班接口
+export function searchFlightDeleted(id){
+    return service({
+        method:'get',
+        url:`/flight-deleted/${id}`,
+        id
+    })
+}
+//航司回收站界面恢复回收站中的航班
+export function recoverDeleted(id){
+    return service({
+        method:'put',
+        url:`/flight-recover/deletedToUnpublished/${id}`,
+        id
+    })
+}
