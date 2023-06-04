@@ -64,10 +64,10 @@ public class ParkingLotApplicationController {
         return "fail";
     }
 
-    @ApiOperation("获取待处理的停车位申请信息")
+    @ApiOperation("获取待处理的停车位申请信息(0)")
     @GetMapping("/parkingLotApplication/pending")
     public String getPendingParkingLotApplications() throws JsonProcessingException {
-        List<ParkingLotApplication> parkingLotApplicationsList = parkingLotApplicationMapper.selectList(null);
+        List<ParkingLotApplication> parkingLotApplicationsList = parkingLotApplicationMapper.getPendingApplications();
         //System.out.println(parkingLotApplicationsList);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -76,10 +76,10 @@ public class ParkingLotApplicationController {
         return "{"+"\"TotalNumber\":" + parkingLotApplicationsList.size() + ",\"parkingLotApplicationData\":"+ json + "}";
     }
 
-    @ApiOperation("获取已批准的停车位申请信息")
+    @ApiOperation("获取已批准的停车位申请信息(1)")
     @GetMapping("/parkingLotApplication/approved")
     public String getApprovedParkingLotApplications() throws JsonProcessingException {
-        List<ParkingLotApplication> parkingLotApplicationsList = parkingLotApplicationMapper.selectList(null);
+        List<ParkingLotApplication> parkingLotApplicationsList = parkingLotApplicationMapper.getApprovedApplications();
         //System.out.println(parkingLotApplicationsList);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());

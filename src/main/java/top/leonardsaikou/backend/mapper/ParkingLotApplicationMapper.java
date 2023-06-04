@@ -10,10 +10,10 @@ import java.util.List;
 @Mapper
 public interface ParkingLotApplicationMapper extends BaseMapper<ParkingLotApplication>{
 
-    @Select("SELECT * FROM parkinglot_applications WHERE status = 'pending'")
+    @Select("SELECT * FROM parkinglot_applications WHERE status = '0'")
     List<ParkingLotApplication> getPendingApplications();
 
-    @Select("SELECT * FROM parkinglot_applications WHERE status = 'approved'")
+    @Select("SELECT * FROM parkinglot_applications WHERE status = '1'")
     List<ParkingLotApplication> getApprovedApplications();
 
 }
