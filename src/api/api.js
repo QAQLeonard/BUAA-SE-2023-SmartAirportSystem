@@ -1,27 +1,105 @@
 import service from "./service";
 
 //查询可购买机票接口
-export function getFlightAble(params){
+export function getFlightAble(params) {
     return service({
-        method:'get',
-        url:'/flight',
+        method: 'get',
+        url: '/flight',
         params
     })
 }
-
-export function getFlightUnpublished(params){
+//航司航班发布界面获取所有航班信息接口
+export function getFlightUnpublished(params) {
     return service({
-        method:'get',
-        url:'/flight-unpublished',
+        method: 'get',
+        url: '/flight-unpublished',
         params
     })
 }
-export function searchFlightTB(start,dest){
+//机票预订界面搜索接口
+export function searchFlightTB(start, dest) {
     return service({
-        method:'get',
-        url:`/flight/${start}/${dest}`,
+        method: 'get',
+        url: `/flight/${start}/${dest}`,
         start,
         dest
     })
 }
+//航司三个界面搜索航班的接口
+export function searchFlightHS(id) {
+    return service({
+        method: 'get',
+        url: `/flight/${id}`,
+        id
+    })
+}
 
+//航司已发布界面获取所有航班信息接口
+export function getFlightPublished(params) {
+    return service({
+        method: 'get',
+        url: '/flight-published',
+        params
+    })
+}
+//航司回收站界面获取所有界面接口
+export function getFlightDeleted(params) {
+    return service({
+        method: 'get',
+        url: '/flight-deleted',
+        params
+    })
+}
+
+//航司回收站界面搜索航班接口
+export function searchFlightDeleted(id) {
+    return service({
+        method: 'get',
+        url: `/flight-deleted/${id}`,
+        id
+    })
+}
+//航司回收站界面恢复回收站中的航班
+export function recoverDeleted(id) {
+    return service({
+        method: 'put',
+        url: `/flight-recover/deletedToUnpublished/${id}`,
+        id
+    })
+}
+
+//航司回收站界面彻底删除航班
+export function deleteFlight(id) {
+    return service({
+        method: 'delete',
+        url: `/flight/${id}`,
+        id
+    })
+}
+
+//航班发布界面移动航班到回收站
+export function moveUnpublishedToBin(id) {
+    return service({
+        method: 'put',
+        url: `/flight-recover/unpublishedToDeleted/${id}`,
+        id
+    })
+}
+
+//航司已发布界面移动航班到回收站
+export function movePublishedToBin(id) {
+    return service({
+        method:'put',
+        url:`/flight-recover/publishedToDeleted/${id}`,
+        id
+    })
+}
+
+//航司航班发布界面发布航班接口
+export function publishFlight(id){
+    return service({
+        method:'put',
+        url:`/flight-publish/${id}`,
+        id
+    })
+}
