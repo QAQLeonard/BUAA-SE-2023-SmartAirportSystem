@@ -229,4 +229,16 @@ public class FlightController
         }
     }
 
+    @GetMapping("/flight-available")
+    public String getAvailableFlight() throws JsonProcessingException
+    {
+        List<Flight> flightList = flightMapper.selectAvailable();
+        //System.out.println(flightList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(flightList);
+        return "{" + "\"TotalNumber\":" + flightList.size() + ",\"flightData\":" + json + "}";
+    }
+
 }
