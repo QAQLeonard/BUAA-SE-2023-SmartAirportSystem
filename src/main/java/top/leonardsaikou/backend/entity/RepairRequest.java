@@ -23,6 +23,7 @@ public class RepairRequest
     private String approverId;
     @Column(name = "request_date")
     private LocalDate requestDate;
+    private String position;
     /**
      * status:
      * 0: Unresolved

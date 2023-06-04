@@ -1,5 +1,6 @@
 package top.leonardsaikou.backend.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -36,11 +37,13 @@ public class UserController
         return "{" + "\"TotalNumber\":" + usersList.size() + ",\"userData\":" + json + "}";
     }
 
-    @ApiOperation("根据id获取单个用户信息")
-    @GetMapping("/user/{id}")
-    public String getUserById(@PathVariable String id) throws JsonProcessingException
+    @ApiOperation("根据username获取单个用户信息")
+    @GetMapping("/user/{username}")
+    public String getUserById(@PathVariable String username) throws JsonProcessingException
     {
-        User user = userMapper.selectById(id);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        User user = userMapper.selectOne(queryWrapper);
         //System.out.println(user);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -74,10 +77,10 @@ public class UserController
     }
 
     @ApiOperation("删除用户信息")
-    @DeleteMapping("/user/{id}")
-    public String deleteUserById(@PathVariable String id)
+    @DeleteMapping("/user/{username}")
+    public String deleteUserById(@PathVariable String username)
     {
-        int i = userMapper.deleteById(id);
+        int i = userMapper.deleteById(username);
         if (i > 0)
         {
             return "success";
