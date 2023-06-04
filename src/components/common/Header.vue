@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <el-header>
-            <div class="title">天航智慧机场系统</div>
+            <div class="title">天航智慧机场系统 </div>
             <div class="head"> <el-avatar shape="square" :size="size" :src="squareUrl"></el-avatar></div>
             <div>{{ name }}</div>
         </el-header>
