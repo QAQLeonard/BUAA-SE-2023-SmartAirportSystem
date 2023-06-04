@@ -45,13 +45,15 @@ public class FlightController
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(flight);
+        List<Flight> flightList = new ArrayList<>();
+        flightList.add(flight);
+        String json = objectMapper.writeValueAsString(flightList);
         return "{" + "\"TotalNumber\":" + 1 + ",\"flightData\":" + json + "}";
     }
 
     @ApiOperation("插入航班信息")
     @PostMapping("/flight")
-    public String addFlight(Flight flight)
+    public String addFlight(@RequestBody Flight flight)
     {
         int i = flightMapper.insert(flight);
         if (i > 0)
@@ -63,8 +65,9 @@ public class FlightController
 
     @ApiOperation("更新航班信息")
     @PutMapping("/flight")
-    public String updateFlight(Flight flight)
+    public String updateFlight(@RequestBody Flight flight)
     {
+        System.out.println(flight);
         int i = flightMapper.updateById(flight);
         if (i > 0)
         {
