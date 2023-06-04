@@ -41,12 +41,14 @@
 import { getFlightDeleted } from '@/api/api'
 import { searchFlightDeleted } from '@/api/api'
 import { recoverDeleted } from '@/api/api'
+import { deleteFlight } from '@/api/api'
+
 export default {
     data() {
         return {
             tableData: [
                 {
-                    statetext:''
+                    statetext: ''
                 }
             ],
             currentPage: 1,//当前页数
@@ -79,15 +81,23 @@ export default {
                 }
             })
         },
-        recoverFlight(id){
-            recoverDeleted(id).then(res=>{
+        recoverFlight(id) {
+            recoverDeleted(id).then(res => {
                 console.log(res)
-                if(res.status === 200)
-                {
+                if (res.status === 200) {
                     this.$message({ message: '恢复航班成功', type: 'success' })
                     this.getData()
                 }
             })
+        },
+        Delete(id) {
+            deleteFlight(id).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.$message({ message: '删除航班成功', type: 'success' })
+                }
+            })
+
         },
         find() {
             console.log(this.formInline)
@@ -114,12 +124,13 @@ export default {
             console.log(1)
             this.tableData.forEach(item => {
                 console.log(item)
-                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') :item.status === 3 ? (item.statetext = '飞行中') :item.status === 4 ? (item.statetext = '已到达') :item.status === 5 ? (item.statetext = '航班延迟') :item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') : item.status === 3 ? (item.statetext = '飞行中') : item.status === 4 ? (item.statetext = '已到达') : item.status === 5 ? (item.statetext = '航班延迟') : item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         },
         del(row) {
             console.log(row)
-            this.$message({ message: '删除数据成功', type: 'success' })
+            this.Delete(row.id)
+            this.getData()
         },
     },
     computed: {

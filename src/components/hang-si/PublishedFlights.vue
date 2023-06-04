@@ -72,7 +72,7 @@
                 <el-button type="primary" @click="check('form')">确 定</el-button>
             </div>
         </el-dialog>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total">
         </el-pagination>
@@ -81,9 +81,11 @@
 <script>
 import { getFlightPublished } from '@/api/api'
 import { searchFlightHS } from '@/api/api'
+import { movePublishedToBin } from '@/api/api'
 export default {
     data() {
         return {
+            formLabelWidth:'120px',
             dialogFormVisible: false,
             form: {
             },
@@ -108,7 +110,7 @@ export default {
     methods: {
         getData() {
             //查询数据
-            getFlightPublished(params).then(res => {
+            getFlightPublished().then(res => {
                 console.log(res)
                 if (res.status === 200) {
                     this.tableData = res.data.flightData
@@ -124,6 +126,16 @@ export default {
                 if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
+                    this.changeData()
+                }
+            })
+        },
+        moveToBin(id){
+            movePublishedToBin(id).then(res=>{
+                console.log(res)
+                if(res.status === 200)
+                {
+                    this.$message({ message: '移动航班到回收站成功', type: 'success' })
                 }
             })
         },
@@ -164,7 +176,8 @@ export default {
         },
         del(row) {
             console.log(row)
-            this.$message({ message: '删除数据成功', type: 'success' })
+            this.moveToBin(row.id)
+            this.getData()
         }
     },
     computed: {

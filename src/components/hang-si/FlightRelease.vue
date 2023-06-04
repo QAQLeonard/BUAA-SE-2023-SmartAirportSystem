@@ -23,9 +23,9 @@
             <el-table-column prop="fare" label="价格" align="center"></el-table-column>
             <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
             <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
-            <el-table-column label="操作"  align="center" width="180px">
+            <el-table-column label="操作" align="center" width="180px">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="mini" icon="el-icon-s-claim"></el-button>
+                    <el-button type="primary" size="mini" icon="el-icon-s-claim" @click="pubFlight(scope.row)"></el-button>
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
                 </template>
@@ -43,8 +43,8 @@
                     <el-input v-model="form.arrivalCity" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="出发时间" :label-width="formLabelWidth" prop="departureDateTime">
-                    <el-date-picker v-model="form.departureDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" type="date"
-                        placeholder="选择出发日期">
+                    <el-date-picker v-model="form.departureDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+                        type="date" placeholder="选择出发日期">
                     </el-date-picker>
                     <el-time-picker v-model="form.departureDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
@@ -52,8 +52,8 @@
                     </el-time-picker>
                 </el-form-item>
                 <el-form-item label="到达时间" :label-width="formLabelWidth" prop="arrivalDateTime">
-                    <el-date-picker v-model="form.arrivalDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" type="date"
-                        placeholder="选择到达日期">
+                    <el-date-picker v-model="form.arrivalDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+                        type="date" placeholder="选择到达日期">
                     </el-date-picker>
                     <el-time-picker v-model="form.arrivalDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
@@ -81,11 +81,13 @@
 <script>
 import { getFlightUnpublished } from '@/api/api'
 import { searchFlightHS } from '@/api/api'
+import { moveUnpublishedToBin } from '@/api/api'
+import { publishFlight } from '@/api/api'
 
 export default {
     data() {
         return {
-            formLabelWidth:'100px',
+            formLabelWidth: '100px',
             dialogFormVisible: false,
             form: {
 
@@ -113,7 +115,7 @@ export default {
             //查询数据
             getFlightUnpublished(params).then(res => {
                 console.log(res)
-                if(res.status === 200){
+                if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
                     console.log(this.tableData)
@@ -121,16 +123,38 @@ export default {
                 }
             })
         },
-        searchData(id){
-            searchFlightHS(id).then(res=>{
+        searchData(id) {
+            searchFlightHS(id).then(res => {
                 console.log(res)
-                if(res.status === 200)
-                {
+                if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
+                    this.changeData()
                 }
             })
         },
+        moveToBin(id) {
+            moveUnpublishedToBin(id).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.$message({ message: '移动航班到回收站成功', type: 'success' })
+                }
+            })
+        },
+        publish(id) {
+            publishFlight(id).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.$message({ message: '航班发布成功', type: 'success' })
+                }
+            })
+        },
+        pubFlight(row) {
+            console.log(row)
+            this.publish(row.id)
+            this.getData()
+        }
+        ,
         edit(row) {
             console.log(row)
             this.dialogFormVisible = true
@@ -148,7 +172,8 @@ export default {
         },
         del(row) {
             console.log(row)
-            this.$message({ message: '删除数据成功', type: 'success' })
+            this.moveToBin(row.id)
+            this.getData()
         },
         find() {
             console.log(this.formInline)
@@ -169,7 +194,7 @@ export default {
         },
         changeData() {
             this.tableData.forEach(item => {
-                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') :item.status === 3 ? (item.statetext = '飞行中') :item.status === 4 ? (item.statetext = '已到达') :item.status === 5 ? (item.statetext = '航班延迟') :item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') : item.status === 3 ? (item.statetext = '飞行中') : item.status === 4 ? (item.statetext = '已到达') : item.status === 5 ? (item.statetext = '航班延迟') : item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         }
     },
