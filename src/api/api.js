@@ -122,3 +122,69 @@ export function getUserData(id){
         id
     })
 }
+
+
+//why
+//处理事务界面获取所有报修请求接口
+export function getrepairrequest(params){
+    return service({
+        method:'get',
+        url:'/repairRequest',
+        params
+    })
+}
+//搜索
+export function searchrequest(id){
+    return service({
+        method: 'get',
+        url: `/repairRequest/${id}`,
+        id
+    })
+}
+//创建请求界面创建报修接口
+export function createrepairrequest(){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/repairRequest',
+        headers:{},
+        data
+    })
+}
+//删除报修接口
+export function moverepairrequest(id){
+    return service({
+        method: 'delete',
+        url: `/repairRequest/${id}`,
+        id
+    })
+}
+//改变报修接口
+export function changerepairrequest(data){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/repairRequest',
+        headers: {'Content-Type': 'application/json'},
+        data
+    })
+}
+//查询航班
+//27
+//增加航班
+export function createFlight(data){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/flight',
+        headers:{'Content-Type': 'application/json'},
+        data
+    })
+}
+//删除航班
+//71
+//修改航班
+//106
