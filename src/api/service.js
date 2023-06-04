@@ -13,7 +13,9 @@ service.interceptors.request.use((config) => {
 })
 
 service.interceptors.response.use((response) => {
-    let { status, message } = response.data
+    let status = response.status
+    let message = response.statusText
+    console.log(response)
     if (status !== 200) {
         Message({ message: message || 'error', type: 'warning' })
     }
@@ -21,5 +23,7 @@ service.interceptors.response.use((response) => {
 }, (error) => {
     return Promise.reject(error)
 })
+
+
 
 export default service;

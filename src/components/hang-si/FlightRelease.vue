@@ -13,16 +13,16 @@
                 <el-button type="primary" @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="comData" border style="width: 100%">
             <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
             <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
             <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
             <el-table-column prop="departureDateTime" label="出发时间" align="center"></el-table-column>
             <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column>
             <el-table-column prop="fare" label="价格" align="center"></el-table-column>
-            <el-table-column prop="status" label="状态" align="center"></el-table-column>
+            <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
             <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
-            <el-table-column label="操作" >
+            <el-table-column label="操作"  align="center" width="180px">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-s-claim"></el-button>
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
@@ -32,38 +32,38 @@
         </el-table>
         <el-dialog title="修改航班信息" :visible.sync="dialogFormVisible" width="600px">
             <el-form :model="form" :rules="rules" ref="form">
-                <el-form-item label="航班号" :label-width="formLabelWidth" prop="id">
-                    <el-input v-model="form.id" autocomplete="off"></el-input>
+                <el-form-item label="航班号" :label-width="formLabelWidth" prop="flightId">
+                    <el-input v-model="form.flightId" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="起点" :label-width="formLabelWidth" prop="start">
-                    <el-input v-model="form.start" autocomplete="off"></el-input>
+                <el-form-item label="起点" :label-width="formLabelWidth" prop="departureCity">
+                    <el-input v-model="form.departureCity" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="终点" :label-width="formLabelWidth" prop="destination">
-                    <el-input v-model="form.destination" autocomplete="off"></el-input>
+                <el-form-item label="终点" :label-width="formLabelWidth" prop="arrivalCity">
+                    <el-input v-model="form.arrivalCity" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="出发时间" :label-width="formLabelWidth" prop="starttime">
-                    <el-date-picker v-model="form.starttime" format="MM 月 dd 日" value-format="MM-dd" type="date"
+                <el-form-item label="出发时间" :label-width="formLabelWidth" prop="departureDateTime">
+                    <el-date-picker v-model="form.departureDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" type="date"
                         placeholder="选择出发日期">
                     </el-date-picker>
-                    <el-time-picker v-model="form.starttime" :picker-options="{
+                    <el-time-picker v-model="form.departureDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
                     }" placeholder="选择出发时间点">
                     </el-time-picker>
                 </el-form-item>
-                <el-form-item label="到达时间" :label-width="formLabelWidth" prop="endtime">
-                    <el-date-picker v-model="form.endtime" format="MM 月 dd 日" value-format="MM-dd" type="date"
+                <el-form-item label="到达时间" :label-width="formLabelWidth" prop="arrivalDateTime">
+                    <el-date-picker v-model="form.arrivalDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" type="date"
                         placeholder="选择到达日期">
                     </el-date-picker>
-                    <el-time-picker v-model="form.endtime" :picker-options="{
+                    <el-time-picker v-model="form.arrivalDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
                     }" placeholder="选择到达时间点">
                     </el-time-picker>
                 </el-form-item>
-                <el-form-item label="价格" :label-width="formLabelWidth" prop="price">
-                    <el-input v-model="form.price" autocomplete="off"></el-input>
+                <el-form-item label="价格" :label-width="formLabelWidth" prop="fare">
+                    <el-input v-model="form.fare" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="剩余座位" :label-width="formLabelWidth" prop="seat">
-                    <el-input v-model="form.seat" autocomplete="off"></el-input>
+                <el-form-item label="剩余座位" :label-width="formLabelWidth" prop="remainingSeats">
+                    <el-input v-model="form.remainingSeats" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -71,26 +71,20 @@
                 <el-button type="primary" @click="check('form')">确 定</el-button>
             </div>
         </el-dialog>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total">
         </el-pagination>
     </div>
 </template>
 <script>
-import { getFlightAble } from '@/api/api'
+import { getFlightUnpublished } from '@/api/api'
 export default {
     data() {
         return {
+            formLabelWidth:'100px',
             dialogFormVisible: false,
             form: {
-                id: "",
-                start: "",
-                destination: "",
-                starttime: '',
-                endtime: '',
-                price: '',
-                seat: '',
 
             },
             rules: {
@@ -114,15 +108,17 @@ export default {
     methods: {
         getData(params) {
             //查询数据
-            getFlightAble(params).then(res => {
+            getFlightUnpublished(params).then(res => {
                 console.log(res)
-                if(res.data.status === 200){
+                if(res.status === 200){
                     this.tableData = res.data.flightData
+                    this.total = res.data.TotalNumber
                     console.log(this.tableData)
                 }
             })
         },
         edit(row) {
+            console.log(row)
             this.dialogFormVisible = true
             this.form = { ...row }
         },
@@ -157,7 +153,7 @@ export default {
         },
         changeData() {
             this.tableData.forEach(item => {
-                item.state === 1 ? (item.statetext = '已发布') : item.state === 2 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         }
     },

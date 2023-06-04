@@ -8,3 +8,20 @@ export function getFlightAble(params){
         params
     })
 }
+
+export function getFlightUnpublished(params){
+    return service({
+        method:'get',
+        url:'/flight-unpublished',
+        params
+    })
+}
+export function searchFlightTB(start,dest){
+    return service({
+        method:'get',
+        url:`/flight/${start}/${dest}`,
+        start,
+        dest
+    })
+}
+

@@ -14,7 +14,7 @@
                 <el-button type="primary" @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="comData" border style="width: 100%">
             <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
             <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
             <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
@@ -36,7 +36,7 @@
 </template>
 <script>
 import { getFlightAble } from '@/api/api'
-
+import { searchFlightTB } from '@/api/api'
 export default {
     data() {
         return {
@@ -44,29 +44,42 @@ export default {
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
             total: 15,
-            formInline:{
-                start:'',
-                destination:''
+            formInline: {
+                start: '',
+                destination: ''
             }
         }
     },
     methods: {
-        getData(params){
+        getData(params) {
             //查询数据
             getFlightAble(params).then(res => {
                 console.log(res)
-                if(res.data.status !== 200){
+                if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
                     console.log(this.tableData)
                 }
             })
         },
-        find(){
-
+        searchData(departureCity,arrivalCity){
+            searchFlightTB(departureCity,arrivalCity).then(res=>{
+                console.log(res)
+                if(res.status === 200)
+                {
+                    this.tableData=res.data.flightData
+                    this.total = res.data.TotalNumber
+                    console.log(this.tableData)
+                }
+            })
         },
-        reset(){
-            this.formInline={}
+        find() {
+            console.log(this.formInline)
+            this.searchData(this.formInline.start,this.formInline.destination)
+        },
+        reset() {
+            this.formInline = {}
+            this.getData()
         },
         handleSizeChange(val) {
             this.pageSize = val
@@ -83,7 +96,7 @@ export default {
             return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
         }
     },
-    created(){
+    created() {
         this.getData()
     }
 }
@@ -108,4 +121,5 @@ export default {
         text-align: left;
         margin-top: 20px;
     }
-}</style>
+}
+</style>
