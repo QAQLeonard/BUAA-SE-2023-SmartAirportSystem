@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Flight
 {
+
     @Id
     private String id;
     //航班号

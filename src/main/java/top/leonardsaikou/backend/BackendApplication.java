@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @MapperScan("top.leonardsaikou.backend.mapper")
-@EnableScheduling
+//@EnableScheduling
 public class BackendApplication
 {
 

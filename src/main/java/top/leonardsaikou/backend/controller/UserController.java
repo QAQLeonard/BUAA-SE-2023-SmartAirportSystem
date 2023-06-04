@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.apache.ibatis.jdbc.Null;
 import top.leonardsaikou.backend.entity.User;
 import top.leonardsaikou.backend.mapper.UserMapper;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +33,7 @@ public class UserController
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(usersList);
-        return "{"+"\"TotalNumber\":" + usersList.size() + ",\"userData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + usersList.size() + ",\"userData\":" + json + "}";
     }
 
     @ApiOperation("根据id获取单个用户信息")
@@ -45,7 +46,7 @@ public class UserController
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(user);
-        return "{"+"\"TotalNumber\":" + 1 + ",\"userData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + ((json.length() == 0) ? "0" : "1") + ",\"userData\":" + json + "}";
     }
 
     @ApiOperation("插入用户信息")
