@@ -15,10 +15,10 @@
                     <el-form-item label="确认密码" prop="checkPass">
                     <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder="确认密码"></el-input>
                     </el-form-item>
-                    <el-form-item label="电话" prop="phoneNumber">
+                    <el-form-item label="邮箱" prop="phoneNumber">
                     <el-input type="tel" v-model="ruleForm.phoneNumber" id="phone" name="phone">
                     </el-input>
-                    <el-button id="sendCodeBtn" type="info" round @click="sendVerificationCode()">
+                    <el-button id="sendCodeBtn" type="info" round>
                     发送验证码
                     </el-button>
                     </el-form-item>
@@ -36,6 +36,7 @@
     </div>
 </template>
 <script>
+import { InsertUser } from '@/api/api';
 export default {
     data() {
         
@@ -116,7 +117,10 @@ export default {
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 alert('submit!');
-                this.$router.replace('/home')
+                InsertUser(this.ruleForm).then(res=>{
+                    console.log(res);
+                })
+                this.$router.replace('/login');
             } else {
                 console.log('error submit!!');
                 return false;

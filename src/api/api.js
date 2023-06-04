@@ -132,3 +132,24 @@ export function getAllFlight(params){
         params//这里是你传进来的参数
     })
 }
+export function SubmitMerchantApp(data){
+    data=JSON.stringify(data);
+    console.log(data);
+    return service({
+        method:'post',
+        url:'/merchant',
+        headers: {'Content-Type': 'application/json'},
+        data:data
+    })
+}
+
+export function InsertUser(data){
+    data=JSON.stringify(data);
+    //console.log(data);
+    return service({
+        method:'post',
+        url:'/user',
+        headers: {'Content-Type': 'application/json'},
+        data:data
+    })
+}

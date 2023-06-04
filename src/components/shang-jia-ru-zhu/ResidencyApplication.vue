@@ -1,4 +1,3 @@
-
 <template class="rsd">
   <el-form class="elf" label-position="left" label-width="150px" style="max-width: 460px">
     <el-space fill>
@@ -8,13 +7,13 @@
       <el-form-item label="Shop Information">
           <i class="fa fa-id-card"></i>
           <el-input
-              v-model="ShopForm.ShopName"
+              v-model="ShopForm.name"
               label="Shop Name"
               placeholder="Shop Name"
             />
             <el-divider border-style="dashed" />
             <el-input
-              v-model="ShopForm.ShopLocation"
+              v-model="ShopForm.storeLocation"
               label="Shop Location"
               placeholder="Shop Location"
             />
@@ -30,19 +29,19 @@
       <el-form-item label="Your Information">
       <i class="fa fa-user-o"></i>
             <el-input
-              v-model="ShopForm.PersonName"
+              v-model="ShopForm.contactPerson"
               label="Real Name"
               placeholder="Real Name"
             />
             <el-divider border-style="dashed" />
             <el-input
-              v-model="ShopForm.UserName"
+              v-model="ShopForm.username"
               label="User Name"
               placeholder="User Name"
             />
             <el-divider border-style="dashed" />
             <el-input
-              v-model="ShopForm.PhoneNumber"
+              v-model="ShopForm.contactPhone"
               label="Contact"
               placeholder="Contact"
             />
@@ -54,8 +53,8 @@
         confirm-button-text="Yes"
         cancel-button-text="No"
         title="Are you sure to submit this?"
-        @confirm="confirmEvent"
-        @cancel="cancelEvent"
+        @confirm="confirmEvent(ShopForm)"
+        @cancel="cancelEvent()"
       >
         <template #reference>
           <el-button>Submit</el-button>
@@ -65,23 +64,39 @@
   </el-form>
 </template>
 
-<script lang="ts" setup>
-import { reactive } from 'vue'
-//import { InfoFilled } from '@element-plus/icons-vue'
+<script>
+import { SubmitMerchantApp } from '@/api/api'
 
-const confirmEvent = () => {
-  console.log('confirm!')
+
+
+export default{
+  data() {
+    return {
+      ShopForm:{
+        //id:"M03",
+        username: "user1",
+        name: "Mikee's Shop",
+        contactPerson: "Lee",
+        contactPhone: "11112222333",
+        storeLocation: "AAAADDDDD"
 }
-const cancelEvent = () => {
-  console.log('cancel!')
-} 
-const ShopForm = reactive({
-  ShopName: '',
-  PersonName: '',
-  PhoneNumber: '',
-  ShopLocation:'',
-  UserName:'',
-})
+      
+    }
+  },
+  methods: {
+      confirmEvent(params){
+      SubmitMerchantApp(params).then(res =>{
+      console.log(res);
+      })
+      //this.$router.replace('/login');
+    },
+    cancelEvent(){
+      console.log("cancel!");
+    }
+  },
+}
+
+
 </script>
 <style lang="scss" scoped>
 .rsd{
