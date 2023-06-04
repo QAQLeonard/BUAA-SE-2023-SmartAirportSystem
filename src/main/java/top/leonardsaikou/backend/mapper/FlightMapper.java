@@ -31,13 +31,16 @@ public interface FlightMapper extends BaseMapper<Flight> {
     @Update("update flights set status = '-1' where id = #{id} and status = '0'")
     int flightUnpublishedToDelete(String id);
 
-    @Select("select * from flights where status = '1'")
+    @Select("select * from flights where status IN (1, 2, 3, 4, 5)")
     List<Flight> selectPublished();
 
-    @Update("update flights set status = '-1' where id = #{id} and status = '1'")
+    @Update("update flights set status = '-1' where id = #{id} and status IN (1, 2, 3, 4, 5)")
     int flightPublishedToDelete(String id);
 
     @Select("SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) FROM flights")
     int selectMaxId();
+
+    @Select("select * from flights where status = '1'")
+    List<Flight> selectAvailable();
 
 }
