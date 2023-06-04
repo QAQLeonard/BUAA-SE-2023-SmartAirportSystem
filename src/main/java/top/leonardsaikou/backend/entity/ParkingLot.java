@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 @Entity
-@Table(schema = "se_db",name = "parking_spaces")
-@TableName("parking_spaces")
+@Table(schema = "se_db",name = "parkinglot")
+@TableName("parkinglot")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParkingSpace
+public class ParkingLot
 {
     @Id
     private String id;

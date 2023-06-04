@@ -240,5 +240,4 @@ public class FlightController
         String json = objectMapper.writeValueAsString(flightList);
         return "{" + "\"TotalNumber\":" + flightList.size() + ",\"flightData\":" + json + "}";
     }
-
 }

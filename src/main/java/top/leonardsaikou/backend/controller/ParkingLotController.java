@@ -4,28 +4,28 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import top.leonardsaikou.backend.entity.ParkingSpace;
-import top.leonardsaikou.backend.mapper.ParkingSpaceMapper;
+import top.leonardsaikou.backend.entity.ParkingLot;
+import top.leonardsaikou.backend.mapper.ParkingLotMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class ParkingSpaceController
+public class ParkingLotController
 {
-    private final ParkingSpaceMapper parkingSpaceMapper;
+    private final ParkingLotMapper parkingLotMapper;
 
-    public ParkingSpaceController(ParkingSpaceMapper parkingSpaceMapper)
+    public ParkingLotController(ParkingLotMapper parkingLotMapper)
     {
-        this.parkingSpaceMapper = parkingSpaceMapper;
+        this.parkingLotMapper = parkingLotMapper;
     }
 
     @ApiOperation("获取全部停车位信息")
-    @GetMapping("/parkingSpace")
+    @GetMapping("/parkingLot")
     public String getParkingSpaces() throws JsonProcessingException
     {
-        List<ParkingSpace> parkingSpacesList = parkingSpaceMapper.selectList(null);
+        List<ParkingLot> parkingSpacesList = parkingLotMapper.selectList(null);
         //System.out.println(parkingSpacesList);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -38,20 +38,20 @@ public class ParkingSpaceController
     @GetMapping("/parkingSpace/{id}")
     public String getParkingSpaceById(@PathVariable String id) throws JsonProcessingException
     {
-        ParkingSpace parkingSpace = parkingSpaceMapper.selectById(id);
+        ParkingLot parkingLot = parkingLotMapper.selectById(id);
         //System.out.println(parkingSpace);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(parkingSpace);
+        String json = objectMapper.writeValueAsString(parkingLot);
         return "{"+"\"TotalNumber\":" + 1 + ",\"parkingSpaceData\":"+ json + "}";
     }
 
     @ApiOperation("插入停车位信息")
     @PostMapping("/parkingSpace")
-    public String addParkingSpace(@RequestBody ParkingSpace parkingSpace)
+    public String addParkingSpace(@RequestBody ParkingLot parkingLot)
     {
-        int i = parkingSpaceMapper.insert(parkingSpace);
+        int i = parkingLotMapper.insert(parkingLot);
         if (i > 0)
         {
             return "success";
@@ -61,9 +61,9 @@ public class ParkingSpaceController
 
     @ApiOperation("更新停车位信息")
     @PutMapping("/parkingSpace")
-    public String updateParkingSpace(@RequestBody ParkingSpace parkingSpace)
+    public String updateParkingSpace(@RequestBody ParkingLot parkingLot)
     {
-        int i = parkingSpaceMapper.updateById(parkingSpace);
+        int i = parkingLotMapper.updateById(parkingLot);
         if (i > 0)
         {
             return "success";
@@ -75,7 +75,7 @@ public class ParkingSpaceController
     @DeleteMapping("/parkingSpace/{id}")
     public String deleteParkingSpaceById(@PathVariable String id)
     {
-        int i = parkingSpaceMapper.deleteById(id);
+        int i = parkingLotMapper.deleteById(id);
         if (i > 0)
         {
             return "success";
