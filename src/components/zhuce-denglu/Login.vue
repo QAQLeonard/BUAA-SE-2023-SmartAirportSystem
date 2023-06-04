@@ -60,9 +60,9 @@ export default {
         return {
             role0:true,
             form:{
-                username:'admin',
+                username:'',
                 password:'',
-                code:'1234',
+                code:'',
             }
         }
     },

@@ -82,6 +82,7 @@
 import { getFlightPublished } from '@/api/api'
 import { searchFlightHS } from '@/api/api'
 import { movePublishedToBin } from '@/api/api'
+import { editFlight } from '@/api/api'
 export default {
     data() {
         return {
@@ -90,13 +91,13 @@ export default {
             form: {
             },
             rules: {
-                id: [{ required: true, message: '请输入航班号' }],
-                start: [{ required: true, message: '请输入起点' }],
-                destination: [{ required: true, message: '请输入终点' }],
-                starttime: [{ required: true }],
-                endtime: [{ required: true }],
-                price: [{ required: true, message: '请输入航班价格' }],
-                seat: [{ required: true, message: '请输入航班座位数量' }],
+                flightId: [{ required: true, message: '请输入航班号' }],
+                departureCity: [{ required: true, message: '请输入起点' }],
+                arrivalCity: [{ required: true, message: '请输入终点' }],
+                departureDateTime: [{ required: true }],
+                arrivalDateTime: [{ required: true }],
+                fare: [{ required: true, message: '请输入航班价格' }],
+                remainingSeats: [{ required: true, message: '请输入航班座位数量' }],
             },
             tableData: [],
             currentPage: 1,//当前页数
@@ -140,8 +141,19 @@ export default {
             })
         },
         edit(row) {
+            console.log(row)
             this.dialogFormVisible = true
             this.form = { ...row }
+            this.form.id = row.id
+            delete this.form.statetext
+            // this.form.flightId = { ...row.flightId }
+            // this.form.departureCity = { ...row.departureCity }
+            // this.form.arrivalCity = { ...row.arrivalCity }
+            // this.form.departureDateTime = { ...row.departureDateTime }
+            // this.form.arrivalDateTime = { ...row.arrivalDateTime }
+            // this.form.fare = { ...row.fare }
+            // this.form.remainingSeats = { ...row.remainingSeats }
+            // this.form.totalSeats = { ...row.totalSeats }
         },
         find() {
             console.log(this.formInline)
@@ -153,7 +165,13 @@ export default {
                 if (valid) {
                     //如果通过，执行对应操作
                     this.dialogFormVisible = false
-                    this.$message({ message: '修改数据成功', type: 'success' })
+                    editFlight(this.form).then(res => {
+                        console.log(res)
+                        if (res.status === 200) {
+                            this.getData()
+                            this.$message({ message: '航班信息修改成功', type: 'success' })
+                        }
+                    })
                 }
             })
         },

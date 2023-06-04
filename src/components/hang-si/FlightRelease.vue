@@ -83,6 +83,7 @@ import { getFlightUnpublished } from '@/api/api'
 import { searchFlightHS } from '@/api/api'
 import { moveUnpublishedToBin } from '@/api/api'
 import { publishFlight } from '@/api/api'
+import { editFlight } from '@/api/api'
 
 export default {
     data() {
@@ -159,6 +160,16 @@ export default {
             console.log(row)
             this.dialogFormVisible = true
             this.form = { ...row }
+            this.form.id = row.id
+            delete this.form.statetext
+            // this.form.flightId = { ...row.flightId }
+            // this.form.departureCity = { ...row.departureCity }
+            // this.form.arrivalCity = { ...row.arrivalCity }
+            // this.form.departureDateTime = { ...row.departureDateTime }
+            // this.form.arrivalDateTime = { ...row.arrivalDateTime }
+            // this.form.fare = { ...row.fare }
+            // this.form.remainingSeats = { ...row.remainingSeats }
+            // this.form.totalSeats = { ...row.totalSeats }
         },
         check(form) {
             console.log(form, this.form)
@@ -166,7 +177,13 @@ export default {
                 if (valid) {
                     //如果通过，执行对应操作
                     this.dialogFormVisible = false
-                    this.$message({ message: '修改数据成功', type: 'success' })
+                    editFlight(this.form).then(res => {
+                        console.log(res)
+                        if (res.status === 200) {
+                            this.getData()
+                            this.$message({ message: '航班信息修改成功', type: 'success' })
+                        }
+                    })
                 }
             })
         },
