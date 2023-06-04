@@ -48,7 +48,7 @@ public class FlightController
         List<Flight> flightList = new ArrayList<>();
         flightList.add(flight);
         String json = objectMapper.writeValueAsString(flightList);
-        return "{" + "\"TotalNumber\":" + 1 + ",\"flightData\":" + json + "}";
+        return "{" + "\"TotalNumber\":" + flightList.size() + ",\"flightData\":" + json + "}";
     }
 
     @ApiOperation("插入航班信息")

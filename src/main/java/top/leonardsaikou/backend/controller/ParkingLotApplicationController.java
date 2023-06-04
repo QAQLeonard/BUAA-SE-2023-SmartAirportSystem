@@ -12,43 +12,49 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class ParkingLotApplicationController {
+public class ParkingLotApplicationController
+{
 
     private final ParkingLotApplicationMapper parkingLotApplicationMapper;
 
-    public ParkingLotApplicationController(ParkingLotApplicationMapper parkingLotApplicationMapper) {
+    public ParkingLotApplicationController(ParkingLotApplicationMapper parkingLotApplicationMapper)
+    {
         this.parkingLotApplicationMapper = parkingLotApplicationMapper;
     }
 
     @ApiOperation("获取全部停车位申请信息")
     @GetMapping("/parkingLotApplication")
-    public String getParkingLotApplications() throws JsonProcessingException {
+    public String getParkingLotApplications() throws JsonProcessingException
+    {
         List<ParkingLotApplication> parkingLotApplicationsList = parkingLotApplicationMapper.selectList(null);
         //System.out.println(parkingLotApplicationsList);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(parkingLotApplicationsList);
-        return "{"+"\"TotalNumber\":" + parkingLotApplicationsList.size() + ",\"parkingLotApplicationData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + parkingLotApplicationsList.size() + ",\"parkingLotApplicationData\":" + json + "}";
     }
 
     @ApiOperation("根据id获取单个停车位申请信息")
     @GetMapping("/parkingLotApplication/{id}")
-    public String getParkingLotApplicationById(@PathVariable String id) throws JsonProcessingException {
+    public String getParkingLotApplicationById(@PathVariable String id) throws JsonProcessingException
+    {
         ParkingLotApplication parkingLotApplication = parkingLotApplicationMapper.selectById(id);
         //System.out.println(parkingLotApplication);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(parkingLotApplication);
-        return "{"+"\"TotalNumber\":" + 1 + ",\"parkingLotApplicationData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + 1 + ",\"parkingLotApplicationData\":" + json + "}";
     }
 
     @ApiOperation("插入停车位申请信息")
     @PostMapping("/parkingLotApplication")
-    public String addParkingLotApplication(@RequestBody ParkingLotApplication parkingLotApplication) {
+    public String addParkingLotApplication(@RequestBody ParkingLotApplication parkingLotApplication)
+    {
         int i = parkingLotApplicationMapper.insert(parkingLotApplication);
-        if (i > 0) {
+        if (i > 0)
+        {
             return "success";
         }
         return "fail";
@@ -56,36 +62,14 @@ public class ParkingLotApplicationController {
 
     @ApiOperation("更新停车位申请信息")
     @PutMapping("/parkingLotApplication")
-    public String updateParkingLotApplication(@RequestBody ParkingLotApplication parkingLotApplication) {
+    public String updateParkingLotApplication(@RequestBody ParkingLotApplication parkingLotApplication)
+    {
         int i = parkingLotApplicationMapper.updateById(parkingLotApplication);
-        if (i > 0) {
+        if (i > 0)
+        {
             return "success";
         }
         return "fail";
-    }
-
-    @ApiOperation("获取待处理的停车位申请信息(0)")
-    @GetMapping("/parkingLotApplication/pending")
-    public String getPendingParkingLotApplications() throws JsonProcessingException {
-        List<ParkingLotApplication> parkingLotApplicationsList = parkingLotApplicationMapper.getPendingApplications();
-        //System.out.println(parkingLotApplicationsList);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(parkingLotApplicationsList);
-        return "{"+"\"TotalNumber\":" + parkingLotApplicationsList.size() + ",\"parkingLotApplicationData\":"+ json + "}";
-    }
-
-    @ApiOperation("获取已批准的停车位申请信息(1)")
-    @GetMapping("/parkingLotApplication/approved")
-    public String getApprovedParkingLotApplications() throws JsonProcessingException {
-        List<ParkingLotApplication> parkingLotApplicationsList = parkingLotApplicationMapper.getApprovedApplications();
-        //System.out.println(parkingLotApplicationsList);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(parkingLotApplicationsList);
-        return "{"+"\"TotalNumber\":" + parkingLotApplicationsList.size() + ",\"parkingLotApplicationData\":"+ json + "}";
     }
 
 }

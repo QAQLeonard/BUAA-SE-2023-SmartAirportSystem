@@ -19,13 +19,11 @@ public class MerchantApplication
     private String merchantId;
     @Column(name = "store_address")
     private String storeAddress;
-    //审批员工号
-    @Column(name = "approver_id")
-    private String approverId;
     /**
      * status:
      * 0: refused
      * 1: approved
      */
     private int status;
+    private float cost;
 }

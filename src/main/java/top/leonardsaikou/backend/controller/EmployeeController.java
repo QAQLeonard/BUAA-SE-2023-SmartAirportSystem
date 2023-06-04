@@ -9,6 +9,7 @@ import top.leonardsaikou.backend.mapper.EmployeeMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -36,12 +37,14 @@ public class EmployeeController {
     @GetMapping("/employee/{id}")
     public String getEmployeeById(@PathVariable String id) throws JsonProcessingException{
         Employee employee = employeeMapper.selectById(id);
+        List<Employee> employeesList = new ArrayList<>();
+        employeesList.add(employee);
         //System.out.println(employee);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(employee);
-        return "{"+"\"TotalNumber\":" + "1" + ",\"employeeData\":"+ json + "}";
+        String json = objectMapper.writeValueAsString(employeesList);
+        return "{"+"\"TotalNumber\":" + employeesList.size() + ",\"employeeData\":"+ json + "}";
     }
 
     @ApiOperation("插入员工信息")

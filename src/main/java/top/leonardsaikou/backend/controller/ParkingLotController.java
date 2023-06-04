@@ -82,4 +82,34 @@ public class ParkingLotController
         }
         return "fail";
     }
+
+    @ApiOperation("更新车位在某一时段的状态")
+    @PutMapping("/parkingSpace/{id}/{starttime}/{finishtime}")
+    public String updateParkingSpaceStatus(@PathVariable String id, @PathVariable String starttime, @PathVariable String finishtime)
+    {
+        ParkingLot parkingLot = parkingLotMapper.selectById(id);
+        int status = parkingLot.getStatus();
+        for(int i = Integer.parseInt(starttime); i < Integer.parseInt(finishtime); i++)
+        {
+            status |= (1<<i);
+        }
+        parkingLot.setStatus(status);
+        int i = parkingLotMapper.updateById(parkingLot);
+        if (i > 0)
+        {
+            return "success";
+        }
+        return "fail";
+    }
+
+    @ApiOperation("获取车位在某一时段的状态")
+    @GetMapping("/parkingSpace/{id}/{timeperiod}")
+    public String getParkingSpaceStatus(@PathVariable String id, @PathVariable String timeperiod)
+    {
+        ParkingLot parkingLot = parkingLotMapper.selectById(id);
+        int status = parkingLot.getStatus();
+        int time = Integer.parseInt(timeperiod);
+        int result = (status >> time) & 1;
+        return "{"+"\"status\":" + result + "}";
+    }
 }
