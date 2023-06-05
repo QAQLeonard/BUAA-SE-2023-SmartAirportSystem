@@ -54,7 +54,7 @@ public class UserController
 
     @ApiOperation("插入用户信息")
     @PostMapping("/user")
-    public String addUser(User user)
+    public String addUser(@RequestBody User user)
     {
         int i = userMapper.insert(user);
         if (i > 0)
@@ -66,7 +66,7 @@ public class UserController
 
     @ApiOperation("更新用户信息")
     @PutMapping("/user")
-    public String updateUser(User user)
+    public String updateUser(@RequestBody User user)
     {
         int i = userMapper.updateById(user);
         if (i > 0)

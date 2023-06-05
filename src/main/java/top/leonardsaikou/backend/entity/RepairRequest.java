@@ -19,8 +19,6 @@ public class RepairRequest
     private String id;
     @Column(name = "reporter_id")
     private String reporterId;
-    @Column(name = "approver_id")
-    private String approverId;
     @Column(name = "request_date")
     private LocalDate requestDate;
     private String position;
@@ -29,6 +27,7 @@ public class RepairRequest
      * 0: Unresolved
      * 1: Resolved
      */
-    private String status;
+    private int status;
     private String description;
+    private float cost;
 }

@@ -15,9 +15,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+    public String handleSQLIntegrityConstraintViolationException(DataAccessException ex) {
         return ex.getMessage();
     }
 
-    // 如果需要处理其他类型的异常，你可以在这里添加更多的处理方法
 }
