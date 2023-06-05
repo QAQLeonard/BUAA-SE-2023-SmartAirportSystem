@@ -1,30 +1,33 @@
 <template>
     <div class="body">
         <div class="container">
-            <div class="form-box" :class="{'transformR':(role0===false),'transformL':(role0 === true)}">
+            <div class="form-box" :class="{ 'transformR': (role0 === false), 'transformL': (role0 === true) }">
                 <!-- 注册 -->
-                <div class="register-box" :model="form" :class="{'hidden':(role0 === true)/*,'transformR':(role0===false)*/} ">
+                <div class="register-box" :model="form"
+                    :class="{ 'hidden': (role0 === true)/*,'transformR':(role0===false)*/ }">
                     <h1>login</h1>
-                    <input prop="form.username" type="text" placeholder="用户名">
-                    <input prop="form.code" type="password" placeholder="验证码">
+                    <input v-model="form.username" type="text" placeholder="用户名">
+                    <input v-model="form.code" type="password" placeholder="验证码">
                     <button @click="send()">发送验证码</button>
                     <button @click="codelogin()">登录</button>
                 </div>
                 <!-- 登录 -->
-                <div class="login-box" :model="form" :class="{'hidden':(role0 === false)/*,'transformL':(role0 === true)*/}">
+                <div class="login-box" :model="form"
+                    :class="{ 'hidden': (role0 === false)/*,'transformL':(role0 === true)*/ }">
                     <h1>login</h1>
-                    <input prop="form.username" type="text" placeholder="用户名">
-                    <input prop="form.password" type="password" placeholder="密码">
+                    <input v-model="form.username" type="text" placeholder="用户名">
+                    <input v-model="form.password" type="password" placeholder="密码">
                     <button @click="login()">登录</button>
                 </div>
             </div>
             <div class="con-box left">
                 <h2><span>天航</span>智慧机场</h2>
                 <p><span>便捷</span>你的出行</p>
-                <img src="https://img2.baidu.com/it/u=1091118846,3966823999&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" alt="图片加载失败">
+                <img src="https://img2.baidu.com/it/u=1091118846,3966823999&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
+                    alt="图片加载失败">
                 <p>没有账号？</p>
-                <button id="login" @click="change()">去注册</button>
-                <button id="login1" @click="change()">密码登录</button>       
+                <button id="login" @click="changeToRegi()">去注册</button>
+                <button id="login1" @click="change()">密码登录</button>
             </div>
             <div class="con-box right">
                 <h2><span>天航</span>智慧机场</h2>
@@ -37,6 +40,7 @@
     </div>
 </template>
 <script>
+import { getUserData } from '@/api/api';
 // // 要操作到的元素
 // let login = document.getElementById("login");
 // let register = document.getElementById("register");
@@ -58,27 +62,87 @@
 export default {
     data() {
         return {
-            role0:true,
-            form:{
+            role0: true,
+            form: {
                 username:'',
                 password:'',
-                code:'',
-            }
+                code:''
+            },
+            password: '',
+            total: '',
+            code:'-1'
         }
     },
     methods: {
-        login(){
+        login() {
+            console.log(this.form.username)
+            getUserData(this.form.username).then(res => {
+                console.log(this.form.username)
+                if (this.form.username === '') {
+                    this.$message({ message: '请输入用户名', type: 'error' })
+                } else {
+                    console.log(res)
+                    if (res.status === 200) {
+                        this.total = res.data.TotalNumber
+                        if (res.data.userData === null) {
+                            this.$message({ message: '用户名不存在', type: 'error' })
+                        } else {
+                            this.password = res.data.userData.password
+                            console.log(this.password)
+                            if (this.password === this.form.password) {
+                                this.$message({ message: '登录成功', type: 'success' })
+                                localStorage.setItem('username',this.form.username)
+                                console.log(localStorage.getItem('username'))
+                                this.$router.replace('/home')
+                            } else if(this.form.password === ''){
+                                this.$message({ message: '请输入密码', type: 'error' })
+                            }else{
+                                this.$message({ message: '密码错误', type: 'error' })
+                            }
+                        }
 
+                    }
+                }
+            })
         },
-        codelogin()
-        {
-            
+        codelogin() {
+            console.log(this.form.username)
+            getUserData(this.form.username).then(res => {
+                if (this.form.username === '') {
+                    this.$message({ message: '请输入用户名', type: 'error' })
+                } else {
+                    console.log(res)
+                    if (res.status === 200) {
+                        this.total = res.data.TotalNumber
+                        if (res.data.userData === null) {
+                            this.$message({ message: '用户名不存在', type: 'error' })
+                        } else {
+                            this.password = res.data.userData.password
+                            console.log(this.password)
+                            if (this.code === this.form.code) {
+                                this.$message({ message: '登录成功', type: 'success' })
+                                localStorage.setItem('username',this.form.username)
+                                console.log(localStorage.getItem('username'))
+                                this.$router.push('/home')
+                            } else if(this.form.code === ''){
+                                this.$message({ message: '请输入验证码', type: 'error' })
+                            }else{
+                                this.$message({ message: '验证码错误', type: 'error' })
+                            }
+                        }
+
+                    }
+                }
+            })
         },
-        change(){
+        change() {
             this.role0 = !this.role0
         },
-        send(){
-            
+        send() {
+
+        },
+        changeToRegi() {
+            this.$router.replace('/register')
         }
     }
 }
@@ -143,12 +207,15 @@ export default {
     display: none;
     transition: 0.5s;
 }
-.transformR{
+
+.transformR {
     transform: translateX(80%);
 }
-.transformL{
+
+.transformL {
     transform: translateX(0%);
 }
+
 h1 {
     text-align: center;
     margin-bottom: 25px;

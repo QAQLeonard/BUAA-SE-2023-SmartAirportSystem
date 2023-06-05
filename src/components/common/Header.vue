@@ -14,6 +14,10 @@
                 squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
                 name:'张三'
             }
+        },
+        created(){
+            this.name = localStorage.getItem('username')
+            console.log(this.name)
         }
     }
 </script>
