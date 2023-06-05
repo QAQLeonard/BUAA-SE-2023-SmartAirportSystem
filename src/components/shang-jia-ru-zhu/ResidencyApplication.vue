@@ -81,11 +81,10 @@ export default{
         storeLocation: "AAAADDDDD"
       },
       AppForm:{
-      id: "",
-      merchantId: "",
+      id: "MA03",
+      merchantId: "M03",
       storeAddress: "",
       status: 0,
-      cost: 100
       }
       
     }
@@ -93,7 +92,7 @@ export default{
   methods: {
       confirmEvent(params){
       this.AppForm.storeAddress=this.ShopForm.storeLocation;
-      SubmitMerchantAppForm(params).then(res=>{
+      SubmitMerchantAppForm(this.AppForm).then(res=>{
         console.log(res);
       })
       SubmitMerchantApp(params).then(res =>{

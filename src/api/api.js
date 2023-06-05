@@ -166,6 +166,7 @@ export function InsertUser(data){
         data
     })
 }
+//获取所有停车位信息
 export function getAllParking(params) {
     return service({
         method: 'get',
@@ -173,6 +174,38 @@ export function getAllParking(params) {
         params
     })
 }
+
+
+//根据id搜索停车位信息
+export function searchParkingTB(id) {
+    return service({
+        method: 'get',
+        url: `/parkingSpace/${id}`,
+        id
+    })
+}
+
+export function searchParkingTB1(id,start) {
+    return service({
+        method: 'get',
+        url: `/parkingSpace/${id}/${start}`,
+        id,
+        start 
+    })
+}
+
+export function updateParking(id,start,finish) {
+    console.log()
+    return service({
+        method: 'put',
+        url: `/parkingLot/${id}/${start}/${finish}`,
+        id,
+        start,
+        finish
+    })
+}
+
+
 
 //处理事务界面获取所有报修请求接口
 export function getrepairrequest(params){
