@@ -166,7 +166,13 @@ export function InsertUser(data){
         data
     })
 }
-
+export function getAllParking(params) {
+    return service({
+        method: 'get',
+        url: '/parkingLot',
+        params
+    })
+}
 
 //处理事务界面获取所有报修请求接口
 export function getrepairrequest(params){

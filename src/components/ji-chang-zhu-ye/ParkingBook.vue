@@ -14,7 +14,7 @@
       </el-form>
       <el-table :data="comData" border style="width: 100%">
           <el-table-column prop="id" label="车位id" align="center"></el-table-column>
-          <el-table-column prop="address" label="车位地址" align="center"></el-table-column>
+          <el-table-column prop="location" label="车位地址" align="center"></el-table-column>
           <el-table-column prop="status" label="车位状态" align="center"></el-table-column>
           <el-table-column label="预定" align="center">
               <template>
@@ -29,82 +29,14 @@
   </div>
 </template>
 <script>
+import { getAllParking } from '@/api/api'
+
 export default {
   data() {
       return {
-          tableData: [{
-              id: "P101",
-              address:'A3',
-              status:1,
-
-          }, {
-            id: "P102",
-              address:'A1',
-              status:1,
-
-          }, {
-            id: "P103",
-              address:'A5',
-              status:0,
-
-          }, {
-            id: "P202",
-              address:'B3',
-              status:1,
-
-          }, {
-            id: "P201",
-              address:'B4',
-              status:0,
-
-          }, {
-            id: "P107",
-              address:'A9',
-              status:0,
-
-          }, {
-            id: "P110",
-              address:'C1',
-              status:0,
-
-          }, {
-            id: "P301",
-              address:'A3',
-              status:1,
-
-          }, {
-            id: "P401",
-              address:'A9',
-              status:1,
-
-          }, {
-            id: "P303",
-              address:'A5',
-              status:0,
-
-          }, {
-            id: "P121",
-              address:'C1',
-              status:0,
-          }, {
-            id: "P141",
-              address:'A3',
-              status:0,
-
-          }, {
-            id: "P212",
-              address:'A3',
-              status:1,
-          }, {
-            id: "P331",
-              address:'B5',
-              status:1,
-
-          }, {
-            id: "P101",
-              address:'C3',
-              status:0,
-          },],
+          tableData: [
+              
+          ],
           currentPage: 1,//当前页数
           pageSize: 10,//每页显示条数
           total: 15,
@@ -116,6 +48,13 @@ export default {
       }
   },
   methods: {
+      getData(params){
+        getAllParking(params).then(res=>{
+          console.log(res);
+          this.tableData = res.data.parkingSpaceData;
+          this.total = res.data.TotalNumber;
+        })
+      },
       find(){
 
       },
@@ -136,7 +75,10 @@ export default {
       comData() {
           return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
       }
-  }
+  },
+  created() {
+        this.getData()
+    }
 }
 </script>
 <style lang="scss">

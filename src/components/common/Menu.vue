@@ -30,7 +30,7 @@ export default {
     },
     created() {
         console.log(this.$router.options.routes)
-        this.menus = [...this.$router.options.routes]
+        this.menus = [...this.$router.options.routes].slice(0,-1);
     }
 }
 </script>
