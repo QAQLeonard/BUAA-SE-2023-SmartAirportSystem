@@ -20,16 +20,13 @@
           <el-table-column prop="status" label="车位状态" align="center"></el-table-column>
           <el-table-column label="预定" align="center">
               <template>
-                <el-row>
-                <el-col span="4">
-                <input prop="formInline.id2" placeholder="id">
-                <input prop="formInline.starttime" placeholder="start">
-                <input prop="formInline.finishtime" placeholder="finish">
-                </el-col>
-                <el-col>
+                
+                <input prop="formInline.id2" v-model="formInline.id2" placeholder="id" >
+                <input prop="formInline.starttime" v-model="formInline.starttime" placeholder="start">
+                <input prop="formInline.finishtime" v-model="formInline.finishtime" placeholder="finish">
+                
                   <el-button type="primary" size="mini" icon="el-icon-s-goods" @click="open"></el-button>
-                </el-col>
-                </el-row>
+                
               </template>
           </el-table-column>
       </el-table>

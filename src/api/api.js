@@ -195,9 +195,10 @@ export function searchParkingTB1(id,start) {
 }
 
 export function updateParking(id,start,finish) {
+    console.log()
     return service({
         method: 'put',
-        url: `/parkingSpace/${id}/${start}/${finish}`,
+        url: `/parkingLot/${id}/${start}/${finish}`,
         id,
         start,
         finish
