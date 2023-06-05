@@ -19,5 +19,7 @@ public class User
     private String id;
     private String avatar;
     private String role;
-
+    private String email;
+    private String motto;
+    private String gender;
 }
