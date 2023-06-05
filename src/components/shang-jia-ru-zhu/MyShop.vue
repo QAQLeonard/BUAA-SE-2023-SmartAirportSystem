@@ -23,7 +23,8 @@
             <el-col :offset="7"><i class="fa fa-cart-arrow-down"></i></el-col>
             <el-col :offset="7">总价: {{this.total()}} ¥</el-col>
         </el-row>
-        <el-button type="success">结算</el-button>
+        <el-button type="success" @click="open">结算</el-button>
+        <!-- <el-button type="success">结算</el-button> -->
         </el-space>
         </el-scrollbar>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
@@ -67,6 +68,18 @@ export default{
         changeNum(item){
 
         },
+        open() {
+        this.$alert('<img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">', '扫码付款', {
+          dangerouslyUseHTMLString: true,
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            });
+          }
+        });
+      },
         total(){
             var t=0;
             for (var key in this.lists){

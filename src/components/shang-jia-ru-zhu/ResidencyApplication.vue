@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { SubmitMerchantApp } from '@/api/api'
+import { SubmitMerchantApp, SubmitMerchantAppForm } from '@/api/api'
 
 
 
@@ -73,18 +73,29 @@ export default{
   data() {
     return {
       ShopForm:{
-        //id:"M03",
+        id:"",
         username: "user1",
         name: "Mikee's Shop",
         contactPerson: "Lee",
         contactPhone: "11112222333",
         storeLocation: "AAAADDDDD"
-}
+      },
+      AppForm:{
+      id: "",
+      merchantId: "",
+      storeAddress: "",
+      status: 0,
+      cost: 100
+      }
       
     }
   },
   methods: {
       confirmEvent(params){
+      this.AppForm.storeAddress=this.ShopForm.storeLocation;
+      SubmitMerchantAppForm(params).then(res=>{
+        console.log(res);
+      })
       SubmitMerchantApp(params).then(res =>{
       console.log(res);
       })

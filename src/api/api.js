@@ -132,7 +132,7 @@ export function getAllFlight(params){
         params//这里是你传进来的参数
     })
 }
-//提交商家申请信息
+//提交商家信息
 export function SubmitMerchantApp(data){
     data=JSON.stringify(data);
     console.log(data);
@@ -143,6 +143,18 @@ export function SubmitMerchantApp(data){
         data:data
     })
 }
+//提交商家申请记录
+export function SubmitMerchantAppForm(data){
+    data=JSON.stringify(data);
+    console.log(data);
+    return service({
+        method:'post',
+        url:'/merchantApplication',
+        headers: {'Content-Type': 'application/json'},
+        data:data
+    })
+}
+
 //注册请求
 export function InsertUser(data){
     data=JSON.stringify(data);
