@@ -2,8 +2,8 @@
   <div class="ParkingSystem">
       <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
           <el-form-item label="查询">
-              <el-input v-model="formInline.address" placeholder="请输入位置"></el-input>
-              <el-input v-model="formInline.status" placeholder="车位状态"></el-input>
+              <el-input v-model="formInline.parkid" placeholder="请输入位置"></el-input>
+              <!-- <el-input v-model="formInline.status" placeholder="车位状态"></el-input> -->
           </el-form-item>
           <el-form-item>
               <el-button type="primary" @click="find">查询</el-button>
@@ -111,6 +111,7 @@ export default {
           formInline:{
               address:'',
               status:0,
+              parkid:''
           }
       }
   },

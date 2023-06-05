@@ -3,8 +3,8 @@
         <el-tabs type="border-card" >
             <el-tab-pane label="旅客注册" >
                 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="用户名" prop="usename">
-                    <el-input v-model="ruleForm.usename"></el-input>
+                    <el-form-item label="用户名" prop="username">
+                    <el-input v-model="ruleForm.username"></el-input>
                     </el-form-item>
                     <el-form-item label="性别" prop="Gender">
                     <el-input v-model="ruleForm.Gender"></el-input>
@@ -91,16 +91,23 @@ export default {
         }
         return {
         ruleForm: {
-            pass: '',
-            checkPass: '',
-            phoneNumber:'',
-            usename:'',
-            Gender:'',
-            Checkcode:'',
+            pass: 'Ss111111',
+            checkPass: 'Ss111111',
+            phoneNumber:'111',
+            username:'user30',
+            Gender:'male',
+            Checkcode:'111',
+        },
+        RegForm:{
+            username:'',
+            password:'',
+            id:'id11',
+            avatar:'avatar11',
+            role:'role11'
         },
 
         rules: {
-            pass: [
+            password: [
                 { validator: validatePass, trigger: 'blur' }
             ],
             checkPass: [
@@ -117,7 +124,10 @@ export default {
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 alert('submit!');
-                InsertUser(this.ruleForm).then(res=>{
+                //this.RegForm.Gender=this.ruleForm.Gender;
+                this.RegForm.password=this.ruleForm.pass;
+                this.RegForm.username=this.ruleForm.username;
+                InsertUser(this.RegForm).then(res=>{
                     console.log(res);
                 })
                 this.$router.replace('/login');

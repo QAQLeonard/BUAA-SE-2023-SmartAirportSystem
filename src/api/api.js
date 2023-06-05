@@ -136,11 +136,11 @@ export function SubmitMerchantApp(data){
 
 export function InsertUser(data){
     data=JSON.stringify(data);
-    //console.log(data);
+    console.log(data);
     return service({
         method:'post',
         url:'/user',
         headers: {'Content-Type': 'application/json'},
-        data:data
+        data
     })
 }
