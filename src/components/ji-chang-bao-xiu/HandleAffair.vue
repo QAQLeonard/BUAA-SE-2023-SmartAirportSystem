@@ -17,8 +17,8 @@
             <el-table-column prop="id" label="报修单号" align="center"></el-table-column>
             <el-table-column prop="location" label="位置" align="center"></el-table-column>
             <el-table-column prop="time" label="发生时间" align="center"></el-table-column>
-            <el-table-column prop="usetime" label="预计维修时间" align="center"></el-table-column>
             <el-table-column prop="consume" label="报销价格" align="center"></el-table-column>
+            <el-table-column prop="description" label="描述" align="center"></el-table-column>
             <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
             <el-table-column label="操作" align="center" width="180px">
                 <template slot-scope="scope">
@@ -45,9 +45,6 @@
                     }" placeholder="选择维修时间点">
                     </el-time-picker>
                 </el-form-item>
-                <el-form-item label="预计维修时间" :label-width="formLabelWidth" prop="usetime">
-                    <el-input v-model="form.usetime" autocomplete="off"></el-input>
-                </el-form-item>
                 <el-form-item label="报销价格" :label-width="formLabelWidth" prop="consume">
                     <el-input v-model="form.consume" autocomplete="off"></el-input>
                 </el-form-item>
@@ -65,6 +62,9 @@
     </div>
 </template>
 <script>
+import { getrepairrequest } from '@/api/api'
+import { searchrequest } from '@/api/api'
+import { moverepairrequest } from '@/api/api'
 export default {
     data() {
         return {
@@ -88,142 +88,10 @@ export default {
                 price:[{required:true,message:'请输入航班价格'}],
                 seat: [{required:true,message:'请输入航班座位数量'}],
             },
-            tableData: [{
-                id: "0001",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-
-            }, {
-                id: "0002",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-
-            }, {
-                id: "0003",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-
-            }, {
-                id: "0004",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-            }, {
-                id: "0005",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-            }, {
-                id: "0006",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-            }, {
-                id: "0007",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-            }, {
-                id: "0008",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-            }, {
-                id: "0009",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-            }, {
-                id: "0010",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-            }, {
-                id: "0011",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-
-            }, {
-                id: "0012",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-            }, {
-                id: "0013",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-            }, {
-                id: "0014",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-            }, {
-                id: "0015",
-                location: "1号机场",
-                dlevel: "一般",
-                time: '05月13日12:00',
-                usetime: '10天',
-                consume: '100',
-                state: 2
-            },],
+            tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
-            total: 15,
+            total: 30,
             formInline: {
                 id: ''
             },
@@ -233,15 +101,35 @@ export default {
         }
     },
     methods: {
-        getData(){
+        getData() {
             //查询数据
+            getrepairrequest().then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.tableData = res.data.requestData
+                    this.total = res.data.TotalNumber
+                    console.log(this.tableData)
+                    this.changeData()
+                }
+            })
+        },
+        searchData(id) {
+            searchrequest(id).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.tableData = res.data.flightData
+                    this.total = res.data.TotalNumber
+                    this.changeData()
+                }
+            })
         },
         edit(row) {
             this.dialogFormVisible = true
             this.form = {...row}
         },
         find() {
-
+            console.log(this.formInline)
+            this.searchData(this.formInline.id)
         },
         check(form){
             console.log(form,this.form)
@@ -270,10 +158,20 @@ export default {
                 item.state === 1 ? (item.statetext = '已审批') :  (item.statetext = '未审批')
             });
         },
+        Delete(id) {
+            moverepairrequest(id).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.$message({ message: '删除航班成功', type: 'success' })
+                }
+            })
+
+        },
         del(row) {
             console.log(row)
-            this.$message({ message: '删除数据成功', type: 'success' })
-        }
+            this.Delete(row.id)
+            this.getData()
+        },
     },
     computed: {
         comData() {

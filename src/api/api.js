@@ -114,15 +114,24 @@ export function editFlight(data)
         data
     })
 }
-
+//获取用户信息
 export function getUserData(id){
     return service({
         method:'get',
-        url:`/user/${id}`,
+        url:`/user/${id}`,//注意，需要在url传参数的不要用单引号，用斜引号，就是你键盘波浪线的那个
         id
     })
 }
 
+//在这里调用接口
+//获取所有航班信息
+export function getAllFlight(params){
+    return service({
+        method:'get',//这里是你的接口调用方式，get、post、delete、put
+        url:'/flight',//这里是你接口的调用路径，你去看星达群里发的接口文档
+        params//这里是你传进来的参数
+    })
+}
 export function SubmitMerchantApp(data){
     data=JSON.stringify(data);
     console.log(data);
@@ -144,3 +153,68 @@ export function InsertUser(data){
         data
     })
 }
+
+
+//处理事务界面获取所有报修请求接口
+export function getrepairrequest(params){
+    return service({
+        method:'get',
+        url:'/repairRequest',
+        params
+    })
+}
+//搜索
+export function searchrequest(id){
+    return service({
+        method: 'get',
+        url: `/repairRequest/${id}`,
+        id
+    })
+}
+//创建请求界面创建报修接口
+export function createrepairrequest(){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/repairRequest',
+        headers:{},
+        data
+    })
+}
+//删除报修接口
+export function moverepairrequest(id){
+    return service({
+        method: 'delete',
+        url: `/repairRequest/${id}`,
+        id
+    })
+}
+//改变报修接口
+export function changerepairrequest(data){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/repairRequest',
+        headers: {'Content-Type': 'application/json'},
+        data
+    })
+}
+//查询航班
+//27
+//增加航班
+export function createFlight(data){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/flight',
+        headers:{'Content-Type': 'application/json'},
+        data
+    })
+}
+//删除航班
+//71
+//修改航班
+//106

@@ -17,18 +17,14 @@
                     }" placeholder="时间">
                     </el-time-picker>
                 </el-form-item>
-            <el-form-item label="预计维修时间" align="left">
-                <el-input> </el-input>
-            </el-form-item>
             <el-form-item label="报销价格" align="left">
                 <el-input> </el-input>
             </el-form-item>
             <el-form-item label="问题详细描述" align="left">
                 <el-input> </el-input>
             </el-form-item>
-            <el-form-item align="left">
-                <el-button type="primary" @click="onSubmit">创建请求</el-button>
-                <el-button @click="cancle">取消</el-button>
+            <el-form-item align="center">
+                <el-button type="primary" @click="onSubmit" align="center">创建请求</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -44,10 +40,6 @@
             onSubmit(){
                 //add请求
                 this.$message({ message: '创建请求成功', type: 'success' })
-            },
-            cancle(){
-                //清空数据
-                this.$message({ message: '取消成功' })
             }
         }
     }
