@@ -3,7 +3,7 @@ import service from "./service";
 export function getFlightAble(params) {
     return service({
         method: 'get',
-        url: '/flight',
+        url: '/flight-available',
         params
     })
 }

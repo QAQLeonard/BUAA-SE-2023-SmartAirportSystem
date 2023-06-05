@@ -92,6 +92,7 @@ export default {
                             if (this.password === this.form.password) {
                                 this.$message({ message: '登录成功', type: 'success' })
                                 localStorage.setItem('username',this.form.username)
+                                localStorage.setItem('userid',res.data.userData.id)
                                 console.log(localStorage.getItem('username'))
                                 this.$router.replace('/home')
                             } else if(this.form.password === ''){
