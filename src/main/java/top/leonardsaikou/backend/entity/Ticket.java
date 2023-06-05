@@ -34,6 +34,6 @@ public class Ticket
      */
     @Column(name = "payment_status")
     private Integer paymentStatus;
-    @Column(name = "purchase_datetime")
+    @Column(name = "purchase_date_time")
     private LocalDateTime purchaseDateTime;
 }

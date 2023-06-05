@@ -109,4 +109,17 @@ public class TicketController
     public Double getTotalTicketPrice(@PathVariable("date") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date) {
         return ticketMapper.selectTotalPriceByDate(date);
     }
+
+    @ApiOperation("获取某一乘客的所有机票信息")
+    @GetMapping("/ticketByPassengerId/{passengerId}")
+    public String getTicketByPassengerId(@PathVariable String passengerId) throws JsonProcessingException {
+        List<Ticket> ticketsList = ticketMapper.selectByPassengerId(passengerId);
+        //System.out.println(ticketsList);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        String json = objectMapper.writeValueAsString(ticketsList);
+        return "{"+"\"TotalNumber\":" + ticketsList.size() + ",\"ticketData\":"+ json + "}";
+    }
+
 }

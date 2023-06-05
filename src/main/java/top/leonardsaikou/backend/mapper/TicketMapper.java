@@ -1,5 +1,7 @@
 package top.leonardsaikou.backend.mapper;
 import java.time.LocalDate;
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import top.leonardsaikou.backend.entity.Ticket;
@@ -11,4 +13,8 @@ public interface TicketMapper extends BaseMapper<Ticket>{
 
     @Select("SELECT SUM(ticket_price) FROM tickets WHERE DATE(purchase_datetime) = #{date}")
     double selectTotalPriceByDate(LocalDate date);
+
+    @Select("SELECT * FROM tickets WHERE passenger_id = #{passengerId}")
+    List<Ticket> selectByPassengerId(String passengerId);
+
 }
