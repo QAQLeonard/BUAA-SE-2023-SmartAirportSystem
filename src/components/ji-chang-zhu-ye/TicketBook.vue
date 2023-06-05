@@ -76,6 +76,7 @@ export default {
         find() {
             console.log(this.formInline)
             this.searchData(this.formInline.start,this.formInline.destination)
+            console.log(this.tableData)
         },
         reset() {
             this.formInline = {}
