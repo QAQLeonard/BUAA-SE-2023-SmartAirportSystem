@@ -3,6 +3,18 @@
         <el-tabs type="border-card" >
             <el-tab-pane label="旅客注册" >
                 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="头像" prop="avatar">
+                        <el-upload
+                        class="avatar-uploader"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                    </el-upload>
+                    </el-form-item>
                     <el-form-item label="用户名" prop="username">
                     <el-input v-model="ruleForm.username"></el-input>
                     </el-form-item>
@@ -101,11 +113,11 @@ export default {
         RegForm:{
             username:'',
             password:'',
-            id:'id11',
+            id:'',
             avatar:'avatar11',
-            role:'role11'
+            role:''
         },
-
+        imageUrl: '',
         rules: {
             password: [
                 { validator: validatePass, trigger: 'blur' }
@@ -127,6 +139,7 @@ export default {
                 //this.RegForm.Gender=this.ruleForm.Gender;
                 this.RegForm.password=this.ruleForm.pass;
                 this.RegForm.username=this.ruleForm.username;
+                this.RegForm.avatar=this.imageUrl;
                 InsertUser(this.RegForm).then(res=>{
                     console.log(res);
                 })
@@ -139,8 +152,49 @@ export default {
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
+        },
+        handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+        },
+        beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+            his.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
         }
         
     }
 }
 </script>
+
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>
