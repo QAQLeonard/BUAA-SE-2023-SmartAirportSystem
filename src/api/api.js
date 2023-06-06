@@ -1,4 +1,18 @@
+
 import service from "./service";
+//发送验证码的接口
+export function sendCode(data){
+    data=JSON.stringify(data);
+    // data="\""+data+"\""
+    // data= String.toString(data)
+    console.log(data);
+    return service({
+        method:'post',
+        url:'/send-email',
+        headers: {'Content-Type': 'application/json'},
+        data
+    })
+}
 //查询可购买机票接口
 export function getFlightAble(params) {
     return service({

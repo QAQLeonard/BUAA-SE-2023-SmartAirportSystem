@@ -24,7 +24,7 @@
             <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="购买" align="center">
                 <template>
-                    <el-button type="primary" size="mini" icon="el-icon-s-goods" @click="purchase"></el-button>
+                    <el-button type="primary" size="mini" icon="el-icon-s-goods" ></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -57,6 +57,7 @@ export default {
                 start: '',
                 destination: ''
             },
+
             imgSrc: 'src\assets\img\img1.jpg'
         }
     },
@@ -139,8 +140,6 @@ img {
             }
         }
     }
-
-    .el-dialog {}
 
     .el-pagination {
         text-align: left;

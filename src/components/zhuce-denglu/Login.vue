@@ -41,6 +41,7 @@
 </template>
 <script>
 import { getUserData } from '@/api/api';
+import { sendCode } from '@/api/api';
 // // 要操作到的元素
 // let login = document.getElementById("login");
 // let register = document.getElementById("register");
@@ -64,13 +65,16 @@ export default {
         return {
             role0: true,
             form: {
-                username:'',
-                password:'',
-                code:''
+                username: '',
+                password: '',
+                code: ''
             },
             password: '',
             total: '',
-            code:'-1'
+            code: '-1',
+            Email:{
+                toEmail:"1626450436@qq.com"
+            },
         }
     },
     methods: {
@@ -91,13 +95,13 @@ export default {
                             console.log(this.password)
                             if (this.password === this.form.password) {
                                 this.$message({ message: '登录成功', type: 'success' })
-                                localStorage.setItem('username',this.form.username)
-                                localStorage.setItem('userid',res.data.userData.id)
+                                localStorage.setItem('username', this.form.username)
+                                localStorage.setItem('userid', res.data.userData.id)
                                 console.log(localStorage.getItem('username'))
                                 this.$router.replace('/home')
-                            } else if(this.form.password === ''){
+                            } else if (this.form.password === '') {
                                 this.$message({ message: '请输入密码', type: 'error' })
-                            }else{
+                            } else {
                                 this.$message({ message: '密码错误', type: 'error' })
                             }
                         }
@@ -122,12 +126,12 @@ export default {
                             console.log(this.password)
                             if (this.code === this.form.code) {
                                 this.$message({ message: '登录成功', type: 'success' })
-                                localStorage.setItem('username',this.form.username)
+                                localStorage.setItem('username', this.form.username)
                                 console.log(localStorage.getItem('username'))
                                 this.$router.push('/home')
-                            } else if(this.form.code === ''){
+                            } else if (this.form.code === '') {
                                 this.$message({ message: '请输入验证码', type: 'error' })
-                            }else{
+                            } else {
                                 this.$message({ message: '验证码错误', type: 'error' })
                             }
                         }
@@ -140,7 +144,9 @@ export default {
             this.role0 = !this.role0
         },
         send() {
-
+            sendCode(this.Email).then(res => {
+                console.log(res)
+            })
         },
         changeToRegi() {
             this.$router.replace('/register')
