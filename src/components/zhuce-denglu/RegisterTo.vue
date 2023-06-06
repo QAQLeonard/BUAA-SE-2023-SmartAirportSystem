@@ -120,13 +120,13 @@ export default {
         }
         return {
         options: [{
-            value: '选项1',
+            value: 'passenger',
             label: 'passenger'
         }, {
-            value: '选项2',
+            value: 'employee',
             label: 'employee'
         }, {
-            value: '选项3',
+            value: 'merchant',
             label: 'merchant'
         }, ],
         value: '',

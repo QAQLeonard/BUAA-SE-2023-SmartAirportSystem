@@ -84,12 +84,8 @@ export default {
         },
         find() {
             console.log(this.formInline)
-<<<<<<< HEAD
-            this.searchData(this.formInline.start, this.formInline.destination)
-=======
             this.searchData(this.formInline.start,this.formInline.destination)
             console.log(this.tableData)
->>>>>>> e4dae8e04ac37fcbecb3c3eeb9346c896217b4df
         },
         reset() {
             this.formInline = {}

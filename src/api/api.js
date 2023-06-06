@@ -221,6 +221,15 @@ export function MerchantID(params) {
     })
 }
 
+export function UserID(username) {
+    return service({
+        method: 'get',
+        url: `/user/${username}`,
+        username
+    })
+}
+
+
 
 //处理事务界面获取所有报修请求接口
 export function getrepairrequest(params){
