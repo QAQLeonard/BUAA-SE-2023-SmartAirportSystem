@@ -12,7 +12,6 @@
             <el-table-column label="操作" align="center" width="180px">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -38,7 +37,6 @@
             <el-table-column label="操作" align="center" width="180px">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit2(scope.row)"></el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
