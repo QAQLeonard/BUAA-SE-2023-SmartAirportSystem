@@ -3,7 +3,7 @@ import service from "./service";
 export function getFlightAble(params) {
     return service({
         method: 'get',
-        url: '/flight',
+        url: '/flight-available',
         params
     })
 }
@@ -166,6 +166,7 @@ export function InsertUser(data){
         data
     })
 }
+//获取所有停车位信息
 export function getAllParking(params) {
     return service({
         method: 'get',
@@ -173,6 +174,62 @@ export function getAllParking(params) {
         params
     })
 }
+
+
+//根据id搜索停车位信息
+export function searchParkingTB(id) {
+    return service({
+        method: 'get',
+        url: `/parkingLot/${id}`,
+        id
+    })
+}
+
+export function searchParkingTB1(id,start) {
+    return service({
+        method: 'get',
+        url: `/parkingLot/${id}/${start}`,
+        id,
+        start 
+    })
+}
+
+export function updateParking(id,start,finish) {
+    console.log()
+    return service({
+        method: 'put',
+        url: `/parkingLot/${id}/${start}/${finish}`,
+        id,
+        start,
+        finish
+    })
+}
+
+export function PassengerID(params) {
+    return service({
+        method: 'get',
+        url: '/passenger-id',
+        params
+    })
+}
+
+export function MerchantID(params) {
+    return service({
+        method: 'get',
+        url: '/merchant-id',
+        params
+    })
+}
+
+export function UserID(username) {
+    return service({
+        method: 'get',
+        url: `/user/${username}`,
+        username
+    })
+}
+
+
 
 //处理事务界面获取所有报修请求接口
 export function getrepairrequest(params){

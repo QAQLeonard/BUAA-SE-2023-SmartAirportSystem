@@ -19,12 +19,30 @@
         </p>
       </el-alert>
       <el-form-item label="Your Information">
-        <i class="fa fa-user-o"></i>
-        <el-input v-model="ShopForm.contactPerson" label="Real Name" placeholder="Real Name" />
-        <el-divider border-style="dashed" />
-        <el-input v-model="ShopForm.username" label="User Name" placeholder="User Name" />
-        <el-divider border-style="dashed" />
-        <el-input v-model="ShopForm.contactPhone" label="Contact" placeholder="Contact" />
+      <i class="fa fa-user-o"></i>
+      <el-input
+      v-model="ShopForm.id"
+      label="id"
+      placeholder="id"
+      />
+      <el-divider border-style="dashed" />
+            <el-input
+              v-model="ShopForm.contactPerson"
+              label="Real Name"
+              placeholder="Real Name"
+            />
+            <el-divider border-style="dashed" />
+            <el-input
+              v-model="ShopForm.username"
+              label="User Name"
+              placeholder="User Name"
+            />
+            <el-divider border-style="dashed" />
+            <el-input
+              v-model="ShopForm.contactPhone"
+              label="Contact"
+              placeholder="Contact"
+            />
       </el-form-item>
     </el-space>
     <el-divider border-style="dotted" />
@@ -40,35 +58,41 @@
 </template>
 
 <script>
-import { SubmitMerchantApp, SubmitMerchantAppForm } from '@/api/api'
+import { SubmitMerchantApp, SubmitMerchantAppForm,UserID } from '@/api/api'
 
 
 
 export default {
   data() {
     return {
-      ShopForm: {
-        id: "",
-        username: "user1",
-        name: "Mikee's Shop",
-        contactPerson: "Lee",
-        contactPhone: "11112222333",
-        storeLocation: "AAAADDDDD"
+      ShopForm:{
+        id:'M010',
+        username: 'user30',
+        name: 'SuperShop',
+        contactPerson: 'Lee',
+        contactPhone: '11112222333',
+        storeLocation: 'Beihang University'
       },
-      AppForm: {
-        id: "",
-        merchantId: "",
-        storeAddress: "",
-        status: 0,
-        cost: 100
-      }
-
+      AppForm:{
+      id: 'MA010',
+      merchantId: 'M010',
+      storeAddress: '',
+      status: 0,
+      },
+      order:7
+      
     }
   },
   methods: {
-    confirmEvent(params) {
-      this.AppForm.storeAddress = this.ShopForm.storeLocation;
-      SubmitMerchantAppForm(params).then(res => {
+      confirmEvent(params){
+      this.AppForm.storeAddress=this.ShopForm.storeLocation;
+      UserID(this.ShopForm.username).then(res=>{
+        console.log(res);
+        //this.AppForm.merchantId=res.data.userData.id;
+        this.AppForm.merchantId=this.ShopForm.id
+        this.AppForm.id='MA'+this.AppForm.merchantId.slice(1);
+      })
+      SubmitMerchantAppForm(this.AppForm).then(res=>{
         console.log(res);
       })
       SubmitMerchantApp(params).then(res => {

@@ -1,13 +1,16 @@
 <template>
     <div class="personalInfo">
-        <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false"
-            :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        <div class="upload">
+            <!-- <el-upload class="avatar-uploader" action="" :show-file-list="false"
+                :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" width="200px">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload> -->
+            <!-- <span><input type="file" @click="upload()" v-on:change=""></span> -->
+        </div>
         <el-form ref="form" :model="form" label-width="80px" :disabled.sync="disabled">
             <el-form-item label="用户名" class="userName">
-                <el-input v-model="form.name"></el-input>
+                <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item label="性别" class="genderCheck userName">
                 <el-radio label="男" v-model="form.gender">男</el-radio>
@@ -17,7 +20,7 @@
                 <el-input v-model="form.mail"></el-input>
             </el-form-item>
             <el-form-item label="个性签名">
-                <el-input type="textarea" v-model="form.note" maxlength="50" show-word-limit></el-input>
+                <el-input type="textarea" v-model="form.note" maxlength="40" show-word-limit></el-input>
             </el-form-item>
         </el-form>
         <el-form class="workCheck">
@@ -36,11 +39,12 @@
     </div>
 </template>
 <script>
+import { getUserData } from '@/api/api';
 export default {
     data() {
         return {
             form: {
-                name: 'test',
+                username: 'test',
                 gender: '女',
                 mail: '11223344@qq.com',
                 note: 'Hello',
@@ -49,10 +53,11 @@ export default {
             disabled: true,
             checked: false,
             squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-            imageUrl:'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png'
+            imageUrl: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png'
         }
     },
     methods: {
+    
         onSubmit() {
             console.log('submit!');
         },
@@ -69,44 +74,30 @@ export default {
         },
         submit() {
             this.disabled = true
+        },
+        upload()
+        {
+
         }
+    },
+    created(){
+        getUserData(localStorage.getItem('username')).then(res=>{
+            if(res.status === 200)
+            {
+                
+            }
+        })
     }
 }
 </script>
 <style lang="scss" scoped>
+
 .personalInfo {
     margin-top: 40px;
 
     //
     //
-    .avatar-uploader .el-upload {
-        border: 1px dashed #d9d9d9;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
 
-    .avatar-uploader .el-upload:hover {
-        border-color: #409EFF;
-    }
-
-    .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 150px;
-        height: 150px;
-        line-height: 150px;
-        text-align: center;
-        
-    }
-
-    .avatar {
-        width: 150px;
-        height: 150px;
-        display: block;
-
-    }
 
     //
     //
