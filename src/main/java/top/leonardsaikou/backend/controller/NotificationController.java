@@ -5,20 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 import top.leonardsaikou.backend.entity.Notification;
 import top.leonardsaikou.backend.mapper.NotificationMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
+@RestController
 public class NotificationController
 {
     private final NotificationMapper notificationMapper;
-
 
     public NotificationController(NotificationMapper notificationMapper)
     {

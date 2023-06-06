@@ -40,12 +40,10 @@ public class MerchantController
     public String getMerchantById(@PathVariable String id) throws JsonProcessingException
     {
         Merchant merchant = merchantMapper.selectById(id);
-        List<Merchant> merchantList = new ArrayList<>();
-        merchantList.add(merchant);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(merchantList);
+        String json = objectMapper.writeValueAsString(merchant);
         return "{"+"\"TotalNumber\":" + 1 + ",\"merchantData\":"+ json + "}";
     }
 
