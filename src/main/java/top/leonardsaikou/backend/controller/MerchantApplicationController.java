@@ -87,14 +87,16 @@ public class MerchantApplicationController
     @GetMapping("/merchantApplication-id")
     public String generateNewId()
     {
+        String id;
         int maxIdNum = merchantApplicationMapper.selectMaxId();
         if (maxIdNum == 0)
         {
-            return "MA001";
+            id =  "MA001";
         }
         else
         {
-            return "MA" + String.format("%03d", maxIdNum + 1);
+            id =  "MA" + String.format("%03d", maxIdNum + 1);
         }
+        return "{" + "\"id\":" + "\"" + id + "\"" + "}";
     }
 }

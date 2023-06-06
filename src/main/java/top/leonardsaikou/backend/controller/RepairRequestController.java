@@ -32,7 +32,7 @@ public class RepairRequestController
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(repairRequestList);
-        return "{"+"\"TotalNumber\":" + repairRequestList.size() + ",\"repairRequestData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + repairRequestList.size() + ",\"repairRequestData\":" + json + "}";
     }
 
     @ApiOperation("根据id获取单个维修请求信息")
@@ -47,7 +47,7 @@ public class RepairRequestController
         List<RepairRequest> repairRequestList = new ArrayList<>();
         repairRequestList.add(repairRequest);
         String json = objectMapper.writeValueAsString(repairRequestList);
-        return "{"+"\"TotalNumber\":" + 1 + ",\"repairRequestData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + 1 + ",\"repairRequestData\":" + json + "}";
     }
 
     @ApiOperation("插入维修请求信息")
@@ -90,15 +90,17 @@ public class RepairRequestController
     @GetMapping("/repairRequest-id")
     public String getRepairRequestID()
     {
+        String id;
         int maxIdNum = repairRequestMapper.selectMaxId();
         if (maxIdNum == 0)
         {
-            return "RR001";
+            id = "RR001";
         }
         else
         {
-            return "RR" + String.format("%03d", maxIdNum + 1);
+            id = "RR" + String.format("%03d", maxIdNum + 1);
         }
+        return "{" + "\"id\":" + "\"" + id + "\"" + "}";
     }
 
 }

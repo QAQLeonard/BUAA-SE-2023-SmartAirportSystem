@@ -87,15 +87,16 @@ public class MerchantController
     @GetMapping("/merchant-id")
     public String generateNewId()
     {
+        String id = "";
         int maxIdNum = merchantMapper.selectMaxId();
         if (maxIdNum == 0)
         {
-            return "M001";
+            id = "M001";
         }
         else
         {
-            // 否则，增加当前最大的flight ID
-            return "M" + String.format("%03d", maxIdNum + 1);
+            id =  "M" + String.format("%03d", maxIdNum + 1);
         }
+        return "{" + "\"id\":" + "\"" + id + "\"" + "}";
     }
 }

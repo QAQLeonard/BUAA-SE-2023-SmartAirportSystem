@@ -90,18 +90,20 @@ public class TicketController
     @GetMapping("/ticket-id")
     public String generateNewId()
     {
+        String id;
         // 查询当前最大的ticket ID
         int maxIdNum = ticketMapper.selectMaxId();
         if (maxIdNum == 0)
         {
             // 如果还没有ticket，那么返回 "T0001"
-            return "T0001";
+            id = "T0001";
         }
         else
         {
             // 否则，增加当前最大的ticket ID
-            return "T" + String.format("%04d", maxIdNum + 1);
+            id =  "T" + String.format("%04d", maxIdNum + 1);
         }
+        return "{" + "\"id\":" + "\"" + id + "\"" + "}";
     }
 
     @ApiOperation("获取某一天的所有票价之和")
@@ -134,7 +136,7 @@ public class TicketController
         {
             stringBuilder.append("{\"date\":\"");
             stringBuilder.append(date.plusDays(i));
-            stringBuilder.append(",\"money\":");
+            stringBuilder.append("\",\"money\":");
             stringBuilder.append(ticketMapper.selectTotalPriceByDate(date.plusDays(i)));
             stringBuilder.append("}");
             if(i != 6)

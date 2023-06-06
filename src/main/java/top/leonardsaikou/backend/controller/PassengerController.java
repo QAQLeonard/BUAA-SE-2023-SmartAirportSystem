@@ -87,15 +87,17 @@ public class PassengerController
     @GetMapping("/passenger-id")
     public String generateNewId()
     {
+        String id;
         // 查询当前最大的ID
         int maxIdNum = passengerMapper.selectMaxId();
         if (maxIdNum == 0)
         {
-            return "PA001";
+            id= "PA001";
         }
         else
         {
-            return "PA" + String.format("%03d", maxIdNum + 1);
+            id= "PA" + String.format("%03d", maxIdNum + 1);
         }
+        return "{" + "\"id\":" + "\"" + id + "\"" + "}";
     }
 }

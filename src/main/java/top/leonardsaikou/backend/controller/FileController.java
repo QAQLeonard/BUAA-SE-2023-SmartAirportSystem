@@ -25,10 +25,15 @@ public class FileController
 
     @ApiOperation("上传头像")
     @PostMapping("/upload/{username}")
-    public String upload(@PathVariable String username, MultipartFile avater, HttpServletRequest request) throws IOException
+    public String upload(@PathVariable String username, MultipartFile avater) throws IOException
     {
 
-        String path = request.getServletContext().getRealPath("/images/");
+        String path = System.getProperty("user.dir") + "/images/";
+        File folder = new File(path);
+        if (!folder.exists())
+        {
+            folder.mkdirs();
+        }
         saveFile(avater, path);
         String avatarPath = "/images/" + avater.getOriginalFilename();
         fileMapper.updateAvatar(avatarPath, username);
@@ -38,13 +43,8 @@ public class FileController
 
     public void saveFile(MultipartFile file, String path) throws IOException
     {
-        File dest = new File(path);
-        if (!dest.exists())
-        {
-            dest.mkdirs();
-        }
-        File file1 = new File(path + file.getOriginalFilename());
-        file.transferTo(file1);
+        File dest = new File(path + file.getOriginalFilename());
+        file.transferTo(dest);
     }
 
 }

@@ -76,16 +76,18 @@ public class ParkingLotApplicationController
     @GetMapping("/parkingLotApplication-id")
     public String generateNewId()
     {
+        String id;
         // 查询当前最大的ID
         int maxIdNum = parkingLotApplicationMapper.selectMaxId();
         if (maxIdNum == 0)
         {
-            return "PLA001";
+            id= "PLA001";
         }
         else
         {
-            return "PLA" + String.format("%03d", maxIdNum + 1);
+            id= "PLA" + String.format("%03d", maxIdNum + 1);
         }
+        return "{" + "\"id\":" + "\"" + id + "\"" + "}";
     }
 
 }
