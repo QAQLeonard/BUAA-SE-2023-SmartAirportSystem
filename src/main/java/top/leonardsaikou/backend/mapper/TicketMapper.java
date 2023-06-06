@@ -11,7 +11,7 @@ public interface TicketMapper extends BaseMapper<Ticket>{
     @Select("SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) FROM tickets")
     int selectMaxId();
 
-    @Select("SELECT SUM(ticket_price) FROM tickets WHERE DATE(purchase_date_time) = #{date}")
+    @Select("SELECT COALESCE(SUM(ticket_price), 0) FROM tickets WHERE DATE(purchase_date_time) = #{date}")
     double selectTotalPriceByDate(LocalDate date);
 
     @Select("SELECT * FROM tickets WHERE passenger_id = #{passengerId}")

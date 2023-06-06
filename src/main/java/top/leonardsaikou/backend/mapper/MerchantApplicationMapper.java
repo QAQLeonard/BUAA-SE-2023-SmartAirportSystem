@@ -8,6 +8,6 @@ import top.leonardsaikou.backend.entity.MerchantApplication;
 @Mapper
 public interface MerchantApplicationMapper extends BaseMapper<MerchantApplication>
 {
-    @Select("SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) FROM merchant_applications")
+    @Select("SELECT MAX(CAST(SUBSTRING(id, 3) AS UNSIGNED)) FROM merchant_applications")
     int selectMaxId();
 }

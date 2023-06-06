@@ -82,4 +82,19 @@ public class MerchantApplicationController
         }
         return "fail";
     }
+
+    @ApiOperation("获取创建新一次商家申请的新id")
+    @GetMapping("/merchantApplication-id")
+    public String generateNewId()
+    {
+        int maxIdNum = merchantApplicationMapper.selectMaxId();
+        if (maxIdNum == 0)
+        {
+            return "MA001";
+        }
+        else
+        {
+            return "MA" + String.format("%03d", maxIdNum + 1);
+        }
+    }
 }
