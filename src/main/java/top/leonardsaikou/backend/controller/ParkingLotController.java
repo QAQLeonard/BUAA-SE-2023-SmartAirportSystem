@@ -35,7 +35,7 @@ public class ParkingLotController
     }
 
     @ApiOperation("根据id获取单个停车位信息")
-    @GetMapping("/parkingSpace/{id}")
+    @GetMapping("/parkingLot/{id}")
     public String getParkingSpaceById(@PathVariable String id) throws JsonProcessingException
     {
         ParkingLot parkingLot = parkingLotMapper.selectById(id);
@@ -48,7 +48,7 @@ public class ParkingLotController
     }
 
     @ApiOperation("插入停车位信息")
-    @PostMapping("/parkingSpace")
+    @PostMapping("/parkingLot")
     public String addParkingSpace(@RequestBody ParkingLot parkingLot)
     {
         int i = parkingLotMapper.insert(parkingLot);
@@ -60,7 +60,7 @@ public class ParkingLotController
     }
 
     @ApiOperation("更新停车位信息")
-    @PutMapping("/parkingSpace")
+    @PutMapping("/parkingLot")
     public String updateParkingSpace(@RequestBody ParkingLot parkingLot)
     {
         int i = parkingLotMapper.updateById(parkingLot);
@@ -72,7 +72,7 @@ public class ParkingLotController
     }
 
     @ApiOperation("删除停车位信息")
-    @DeleteMapping("/parkingSpace/{id}")
+    @DeleteMapping("/parkingLot/{id}")
     public String deleteParkingSpaceById(@PathVariable String id)
     {
         int i = parkingLotMapper.deleteById(id);
@@ -84,7 +84,7 @@ public class ParkingLotController
     }
 
     @ApiOperation("更新车位在某一时段的状态")
-    @PutMapping("/parkingSpace/{id}/{starttime}/{finishtime}")
+    @PutMapping("/parkingLot/{id}/{starttime}/{finishtime}")
     public String updateParkingSpaceStatus(@PathVariable String id, @PathVariable String starttime, @PathVariable String finishtime)
     {
         ParkingLot parkingLot = parkingLotMapper.selectById(id);
@@ -103,7 +103,7 @@ public class ParkingLotController
     }
 
     @ApiOperation("获取车位在某一时段的状态")
-    @GetMapping("/parkingSpace/{id}/{timeperiod}")
+    @GetMapping("/parkingLot/{id}/{timeperiod}")
     public String getParkingSpaceStatus(@PathVariable String id, @PathVariable String timeperiod)
     {
         ParkingLot parkingLot = parkingLotMapper.selectById(id);
@@ -112,4 +112,6 @@ public class ParkingLotController
         int result = (status >> time) & 1;
         return "{"+"\"status\":" + result + "}";
     }
+
+
 }

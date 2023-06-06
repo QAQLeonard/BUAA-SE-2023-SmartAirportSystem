@@ -16,4 +16,7 @@ public interface ParkingLotApplicationMapper extends BaseMapper<ParkingLotApplic
     @Select("SELECT * FROM parkinglot_applications WHERE status = '1'")
     List<ParkingLotApplication> getApprovedApplications();
 
+    @Select("SELECT MAX(CAST(SUBSTRING(id, 4) AS UNSIGNED)) FROM parkinglot_applications")
+    int selectMaxId();
+
 }

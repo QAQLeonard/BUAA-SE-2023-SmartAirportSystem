@@ -20,17 +20,18 @@ public class EmailController
     /**
      * 发送邮箱验证码
      * 传入邮箱即可如"toEmail":"123@qq.com"
-     * @param toEmail
+     * @param json
      * @return
      */
     @ApiOperation("发送验证码")
-    @GetMapping("/send-email")
-    public String sendEmail(@RequestBody String toEmail)
+    @PostMapping ("/send-email")
+    public String sendEmail(@RequestBody String json)
     {
+        JSONObject jsonObject = new JSONObject(json);
+        String toEmail = jsonObject.getString("toEmail");
         String code = String.valueOf((int)((Math.random() * 9 + 1) * 100000));
         if(!userService.sendEmailCode(code, toEmail))
         {
-            JSONObject jsonObject = new JSONObject();
             jsonObject.put("code", 0);
             jsonObject.put("msg", "发送失败");
             return jsonObject.toString();

@@ -82,4 +82,20 @@ public class PassengerController
         }
         return "fail";
     }
+
+    @ApiOperation("获取创建新一个乘客的新id")
+    @GetMapping("/passenger-id")
+    public String generateNewId()
+    {
+        // 查询当前最大的ID
+        int maxIdNum = passengerMapper.selectMaxId();
+        if (maxIdNum == 0)
+        {
+            return "PA001";
+        }
+        else
+        {
+            return "PA" + String.format("%03d", maxIdNum + 1);
+        }
+    }
 }

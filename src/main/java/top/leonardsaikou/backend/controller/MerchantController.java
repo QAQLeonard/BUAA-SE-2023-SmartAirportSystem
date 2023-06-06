@@ -81,4 +81,20 @@ public class MerchantController
         }
         return "fail";
     }
+
+    @ApiOperation("获取创建新一个新商家的新id")
+    @GetMapping("/merchant-id")
+    public String generateNewId()
+    {
+        int maxIdNum = merchantMapper.selectMaxId();
+        if (maxIdNum == 0)
+        {
+            return "M001";
+        }
+        else
+        {
+            // 否则，增加当前最大的flight ID
+            return "M" + String.format("%03d", maxIdNum + 1);
+        }
+    }
 }

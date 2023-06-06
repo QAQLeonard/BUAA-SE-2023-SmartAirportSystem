@@ -220,12 +220,12 @@ public class FlightController
         if (maxIdNum == 0)
         {
             // 如果还没有flight，那么返回 "F0001"
-            return "F0001";
+            return "F001";
         }
         else
         {
             // 否则，增加当前最大的flight ID
-            return "F" + String.format("%04d", maxIdNum + 1);
+            return "F" + String.format("%03d", maxIdNum + 1);
         }
     }
 
