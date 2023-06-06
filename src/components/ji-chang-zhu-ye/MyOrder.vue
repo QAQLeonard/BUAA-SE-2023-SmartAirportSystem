@@ -3,7 +3,7 @@
         <!-- 查询和重置 -->
         <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="查询">
-                <el-input v-model="formInline.start" placeholder="请输入订单号"></el-input>
+                <el-input v-model="formInline.start" placeholder="请输入订单号" ></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="find">查询</el-button>
@@ -56,7 +56,7 @@ export default {
             console.log(1)
             this.tableData.forEach(item => {
                 console.log(item)
-                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') : item.status === 3 ? (item.statetext = '飞行中') : item.status === 4 ? (item.statetext = '已到达') : item.status === 5 ? (item.statetext = '航班延迟') : item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '未到达') : item.status === 2 ? (item.statetext = '正在检票') : item.status === 3 ? (item.statetext = '飞行中') : item.status === 4 ? (item.statetext = '已到达') : item.status === 5 ? (item.statetext = '航班延迟') : item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         },
         find()
@@ -81,7 +81,7 @@ export default {
     .demo-form-inline {
         .el-form-item {
             .el-input {
-                width: 100px;
+                width: 120px;
             }
         }
     }

@@ -17,18 +17,18 @@
                 <el-radio label="女" v-model="form.gender">女</el-radio>
             </el-form-item>
             <el-form-item label="邮箱">
-                <el-input v-model="form.mail"></el-input>
+                <el-input v-model="form.email"></el-input>
             </el-form-item>
             <el-form-item label="个性签名">
-                <el-input type="textarea" v-model="form.note" maxlength="40" show-word-limit></el-input>
+                <el-input type="textarea" v-model="form.motto" maxlength="40" show-word-limit></el-input>
             </el-form-item>
         </el-form>
-        <el-form class="workCheck">
+        <!-- <el-form class="workCheck">
             <el-form-item label="工号认证" :model="form" label-width="80px">
                 <el-input type="password" v-model="form.name"></el-input>
                 <el-button type="primary" @click="check()"> 点击认证</el-button>
             </el-form-item>
-        </el-form>
+        </el-form> -->
         <template>
             <div class="operate">
                 <el-button type="primary" @click="edit()"> 编辑个人信息</el-button>
@@ -73,7 +73,12 @@ export default {
             this.disabled = false
         },
         submit() {
+            if(this.disabled === false)
+            {
+                this.$message({ message: '保存成功', type: 'success' })
+            }
             this.disabled = true
+            
         },
         upload()
         {
@@ -84,7 +89,8 @@ export default {
         getUserData(localStorage.getItem('username')).then(res=>{
             if(res.status === 200)
             {
-                
+                console.log(res)
+                this.form = res.data.userData
             }
         })
     }

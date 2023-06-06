@@ -72,8 +72,8 @@ export default {
             password: '',
             total: '',
             code: '-1',
-            Email:{
-                toEmail:"1626450436@qq.com"
+            Email: {
+                toEmail: "1626450436@qq.com"
             },
         }
     },
@@ -122,11 +122,14 @@ export default {
                         if (res.data.userData === null) {
                             this.$message({ message: '用户名不存在', type: 'error' })
                         } else {
-                            this.password = res.data.userData.password
-                            console.log(this.password)
-                            if (this.code === this.form.code) {
+                            console.log(this.code)
+                            console.log(this.form.code)
+                            // this.password = res.data.userData.password
+                            // console.log(this.password)
+                            if (this.code == this.form.code) {
                                 this.$message({ message: '登录成功', type: 'success' })
                                 localStorage.setItem('username', this.form.username)
+                                localStorage.setItem('userid', res.data.userData.id)
                                 console.log(localStorage.getItem('username'))
                                 this.$router.push('/home')
                             } else if (this.form.code === '') {
@@ -144,9 +147,30 @@ export default {
             this.role0 = !this.role0
         },
         send() {
-            sendCode(this.Email).then(res => {
-                console.log(res)
+            getUserData(this.form.username).then(res => {
+                if (this.form.username === '') {
+                    this.$message({ message: '请输入用户名', type: 'error' })
+                } else {
+                    if (res.status === 200) {
+                        this.total = res.data.TotalNumber
+                        if (res.data.userData === null) {
+                            this.$message({ message: '用户名不存在', type: 'error' })
+                        } else {
+                            sendCode(this.Email).then(res => {
+                                console.log(res)
+                                if(res.status === 200)
+                                {
+                                    this.$message({ message: '验证码发送成功', type: 'success' })
+                                    this.code = res.data.toString()
+                                    console.log(this.code)
+
+                                }
+                            })
+                        }
+                    }
+                }
             })
+
         },
         changeToRegi() {
             this.$router.replace('/register')
