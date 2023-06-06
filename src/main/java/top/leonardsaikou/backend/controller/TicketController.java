@@ -106,7 +106,7 @@ public class TicketController
         return "{" + "\"id\":" + "\"" + id + "\"" + "}";
     }
 
-    @ApiOperation("获取某一天的所有票价之和")
+    @ApiOperation("获取获取某一天的售出总额")
     @GetMapping("/totalTicketPrice/{date}")
     public Double getTotalTicketPrice(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
     {
