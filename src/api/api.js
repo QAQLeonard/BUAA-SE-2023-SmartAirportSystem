@@ -1,12 +1,25 @@
+
 import service from "./service";
 //查询可购买机票接口
 export function getFlightAble(params) {
     return service({
         method: 'get',
-        url: '/flight',
+        url: '/flight-available',
         params
     })
 }
+//买机票接口
+export function buyTicket(data){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'post',
+        url:'/ticket',
+        headers: {'Content-Type': 'application/json'},
+        data
+    })
+}
+
 //航司航班发布界面获取所有航班信息接口
 export function getFlightUnpublished(params) {
     return service({
@@ -353,6 +366,14 @@ export function createRID(params){
     return service({
         method:'get',
         url:'/repairRequest-id',
+        params
+    })
+}
+//获取一个新的id
+export function getNewTicketID(params){
+    return service({
+        method:'get',
+        url:'/ticket-id',
         params
     })
 }
