@@ -31,23 +31,19 @@
 
         <el-dialog title="修改请求信息" :visible.sync="dialogFormVisible" width="600px">
             <el-form :model="form" :rules="rules" ref="form">
-                <el-form-item label="报修单号" :label-width="formLabelWidth" prop="id">
-                    <el-input v-model="form.id" autocomplete="off"></el-input>
+                <el-form-item label="位置" :label-width="formLabelWidth" prop="position">
+                    <el-input v-model="form.position" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="位置" :label-width="formLabelWidth" prop="location">
-                    <el-input v-model="form.location" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="维修时间" :label-width="formLabelWidth" prop="time">
-                    <el-date-picker v-model="form.time" format="MM 月 dd 日" value-format="MM-dd" type="date"
+                <el-form-item label="发生时间" :label-width="formLabelWidth" prop="requestDate" align="left">
+                    <el-date-picker v-model="form.requestDate" format="MM 月 dd 日" value-format="MM-dd" type="date"
                         placeholder="选择维修日期">
                     </el-date-picker>
-                    <el-time-picker v-model="form.starttime" :picker-options="{
-                        selectableRange: '00:00:00 - 23:59:59'
-                    }" placeholder="选择维修时间点">
-                    </el-time-picker>
                 </el-form-item>
-                <el-form-item label="报销价格" :label-width="formLabelWidth" prop="consume">
-                    <el-input v-model="form.consume" autocomplete="off"></el-input>
+                <el-form-item label="报销价格" :label-width="formLabelWidth" prop="cost">
+                    <el-input v-model="form.cost" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="报修描述" :label-width="formLabelWidth" prop="description">
+                    <el-input v-model="form.description" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -66,6 +62,7 @@
 import { getrepairrequest } from '@/api/api'
 import { searchrequest } from '@/api/api'
 import { moverepairrequest } from '@/api/api'
+import { editrequest } from '@/api/api'
 export default {
     data() {
         return {
@@ -74,13 +71,7 @@ export default {
             form: {
             },
             rules: {
-                flightId: [{ required: true, message: '请输入航班号' }],
-                departureCity: [{ required: true, message: '请输入起点' }],
-                arrivalCity: [{ required: true, message: '请输入终点' }],
-                departureDateTime: [{ required: true }],
-                arrivalDateTime: [{ required: true }],
-                fare: [{ required: true, message: '请输入航班价格' }],
-                remainingSeats: [{ required: true, message: '请输入航班座位数量' }],
+
             },
             tableData: [],
             currentPage: 1,//当前页数
@@ -118,18 +109,27 @@ export default {
         edit(row) {
             this.dialogFormVisible = true
             this.form = {...row}
+            this.form.id = row.id
+            this.form.reporterId = row.reporterId
+            delete this.form.statetext
         },
         find() {
             console.log(this.formInline)
             this.searchData(this.formInline.id)
         },
-        check(form){
-            console.log(form,this.form)
-            this.$refs[form].validate(valid=>{
-                if(valid){
+        check(form) {
+            console.log(form, this.form)
+            this.$refs[form].validate(valid => {
+                if (valid) {
                     //如果通过，执行对应操作
                     this.dialogFormVisible = false
-                    this.$message({ message: '修改数据成功', type: 'success' })
+                    editrequest(this.form).then(res => {
+                        console.log(res)
+                        if (res.status === 200) {
+                            this.getData()
+                            this.$message({ message: '报修请求信息修改成功', type: 'success' })
+                        }
+                    })
                 }
             })
         },
@@ -156,7 +156,7 @@ export default {
             moverepairrequest(id).then(res => {
                 console.log(res)
                 if (res.status === 200) {
-                    this.$message({ message: '删除航班成功', type: 'success' })
+                    this.$message({ message: '删除报修请求成功', type: 'success' })
                 }
             })
 
