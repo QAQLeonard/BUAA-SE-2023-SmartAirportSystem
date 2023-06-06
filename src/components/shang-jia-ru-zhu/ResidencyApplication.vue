@@ -2,21 +2,13 @@
   <el-form class="elf" label-position="left" label-width="150px" style="max-width: 460px">
     <el-space fill>
       <el-alert type="info" show-icon :closable="false">
-      <p>请输入您要申请的店铺地址</p>
+        <p>请输入您要申请的店铺地址</p>
       </el-alert>
       <el-form-item label="Shop Information">
-          <i class="fa fa-id-card"></i>
-          <el-input
-              v-model="ShopForm.name"
-              label="Shop Name"
-              placeholder="Shop Name"
-            />
-            <el-divider border-style="dashed" />
-            <el-input
-              v-model="ShopForm.storeLocation"
-              label="Shop Location"
-              placeholder="Shop Location"
-            />
+        <i class="fa fa-id-card"></i>
+        <el-input v-model="ShopForm.name" label="Shop Name" placeholder="Shop Name" />
+        <el-divider border-style="dashed" />
+        <el-input v-model="ShopForm.storeLocation" label="Shop Location" placeholder="Shop Location" />
       </el-form-item>
     </el-space>
     <el-divider border-style="dotted" />
@@ -27,35 +19,18 @@
         </p>
       </el-alert>
       <el-form-item label="Your Information">
-      <i class="fa fa-user-o"></i>
-            <el-input
-              v-model="ShopForm.contactPerson"
-              label="Real Name"
-              placeholder="Real Name"
-            />
-            <el-divider border-style="dashed" />
-            <el-input
-              v-model="ShopForm.username"
-              label="User Name"
-              placeholder="User Name"
-            />
-            <el-divider border-style="dashed" />
-            <el-input
-              v-model="ShopForm.contactPhone"
-              label="Contact"
-              placeholder="Contact"
-            />
+        <i class="fa fa-user-o"></i>
+        <el-input v-model="ShopForm.contactPerson" label="Real Name" placeholder="Real Name" />
+        <el-divider border-style="dashed" />
+        <el-input v-model="ShopForm.username" label="User Name" placeholder="User Name" />
+        <el-divider border-style="dashed" />
+        <el-input v-model="ShopForm.contactPhone" label="Contact" placeholder="Contact" />
       </el-form-item>
     </el-space>
     <el-divider border-style="dotted" />
     <template>
-      <el-popconfirm
-        confirm-button-text="Yes"
-        cancel-button-text="No"
-        title="Are you sure to submit this?"
-        @confirm="confirmEvent(ShopForm)"
-        @cancel="cancelEvent()"
-      >
+      <el-popconfirm confirm-button-text="Yes" cancel-button-text="No" title="Are you sure to submit this?"
+        @confirm="confirmEvent(ShopForm)" @cancel="cancelEvent()">
         <template #reference>
           <el-button>Submit</el-button>
         </template>
@@ -69,39 +44,39 @@ import { SubmitMerchantApp, SubmitMerchantAppForm } from '@/api/api'
 
 
 
-export default{
+export default {
   data() {
     return {
-      ShopForm:{
-        id:"",
+      ShopForm: {
+        id: "",
         username: "user1",
         name: "Mikee's Shop",
         contactPerson: "Lee",
         contactPhone: "11112222333",
         storeLocation: "AAAADDDDD"
       },
-      AppForm:{
-      id: "",
-      merchantId: "",
-      storeAddress: "",
-      status: 0,
-      cost: 100
+      AppForm: {
+        id: "",
+        merchantId: "",
+        storeAddress: "",
+        status: 0,
+        cost: 100
       }
-      
+
     }
   },
   methods: {
-      confirmEvent(params){
-      this.AppForm.storeAddress=this.ShopForm.storeLocation;
-      SubmitMerchantAppForm(params).then(res=>{
+    confirmEvent(params) {
+      this.AppForm.storeAddress = this.ShopForm.storeLocation;
+      SubmitMerchantAppForm(params).then(res => {
         console.log(res);
       })
-      SubmitMerchantApp(params).then(res =>{
-      console.log(res);
+      SubmitMerchantApp(params).then(res => {
+        console.log(res);
       })
       //this.$router.replace('/login');
     },
-    cancelEvent(){
+    cancelEvent() {
       console.log("cancel!");
     }
   },
@@ -110,12 +85,13 @@ export default{
 
 </script>
 <style lang="scss" scoped>
-.rsd{
+.rsd {
   width: 100%;
   height: 100%;
   position: relative;
   font-style: oblique;
-  .elf{
+
+  .elf {
     width: 100%;
     height: 100%;
     position: relative;
