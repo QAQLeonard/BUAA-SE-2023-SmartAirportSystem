@@ -9,6 +9,7 @@ import top.leonardsaikou.backend.mapper.RepairRequestMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,9 @@ public class RepairRequestController
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(repairRequest);
+        List<RepairRequest> repairRequestList = new ArrayList<>();
+        repairRequestList.add(repairRequest);
+        String json = objectMapper.writeValueAsString(repairRequestList);
         return "{"+"\"TotalNumber\":" + 1 + ",\"repairRequestData\":"+ json + "}";
     }
 

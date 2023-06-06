@@ -9,6 +9,7 @@ import top.leonardsaikou.backend.mapper.MerchantApplicationMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,11 +40,13 @@ public class MerchantApplicationController
     public String getMerchantApplicationById(@PathVariable String id) throws JsonProcessingException
     {
         MerchantApplication merchantApplication = merchantApplicationMapper.selectById(id);
+        List<MerchantApplication> merchantApplicationsList = new ArrayList<>();
+        merchantApplicationsList.add(merchantApplication);
         //System.out.println(merchantApplication);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        String json = objectMapper.writeValueAsString(merchantApplication);
+        String json = objectMapper.writeValueAsString(merchantApplicationsList);
         return "{"+"\"TotalNumber\":" + 1 + ",\"merchantApplicationData\":"+ json + "}";
     }
 
