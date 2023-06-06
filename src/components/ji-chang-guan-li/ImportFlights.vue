@@ -39,11 +39,11 @@
                 <el-form-item label="航班号" :label-width="formLabelWidth" prop="flightId">
                     <el-input v-model="form.flightId" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="起点" :label-width="formLabelWidth" prop="start">
-                    <el-input v-model="form.start" autocomplete="off"></el-input>
+                <el-form-item label="起点" :label-width="formLabelWidth" prop="departureCity">
+                    <el-input v-model="form.departureCity" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="终点" :label-width="formLabelWidth" prop="destination">
-                    <el-input v-model="form.destination" autocomplete="off"></el-input>
+                <el-form-item label="终点" :label-width="formLabelWidth" prop="arrivalCity">
+                    <el-input v-model="form.arrivalCity" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="出发时间" :label-width="formLabelWidth" prop="departureDateTime">
                     <el-date-picker v-model="form.departureDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
@@ -63,8 +63,8 @@
                     }" placeholder="选择到达时间点">
                     </el-time-picker>
                 </el-form-item>
-                <el-form-item label="价格" :label-width="formLabelWidth" prop="price">
-                    <el-input v-model="form.price" autocomplete="off"></el-input>
+                <el-form-item label="价格" :label-width="formLabelWidth" prop="fare">
+                    <el-input v-model="form.fare" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="总座位" :label-width="formLabelWidth" prop="totalSeats">
                     <el-input v-model="form.totalSeats" autocomplete="off"></el-input>
@@ -72,7 +72,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="c_dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="c_check('form')">确 定</el-button>
+                <el-button type="primary" @click="c_check(form)">确 定</el-button>
             </div>
         </el-dialog>
         <!-- 弹窗2 -->
@@ -114,7 +114,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="check(form)">确 定</el-button>
+                <el-button type="primary" @click="check()">确 定</el-button>
             </div>
         </el-dialog>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -153,25 +153,26 @@ export default {
             total: 15,
             formInline: {
                 id: ''
-            }
+            },
+            id: ''
         }
     },
     methods: {
         getData() {
             //查询数据
             getAllFlight().then(res => {
-                console.log(res)
+                // console.log(res)
                 if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
-                    console.log(this.tableData)
+                    // console.log(this.tableData)
                     this.changeData()
                 }
             })
         },
         searchData(id) {
             searchFlightHS(id).then(res => {
-                console.log(res)
+                // console.log(res)
                 if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
@@ -183,14 +184,14 @@ export default {
             this.c_dialogFormVisible = true
         },
         edit(row) {
-            console.log(row)
+            // console.log(row)
             this.dialogFormVisible = true
             this.form = { ...row }
-            this.form.id = row.id
+            // this.form.id = row.id
             delete this.form.statetext
         },
         find() {
-            console.log(this.formInline)
+            // console.log(this.formInline)
             this.searchData(this.formInline.id)
         },
         Delete(id) {
@@ -209,7 +210,7 @@ export default {
                     //如果通过，执行对应操作
                     this.dialogFormVisible = false
                     editFlight(this.form).then(res => {
-                        console.log(res)
+                        // console.log(res)
                         if (res.status === 200) {
                             this.getData()
                             this.$message({ message: '航班信息修改成功', type: 'success' })
@@ -218,21 +219,38 @@ export default {
                 }
             })
         },
-        c_check(form) {
-            console.log(form, this.form)
-            createFID().then(res2 =>{
-                this.form.id = res2.data
-            })
-            this.form.remainingSeats=this.form.totalSeats
-            this.form.status=0
-            this.c_dialogFormVisible = false
-            createFlight(this.form).then(res => {
-                console.log(res)
+        c_check() {
+            // console.log(form, this.form)
+            createFID().then(res => {
                 if (res.status === 200) {
-                    this.getData()
-                    this.$message({ message: '航班添加成功', type: 'success' })
+                    // this.$set(this.form,'id',res.data.id)
+                    this.form.id = res.data.id
+                    this.form.remainingSeats = this.form.totalSeats
+                    this.form.status = 0
+                    this.c_dialogFormVisible = false
+                    createFlight(this.form).then(res => {
+                        console.log(res)
+                        if (res.status === 200) {
+                            this.getData()
+                            this.$message({ message: '航班添加成功', type: 'success' })
+                        }
+                    })
+                    // console.log(this.id)
                 }
             })
+            //console.log(temp)
+
+            // this.form.id = this.id
+            // this.form.remainingSeats = this.form.totalSeats
+            // this.form.status = 0
+            // this.c_dialogFormVisible = false
+            // createFlight(this.form).then(res => {
+            //     console.log(res)
+            //     if (res.status === 200) {
+            //         this.getData()
+            //         this.$message({ message: '航班添加成功', type: 'success' })
+            //     }
+            // })
         },
         reset() {
             this.formInline = {}
@@ -258,9 +276,9 @@ export default {
         },
     },
     computed: {
-        // comData() {
-        //     return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
-        // }
+        comData() {
+            return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+        }
     }, created() {
         this.getData()
     },

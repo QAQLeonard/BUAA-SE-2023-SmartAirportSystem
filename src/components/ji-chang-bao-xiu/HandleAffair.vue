@@ -34,9 +34,9 @@
                 <el-form-item label="位置" :label-width="formLabelWidth" prop="position">
                     <el-input v-model="form.position" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="发生时间" :label-width="formLabelWidth" prop="requestDate" align="left">
-                    <el-date-picker v-model="form.requestDate" format="MM 月 dd 日" value-format="MM-dd" type="date"
-                        placeholder="选择维修日期">
+                <el-form-item label="维修日期" :label-width="formLabelWidth" prop="requestDate" align="left">
+                    <el-date-picker v-model="form.requestDate" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+                        type="date" placeholder="选择维修日期">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="报销价格" :label-width="formLabelWidth" prop="cost">
@@ -92,6 +92,7 @@ export default {
                     this.total = res.data.TotalNumber
                     console.log(this.tableData)
                     this.changeData()
+                    //localStorage.getItem('userid')
                 }
             })
         },
@@ -156,7 +157,7 @@ export default {
             moverepairrequest(id).then(res => {
                 console.log(res)
                 if (res.status === 200) {
-                    this.$message({ message: '删除报修请求成功', type: 'success' })
+                    this.$message({ message: '删除报修请求成功', type: 'danger' })
                 }
             })
 

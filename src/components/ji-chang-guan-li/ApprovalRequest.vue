@@ -12,7 +12,6 @@
             <el-table-column label="操作" align="center" width="180px">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -38,14 +37,13 @@
             <el-table-column label="操作" align="center" width="180px">
                 <template slot-scope="scope">
                     <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit2(scope.row)"></el-button>
-                    <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
         <el-dialog title="是否通过商家请求？" :visible.sync="shangjia_dialogFormVisible" width="600px">
             <div slot="footer" class="dialog-footer" align="center">
-                <el-button type="primary" @click="merchantycheck('form')" align="center">通 过</el-button>
-                <el-button type="primary" @click="merchantncheck('form')" align="center">拒 绝</el-button>
+                <el-button type="primary" @click="merchantycheck(form)" align="center">通 过</el-button>
+                <el-button type="primary" @click="merchantncheck(form)" align="center">拒 绝</el-button>
                 <el-button @click="shangjia_dialogFormVisible = false" align="center">取 消</el-button>
             </div>
       </el-dialog>
@@ -61,6 +59,7 @@
 import { getAllMAC } from '@/api/api'
 import { getrepairrequest } from '@/api/api'
 import { editrequest } from '@/api/api'
+import { editMAC } from '@/api/api'
   export default {
       data() {
           return {
@@ -183,15 +182,25 @@ import { editrequest } from '@/api/api'
                 this.baoxiu_dialogFormVisible = false
                 this.getData()
           },
-          check(form){
-              console.log(form,this.form)
-              this.$refs[form].validate(valid=>{
-                  if(valid){
-                      //如果通过，执行对应操作
-                      this.dialogFormVisible = false
-                      this.$message({ message: '修改数据成功', type: 'success' })
-                  }
-              })
+          merchantycheck(form){
+                console.log(form,this.form)
+                this.form.status=1
+                editMAC(this.form).then(res => {
+                        console.log(res)
+                    })
+                this.$message({ message: '商家请求通过', type: 'success' })
+                this.shangjia_dialogFormVisible = false
+                this.getData()
+          },
+          merchantncheck(form){
+                console.log(form,this.form)
+                this.form.status=2
+                editMAC(this.form).then(res => {
+                        console.log(res)
+                    })
+                this.$message({ message: '商家请求拒绝', type: 'danger' })
+                this.shangjia_dialogFormVisible = false
+                this.getData()
           },
           reset() {
               this.formInline = {}
@@ -212,7 +221,7 @@ import { editrequest } from '@/api/api'
           },
           changeData2() {
               this.tableData2.forEach(item => {
-                  item.status === 1 ? (item.statetext = '已审批') :  (item.statetext = '未审批')
+                item.status === 0 ? (item.statetext = '未审批') :  (item.status === 1 ? (item.statetext = '已通过'):(item.statetext = '被拒绝'))
               });
           },
           del(row) {

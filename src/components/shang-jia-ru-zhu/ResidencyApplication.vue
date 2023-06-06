@@ -88,8 +88,8 @@ export default {
       this.AppForm.storeAddress=this.ShopForm.storeLocation;
       UserID(this.ShopForm.username).then(res=>{
         console.log(res);
-        //this.AppForm.merchantId=res.data.userData.id;
-        this.AppForm.merchantId=this.ShopForm.id
+        this.AppForm.merchantId=res.data.userData.id;
+        //this.AppForm.merchantId=this.ShopForm.id
         this.AppForm.id='MA'+this.AppForm.merchantId.slice(1);
       })
       SubmitMerchantAppForm(this.AppForm).then(res=>{

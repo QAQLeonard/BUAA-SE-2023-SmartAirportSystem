@@ -26,7 +26,7 @@
                         </el-option>
                     </el-select>
                     </el-form-item>
-                    <el-form-item label="工号" prop="motto">
+                    <el-form-item label="工号" prop="motto" :visible="false" >
                         <el-input  v-model="employeeid"  placeholder="仅限employee填写" :disabled='false'></el-input>
                     </el-form-item>
                     <el-form-item label="用户名" prop="username">
@@ -144,15 +144,16 @@ export default {
         RegForm:{
             username:'',
             password:'',
-            id:'',
             avatar:'avatar11',
             role:'',
+            id:'M101',
             email:'',
             motto:'',
             gender:''
         },
         imageUrl: '',
-        code:'',
+        code:'111',
+        IDD:'',
         Email: {
                 toEmail: "1626450436@qq.com"
             },
@@ -202,18 +203,28 @@ export default {
                 if(this.value=='passenger')
                 {
                     PassengerID().then(res=>{
-                        this.RegForm.id=res;
+                        this.RegForm.id=res.data.id;
+                        InsertUser(this.RegForm).then(res=>{
+                    console.log('222');
+                    console.log(res);
+                })
                     })
-                }else if(this.value='merchant'){
+                }else if(this.value=='merchant'){
                     MerchantID().then(res=>{
-                        this.RegForm.id=res;
-                    })
+                        console.log(res);
+                        //this.IDD=res.data;
+                        this.RegForm.id=res.data.id;
+                        //this.RegForm.id='M102';
+                        console.log(this.RegForm.id);
+                        InsertUser(this.RegForm).then(res=>{
+                    console.log('222');
+                    console.log(res);
+                })
+                })
                 }else{
                     this.RegForm.id=this.employeeid;
                 }
-                InsertUser(this.RegForm).then(res=>{
-                    console.log(res);
-                })
+                //console.log(this.RegForm.id);
                 this.$router.replace('/login');
             } else {
                 console.log('error submit!!');
@@ -268,5 +279,8 @@ export default {
     width: 178px;
     height: 178px;
     display: block;
+  }
+  .el-form-item{
+    width:50%;
   }
 </style>
