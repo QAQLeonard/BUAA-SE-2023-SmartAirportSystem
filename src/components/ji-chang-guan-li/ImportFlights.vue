@@ -29,14 +29,13 @@
             <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row)"></el-button>
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
         <!-- 弹窗1-->
-                <el-dialog title="创建航班信息" :visible.sync="c_dialogFormVisible" width="600px">
-            <el-form :model="c_form" :rules="rules" ref="form">
+        <el-dialog title="创建航班信息" :visible.sync="c_dialogFormVisible" width="600px">
+            <el-form :model="form" :rules="rules" ref="form">
                 <el-form-item label="航班号" :label-width="formLabelWidth" prop="id">
                     <el-input v-model="form.id" autocomplete="off"></el-input>
                 </el-form-item>
@@ -73,7 +72,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="c_dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="c_check('c_form')">确 定</el-button>
+                <el-button type="primary" @click="c_check('form')">确 定</el-button>
             </div>
         </el-dialog>
         <!-- 弹窗2 -->
@@ -115,7 +114,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="check('form')">确 定</el-button>
+                <el-button type="primary" @click="check(form)">确 定</el-button>
             </div>
         </el-dialog>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -133,7 +132,7 @@ import { createFlight } from '@/api/api'
 export default {
     data() {
         return {
-            formLabelWidth:'120px',
+            formLabelWidth: '120px',
             dialogFormVisible: false,
             c_dialogFormVisible: false,
             form: {
@@ -179,8 +178,8 @@ export default {
                 }
             })
         },
-        addListener(){
-            this.c_dialogFormVisible=true
+        addListener() {
+            this.c_dialogFormVisible = true
         },
         edit(row) {
             console.log(row)
@@ -226,12 +225,12 @@ export default {
                 }
             })
         },
-        c_check(form){
+        check(form) {
             console.log(form, this.form)
             this.$refs[form].validate(valid => {
                 if (valid) {
                     //如果通过，执行对应操作
-                    this.c_dialogFormVisible = false
+                    this.dialogFormVisible = false
                     createFlight(this.form).then(res => {
                         console.log(res)
                         if (res.status === 200) {
@@ -256,7 +255,7 @@ export default {
         },
         changeData() {
             this.tableData.forEach(item => {
-                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') :item.status === 3 ? (item.statetext = '飞行中') :item.status === 4 ? (item.statetext = '已到达') :item.status === 5 ? (item.statetext = '航班延迟') :item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') : item.status === 3 ? (item.statetext = '飞行中') : item.status === 4 ? (item.statetext = '已到达') : item.status === 5 ? (item.statetext = '航班延迟') : item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         },
         del(row) {

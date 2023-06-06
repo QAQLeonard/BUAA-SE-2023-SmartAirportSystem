@@ -15,9 +15,10 @@
         </el-form>
         <el-table :data="comData" border style="width: 100%">
             <el-table-column prop="id" label="报修单号" align="center"></el-table-column>
-            <el-table-column prop="location" label="位置" align="center"></el-table-column>
-            <el-table-column prop="time" label="发生时间" align="center"></el-table-column>
-            <el-table-column prop="consume" label="报销价格" align="center"></el-table-column>
+            <el-table-column prop="reporterId" label="报修员工号" align="center"></el-table-column>
+            <el-table-column prop="position" label="位置" align="center"></el-table-column>
+            <el-table-column prop="requestDate" label="发生时间" align="center"></el-table-column>
+            <el-table-column prop="cost" label="报销价格" align="center"></el-table-column>
             <el-table-column prop="description" label="描述" align="center"></el-table-column>
             <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
             <el-table-column label="操作" align="center" width="180px">
@@ -55,9 +56,9 @@
             </div>
         </el-dialog>
 
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
-            :total="total" align="left">
+            :total="total">
         </el-pagination>
     </div>
 </template>
@@ -68,35 +69,25 @@ import { moverepairrequest } from '@/api/api'
 export default {
     data() {
         return {
+            formLabelWidth:'120px',
             dialogFormVisible: false,
             form: {
-                id: "",
-                start: "",
-                destination: "",
-                starttime: '',
-                endtime: '',
-                price: '',
-                seat: '',
-
             },
             rules: {
-                id: [{required:true,message:'请输入航班号'}],
-                start: [{required:true,message:'请输入起点'}],
-                destination: [{required:true,message:'请输入终点'}],
-                starttime: [{required:true}],
-                endtime: [{required:true}],
-                price:[{required:true,message:'请输入航班价格'}],
-                seat: [{required:true,message:'请输入航班座位数量'}],
+                flightId: [{ required: true, message: '请输入航班号' }],
+                departureCity: [{ required: true, message: '请输入起点' }],
+                arrivalCity: [{ required: true, message: '请输入终点' }],
+                departureDateTime: [{ required: true }],
+                arrivalDateTime: [{ required: true }],
+                fare: [{ required: true, message: '请输入航班价格' }],
+                remainingSeats: [{ required: true, message: '请输入航班座位数量' }],
             },
             tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
-            total: 30,
+            total: 15,
             formInline: {
                 id: ''
-            },
-            form:{
-                name:"zhangsan "
             }
         }
     },
@@ -106,7 +97,7 @@ export default {
             getrepairrequest().then(res => {
                 console.log(res)
                 if (res.status === 200) {
-                    this.tableData = res.data.requestData
+                    this.tableData = res.data.repairRequestData
                     this.total = res.data.TotalNumber
                     console.log(this.tableData)
                     this.changeData()
@@ -117,8 +108,9 @@ export default {
             searchrequest(id).then(res => {
                 console.log(res)
                 if (res.status === 200) {
-                    this.tableData = res.data.flightData
+                    this.tableData = res.data.repairRequestData
                     this.total = res.data.TotalNumber
+                    console.log(this.tableData)
                     this.changeData()
                 }
             })
@@ -154,8 +146,10 @@ export default {
             console.log(`当前页: ${val}`);
         },
         changeData() {
+            this.tableData=Array.from(this.tableData)
+            console.log(this.tableData)
             this.tableData.forEach(item => {
-                item.state === 1 ? (item.statetext = '已审批') :  (item.statetext = '未审批')
+                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') :item.status === 3 ? (item.statetext = '飞行中') :item.status === 4 ? (item.statetext = '已到达') :item.status === 5 ? (item.statetext = '航班延迟') :item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         },
         Delete(id) {
@@ -178,7 +172,7 @@ export default {
             return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
         }
     }, created() {
-        this.changeData()
+        this.getData()
     },
 }
 </script>

@@ -52,7 +52,7 @@ export default {
               starttime:null,
               finishtime:null,
               parkid:'',
-              period:0,
+              period:'0',
               id2:''
           }
       }

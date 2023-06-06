@@ -194,7 +194,7 @@ export function getAllParking(params) {
 export function searchParkingTB(id) {
     return service({
         method: 'get',
-        url: `/parkingSpace/${id}`,
+        url: `/parkingLot/${id}`,
         id
     })
 }
@@ -202,7 +202,7 @@ export function searchParkingTB(id) {
 export function searchParkingTB1(id,start) {
     return service({
         method: 'get',
-        url: `/parkingSpace/${id}/${start}`,
+        url: `/parkingLot/${id}/${start}`,
         id,
         start 
     })
@@ -216,6 +216,30 @@ export function updateParking(id,start,finish) {
         id,
         start,
         finish
+    })
+}
+
+export function PassengerID(params) {
+    return service({
+        method: 'get',
+        url: '/passenger-id',
+        params
+    })
+}
+
+export function MerchantID(params) {
+    return service({
+        method: 'get',
+        url: '/merchant-id',
+        params
+    })
+}
+
+export function UserID(username) {
+    return service({
+        method: 'get',
+        url: `/user/${username}`,
+        username
     })
 }
 
@@ -238,14 +262,14 @@ export function searchrequest(id){
     })
 }
 //创建请求界面创建报修接口
-export function createrepairrequest(){
+export function createrepairrequest(data){
     data = JSON.stringify(data)
     console.log(data)
     return service({
-        method:'put',
+        method:'post',
         url:'/repairRequest',
-        headers:{},
-        data
+        headers:{'Content-Type': 'application/json'},
+        data:data
     })
 }
 //删除报修接口
@@ -274,7 +298,7 @@ export function createFlight(data){
     data = JSON.stringify(data)
     console.log(data)
     return service({
-        method:'put',
+        method:'post',
         url:'/flight',
         headers:{'Content-Type': 'application/json'},
         data
@@ -284,3 +308,29 @@ export function createFlight(data){
 //71
 //修改航班
 //106
+
+//获取所有商家请求信息
+export function getAllMAC(params){
+    return service({
+        method:'get',
+        url:'/merchantApplication',
+        params
+    })
+}
+
+//得到一个新的FlightId
+export function createFID(params){
+    return service({
+        method:'get',
+        url:'/flight-id',
+        params
+    })
+}
+//得到某日的金额
+export function getfinance(date){
+    return service({
+        method:'get',
+        url: `/totalTicketPrice/${date}`,
+        date
+    })
+}
