@@ -149,7 +149,7 @@ export default {
             this.tableData=Array.from(this.tableData)
             console.log(this.tableData)
             this.tableData.forEach(item => {
-                item.status === 1 ? (item.statetext = '已发布') : item.status === 2 ? (item.statetext = '正在检票') :item.status === 3 ? (item.statetext = '飞行中') :item.status === 4 ? (item.statetext = '已到达') :item.status === 5 ? (item.statetext = '航班延迟') :item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
+                item.status === 0 ? (item.statetext = '未审批') :  (item.status === 1 ? (item.statetext = '已通过'):(item.statetext = '被拒绝'))
             });
         },
         Delete(id) {

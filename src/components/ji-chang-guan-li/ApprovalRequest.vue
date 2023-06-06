@@ -16,14 +16,15 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total" align="left">
         </el-pagination>
       </el-tab-pane>
-      <el-dialog title="是否确定通过报修请求？" :visible.sync="baoxiu_dialogFormVisible" width="600px">
+      <el-dialog title="是否通过报修请求？" :visible.sync="baoxiu_dialogFormVisible" width="600px">
             <div slot="footer" class="dialog-footer" align="center">
-                <el-button type="primary" @click="check('form')" align="center">确 定</el-button>
+                <el-button type="primary" @click="requestycheck(form)" align="center">通 过</el-button>
+                <el-button type="primary" @click="requestncheck(form)" align="center">拒 绝</el-button>
                 <el-button @click="baoxiu_dialogFormVisible = false" align="center">取 消</el-button>
             </div>
       </el-dialog>
@@ -41,14 +42,15 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog title="是否确定通过商家请求？" :visible.sync="shangjia_dialogFormVisible" width="600px">
+        <el-dialog title="是否通过商家请求？" :visible.sync="shangjia_dialogFormVisible" width="600px">
             <div slot="footer" class="dialog-footer" align="center">
-                <el-button type="primary" @click="check('form')" align="center">确 定</el-button>
+                <el-button type="primary" @click="merchantycheck('form')" align="center">通 过</el-button>
+                <el-button type="primary" @click="merchantncheck('form')" align="center">拒 绝</el-button>
                 <el-button @click="shangjia_dialogFormVisible = false" align="center">取 消</el-button>
             </div>
       </el-dialog>
-        <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2" :current-page="currentPage2"
-            :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize2" layout="total, sizes, prev, pager, next, jumper"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total2" align="left">
         </el-pagination>
       </el-tab-pane>
@@ -58,6 +60,7 @@
   <script>
 import { getAllMAC } from '@/api/api'
 import { getrepairrequest } from '@/api/api'
+import { editrequest } from '@/api/api'
   export default {
       data() {
           return {
@@ -142,6 +145,44 @@ import { getrepairrequest } from '@/api/api'
           find() {
   
           },
+        //   requestycheck(form) {
+        //     console.log(form, this.form)
+        //     this.baoxiu_dialogFormVisible = false
+        //     this.$refs[form].validate(valid => {
+        //         if (valid) {
+        //             //如果通过，执行对应操作
+        //             this.form.status=1
+        //             this.baoxiu_dialogFormVisible = false
+                    // editrequest(this.form).then(res => {
+                    //     console.log(res)
+                    //     if (res.status === 200) {
+                    //         this.getData()
+                    //         this.$message({ message: '航班信息修改成功', type: 'success' })
+                    //     }
+                    // })
+        //         }
+        //     })
+        // },
+          requestycheck(form){
+                console.log(form,this.form)
+                this.form.status=1
+                editrequest(this.form).then(res => {
+                        console.log(res)
+                    })
+                this.$message({ message: '报修请求通过', type: 'success' })
+                this.baoxiu_dialogFormVisible = false
+                this.getData()
+          },
+          requestncheck(form){
+                console.log(form,this.form)
+                this.form.status=2
+                editrequest(this.form).then(res => {
+                        console.log(res)
+                    })
+                this.$message({ message: '报修请求拒绝', type: 'danger' })
+                this.baoxiu_dialogFormVisible = false
+                this.getData()
+          },
           check(form){
               console.log(form,this.form)
               this.$refs[form].validate(valid=>{
@@ -160,22 +201,13 @@ import { getrepairrequest } from '@/api/api'
               this.currentPage = 1
               console.log(`每页 ${val} 条`);
           },
-          handleSizeChange2(val) {
-              this.pageSize2 = val
-              this.currentPage2 = 1
-              console.log(`每页 ${val} 条`);
-          },
           handleCurrentChange(val) {
               this.currentPage = val
               console.log(`当前页: ${val}`);
           },
-          handleCurrentChange2(val) {
-              this.currentPage2 = val
-              console.log(`当前页: ${val}`);
-          },
           changeData() {
               this.tableData.forEach(item => {
-                  item.status === 1 ? (item.statetext = '已审批') :  (item.statetext = '未审批')
+                  item.status === 0 ? (item.statetext = '未审批') :  (item.status === 1 ? (item.statetext = '已通过'):(item.statetext = '被拒绝'))
               });
           },
           changeData2() {

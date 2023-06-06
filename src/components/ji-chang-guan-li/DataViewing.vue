@@ -13,7 +13,7 @@
         </el-form>
         <el-table :data="comData" border style="width: 100%">
             <el-table-column type="index" :index="computetableindex" width="60" align="center"></el-table-column>>
-            <el-table-column prop="Date" label="日期" align="center"></el-table-column>
+            <el-table-column prop="date" label="日期" align="center"></el-table-column>
             <el-table-column prop="money" label="金额" align="center"></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
@@ -30,30 +30,33 @@ export default {
             form: {
 
             },
-            tableData: [{
-                id: "F101"
-            }, {
-                id: "F102"
-            }, {
-                id: "F103"
-            },{
-                id: "F104"
-            },],
+            tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
-            total: 7,
+            total: 5,
         }
     },
     methods: {
-        find() {
-            console.log(this.form)
+        new_find(){
             getfinance(this.form.sDate).then(res => {
                 console.log(res)
                 if (res.status === 200) {
                     this.tableData = res.data.ticketData
                     this.total = res.data.TotalNumber
                     console.log(this.tableData)
-                    this.changeData()
+                    //this.changeData()
+                }
+            })
+        },
+        find(form) {
+            console.log(this.form.sDate)
+            getfinance(this.form.sDate).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.tableData = res.data.ticketData
+                    this.total = res.data.TotalNumber
+                    console.log(this.tableData)
+                    //this.changeData()
                 }
             })
         },
@@ -78,7 +81,7 @@ export default {
             return (this.page - 1) * this.pageSize + index + 1
         },
     }, created() {
-        this.changeData()
+        
     },
 }
 </script>

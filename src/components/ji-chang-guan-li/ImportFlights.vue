@@ -26,7 +26,7 @@
             <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column>
             <el-table-column prop="fare" label="价格" align="center"></el-table-column>
             <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
-            <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
+            <el-table-column prop="totalSeats" label="总座位" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button type="danger" size="mini" icon="el-icon-delete" @click="del(scope.row)"></el-button>
@@ -36,8 +36,8 @@
         <!-- 弹窗1-->
         <el-dialog title="创建航班信息" :visible.sync="c_dialogFormVisible" width="600px">
             <el-form :model="form" :rules="rules" ref="form">
-                <el-form-item label="航班号" :label-width="formLabelWidth" prop="id">
-                    <el-input v-model="form.id" autocomplete="off"></el-input>
+                <el-form-item label="航班号" :label-width="formLabelWidth" prop="flightId">
+                    <el-input v-model="form.flightId" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="起点" :label-width="formLabelWidth" prop="start">
                     <el-input v-model="form.start" autocomplete="off"></el-input>
@@ -45,20 +45,20 @@
                 <el-form-item label="终点" :label-width="formLabelWidth" prop="destination">
                     <el-input v-model="form.destination" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="出发时间" :label-width="formLabelWidth" prop="starttime">
-                    <el-date-picker v-model="form.starttime" format="MM 月 dd 日" value-format="MM-dd" type="date"
-                        placeholder="选择出发日期">
+                <el-form-item label="出发时间" :label-width="formLabelWidth" prop="departureDateTime">
+                    <el-date-picker v-model="form.departureDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+                        type="date" placeholder="选择出发日期">
                     </el-date-picker>
-                    <el-time-picker v-model="form.starttime" :picker-options="{
+                    <el-time-picker v-model="form.departureDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
                     }" placeholder="选择出发时间点">
                     </el-time-picker>
                 </el-form-item>
-                <el-form-item label="到达时间" :label-width="formLabelWidth" prop="endtime">
-                    <el-date-picker v-model="form.endtime" format="MM 月 dd 日" value-format="MM-dd" type="date"
-                        placeholder="选择到达日期">
+                <el-form-item label="到达时间" :label-width="formLabelWidth" prop="arrivalDateTime">
+                    <el-date-picker v-model="form.arrivalDateTime" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+                        type="date" placeholder="选择到达日期">
                     </el-date-picker>
-                    <el-time-picker v-model="form.endtime" :picker-options="{
+                    <el-time-picker v-model="form.arrivalDateTime" :picker-options="{
                         selectableRange: '00:00:00 - 23:59:59'
                     }" placeholder="选择到达时间点">
                     </el-time-picker>
@@ -66,8 +66,8 @@
                 <el-form-item label="价格" :label-width="formLabelWidth" prop="price">
                     <el-input v-model="form.price" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="剩余座位" :label-width="formLabelWidth" prop="seat">
-                    <el-input v-model="form.seat" autocomplete="off"></el-input>
+                <el-form-item label="总座位" :label-width="formLabelWidth" prop="totalSeats">
+                    <el-input v-model="form.totalSeats" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -124,11 +124,12 @@
     </div>
 </template>
 <script>
-import { getFlightAble } from '@/api/api'
+import { getAllFlight } from '@/api/api'
 import { searchFlightHS } from '@/api/api'
 import { deleteFlight } from '@/api/api'
 import { editFlight } from '@/api/api'
 import { createFlight } from '@/api/api'
+import { createFID } from '@/api/api'
 export default {
     data() {
         return {
@@ -158,7 +159,7 @@ export default {
     methods: {
         getData() {
             //查询数据
-            getFlightAble().then(res => {
+            getAllFlight().then(res => {
                 console.log(res)
                 if (res.status === 200) {
                     this.tableData = res.data.flightData
@@ -187,14 +188,6 @@ export default {
             this.form = { ...row }
             this.form.id = row.id
             delete this.form.statetext
-            // this.form.flightId = { ...row.flightId }
-            // this.form.departureCity = { ...row.departureCity }
-            // this.form.arrivalCity = { ...row.arrivalCity }
-            // this.form.departureDateTime = { ...row.departureDateTime }
-            // this.form.arrivalDateTime = { ...row.arrivalDateTime }
-            // this.form.fare = { ...row.fare }
-            // this.form.remainingSeats = { ...row.remainingSeats }
-            // this.form.totalSeats = { ...row.totalSeats }
         },
         find() {
             console.log(this.formInline)
@@ -225,19 +218,19 @@ export default {
                 }
             })
         },
-        check(form) {
+        c_check(form) {
             console.log(form, this.form)
-            this.$refs[form].validate(valid => {
-                if (valid) {
-                    //如果通过，执行对应操作
-                    this.dialogFormVisible = false
-                    createFlight(this.form).then(res => {
-                        console.log(res)
-                        if (res.status === 200) {
-                            this.getData()
-                            this.$message({ message: '航班添加成功', type: 'success' })
-                        }
-                    })
+            createFID().then(res2 =>{
+                this.form.id = res2.data
+            })
+            this.form.remainingSeats=this.form.totalSeats
+            this.form.status=0
+            this.c_dialogFormVisible = false
+            createFlight(this.form).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    this.getData()
+                    this.$message({ message: '航班添加成功', type: 'success' })
                 }
             })
         },
@@ -265,9 +258,9 @@ export default {
         },
     },
     computed: {
-        comData() {
-            return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
-        }
+        // comData() {
+        //     return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+        // }
     }, created() {
         this.getData()
     },
