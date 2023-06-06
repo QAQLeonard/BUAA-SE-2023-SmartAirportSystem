@@ -3,7 +3,7 @@ import service from "./service";
 export function getFlightAble(params) {
     return service({
         method: 'get',
-        url: '/flight-available',
+        url: '/flight',
         params
     })
 }
@@ -32,6 +32,7 @@ export function searchFlightHS(id) {
         id
     })
 }
+
 
 //航司已发布界面获取所有航班信息接口
 export function getFlightPublished(params) {
@@ -75,6 +76,7 @@ export function deleteFlight(id) {
         id
     })
 }
+
 
 //航班发布界面移动航班到回收站
 export function moveUnpublishedToBin(id) {
@@ -267,7 +269,7 @@ export function moverepairrequest(id){
     })
 }
 //改变报修接口
-export function changerepairrequest(data){
+export function editrequest(data){
     data = JSON.stringify(data)
     console.log(data)
     return service({
