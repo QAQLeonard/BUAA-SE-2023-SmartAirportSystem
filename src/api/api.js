@@ -1,23 +1,9 @@
-
 import service from "./service";
-//发送验证码的接口
-export function sendCode(data){
-    data=JSON.stringify(data);
-    // data="\""+data+"\""
-    // data= String.toString(data)
-    console.log(data);
-    return service({
-        method:'post',
-        url:'/send-email',
-        headers: {'Content-Type': 'application/json'},
-        data
-    })
-}
 //查询可购买机票接口
 export function getFlightAble(params) {
     return service({
         method: 'get',
-        url: '/flight-available',
+        url: '/flight',
         params
     })
 }
@@ -271,7 +257,7 @@ export function createrepairrequest(data){
         method:'post',
         url:'/repairRequest',
         headers:{'Content-Type': 'application/json'},
-        data:data
+        data
     })
 }
 //删除报修接口
@@ -282,13 +268,23 @@ export function moverepairrequest(id){
         id
     })
 }
-//改变报修接口
+//编辑报修接口，商家请求
 export function editrequest(data){
     data = JSON.stringify(data)
     console.log(data)
     return service({
         method:'put',
         url:'/repairRequest',
+        headers: {'Content-Type': 'application/json'},
+        data
+    })
+}
+export function editMAC(data){
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method:'put',
+        url:'/merchantApplication',
         headers: {'Content-Type': 'application/json'},
         data
     })
@@ -321,18 +317,25 @@ export function getAllMAC(params){
 }
 
 //得到一个新的FlightId
-export function createFID(params){
+export function createFID(){
     return service({
         method:'get',
-        url:'/flight-id',
-        params
+        url:'/flight-id'
     })
 }
 //得到某日的金额
 export function getfinance(date){
     return service({
         method:'get',
-        url: `/totalTicketPrice/${date}`,
+        url: `/weekTicketPrice/${date}`,
         date
+    })
+}
+//得到一个新的RRID
+export function createRID(params){
+    return service({
+        method:'get',
+        url:'/repairRequest-id',
+        params
     })
 }

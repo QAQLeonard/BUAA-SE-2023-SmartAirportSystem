@@ -12,11 +12,10 @@
             </el-form-item>
         </el-form>
         <el-table :data="comData" border style="width: 100%">
-            <el-table-column type="index" :index="computetableindex" width="60" align="center"></el-table-column>>
             <el-table-column prop="date" label="日期" align="center"></el-table-column>
             <el-table-column prop="money" label="金额" align="center"></el-table-column>
         </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total" align="left">
         </el-pagination>
@@ -37,8 +36,16 @@ export default {
         }
     },
     methods: {
-        new_find(){
-            getfinance(this.form.sDate).then(res => {
+        new_find() {
+            let myDate = new Date()
+            myDate.setDate(myDate.getDate() - 6)
+            //myDate.format("YYYY-MM-DD")
+            const year = myDate.getFullYear();
+            const month = myDate.getMonth() + 1;
+            const day = myDate.getDate();
+            const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+            console.log(formattedDate)
+            getfinance(formattedDate).then(res => {
                 console.log(res)
                 if (res.status === 200) {
                     this.tableData = res.data.ticketData
@@ -48,7 +55,7 @@ export default {
                 }
             })
         },
-        find(form) {
+        find() {
             console.log(this.form.sDate)
             getfinance(this.form.sDate).then(res => {
                 console.log(res)
@@ -77,11 +84,8 @@ export default {
         comData() {
             return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
         },
-        computetableindex(index) {
-            return (this.page - 1) * this.pageSize + index + 1
-        },
     }, created() {
-        
+        this.new_find()
     },
 }
 </script>
