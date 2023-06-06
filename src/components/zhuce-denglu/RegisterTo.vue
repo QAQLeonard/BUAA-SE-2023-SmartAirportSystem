@@ -42,15 +42,15 @@
                     <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder="确认密码"></el-input>
                     </el-form-item>
                     <el-form-item label="邮箱" prop="phoneNumber">
-                    <el-input type="tel" v-model="ruleForm.phoneNumber" id="phone" name="phone">
+                    <el-input  v-model="ruleForm.phoneNumber" >
                     </el-input>
-                    <!-- <el-button id="sendCodeBtn" type="info" round> -->
-                    <!-- 发送验证码 -->
-                    <!-- </el-button> -->
+                    <el-button @click="send()" type="info" round>
+                    发送验证码
+                    </el-button>
                     </el-form-item>
-                    <!-- <el-form-item label="验证码" prop="account"> -->
-                    <!-- <el-input v-model="ruleForm.Checkcode"></el-input> -->
-                    <!-- </el-form-item> -->
+                    <el-form-item label="验证码" prop="account">
+                    <el-input v-model="ruleForm.Checkcode"></el-input>
+                    </el-form-item>
                     <el-form-item label="motto" prop="motto">
                         <el-input  v-model="ruleForm.motoo"  placeholder="motoo"></el-input>
                     </el-form-item>
@@ -65,7 +65,7 @@
     </div>
 </template>
 <script>
-import { InsertUser, MerchantID } from '@/api/api';
+import { InsertUser, MerchantID,sendCode } from '@/api/api';
 export default {
     data() {
         
@@ -135,10 +135,10 @@ export default {
         ruleForm: {
             pass: 'Ss111111',
             checkPass: 'Ss111111',
-            phoneNumber:'111',
+            phoneNumber:"",
             username:'user30',
             Gender:'male',
-            Checkcode:'111',
+            Checkcode:'',
             motto:''
         },
         RegForm:{
@@ -152,6 +152,10 @@ export default {
             gender:''
         },
         imageUrl: '',
+        code:'',
+        Email: {
+                toEmail: "1626450436@qq.com"
+            },
         rules: {
             password: [
                 { validator: validatePass, trigger: 'blur' }
@@ -166,6 +170,19 @@ export default {
         };
     },
     methods: {
+        send() {
+            this.Email.toEmail=this.ruleForm.phoneNumber;
+            sendCode(this.Email).then(res => {
+                                console.log(res)
+                                if(res.status === 200)
+                                {
+                                    this.$message({ message: '验证码发送成功', type: 'success' })
+                                    this.code = res.data.toString()
+                                    console.log(this.code)
+                                }
+                            })
+
+        },
         fuck(){
             if(this.value=='employee'){
                 this.flag='false';
@@ -173,7 +190,7 @@ export default {
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
-            if (valid) {
+            if (valid&&this.code==this.ruleForm.Checkcode) {
                 alert('submit!');
                 this.RegForm.gender=this.ruleForm.Gender;
                 this.RegForm.password=this.ruleForm.pass;
