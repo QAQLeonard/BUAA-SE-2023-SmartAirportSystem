@@ -13,17 +13,20 @@ import java.io.File;
 import java.io.IOException;
 
 @RestController
-public class FileController {
+public class FileController
+{
 
     private final FileMapper fileMapper;
 
-    public FileController(FileMapper fileMapper) {
+    public FileController(FileMapper fileMapper)
+    {
         this.fileMapper = fileMapper;
     }
 
     @ApiOperation("上传头像")
     @PostMapping("/upload/{username}")
-    public String upload(@PathVariable String username, MultipartFile avater, HttpServletRequest request) throws IOException {
+    public String upload(@PathVariable String username, MultipartFile avater, HttpServletRequest request) throws IOException
+    {
 
         String path = request.getServletContext().getRealPath("/images/");
         saveFile(avater, path);
@@ -33,12 +36,14 @@ public class FileController {
         return "success";
     }
 
-    public void saveFile(MultipartFile file, String path) throws IOException {
+    public void saveFile(MultipartFile file, String path) throws IOException
+    {
         File dest = new File(path);
-        if(!dest.exists()){
+        if (!dest.exists())
+        {
             dest.mkdirs();
         }
-        File file1 = new File(path+file.getOriginalFilename());
+        File file1 = new File(path + file.getOriginalFilename());
         file.transferTo(file1);
     }
 

@@ -132,9 +132,9 @@ public class TicketController
         stringBuilder.append("{\"TotalNumber\":7,\"ticketData\":[");
         for(int i = 0; i < 7; i++)
         {
-            stringBuilder.append("{");
+            stringBuilder.append("{\"date\":\"");
             stringBuilder.append(date.plusDays(i));
-            stringBuilder.append(":");
+            stringBuilder.append(",\"money\":");
             stringBuilder.append(ticketMapper.selectTotalPriceByDate(date.plusDays(i)));
             stringBuilder.append("}");
             if(i != 6)
