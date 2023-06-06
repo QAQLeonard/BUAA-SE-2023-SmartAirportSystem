@@ -24,10 +24,17 @@
             <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="购买" align="center">
                 <template>
-                    <el-button type="primary" size="mini" icon="el-icon-s-goods"></el-button>
+                    <el-button type="primary" size="mini" icon="el-icon-s-goods" @click="purchase"></el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-dialog title="购买机票" :visible.sync="dialogFormVisible" width="600px">
+            <img :src="require('../img/img1.jpg')" alt="">
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="check()">确 定</el-button>
+            </div>
+        </el-dialog>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total">
@@ -35,11 +42,13 @@
     </div>
 </template>
 <script>
+
 import { getFlightAble } from '@/api/api'
 import { searchFlightTB } from '@/api/api'
 export default {
     data() {
         return {
+            dialogFormVisible: false,
             tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
@@ -47,7 +56,8 @@ export default {
             formInline: {
                 start: '',
                 destination: ''
-            }
+            },
+            imgSrc: 'src\assets\img\img1.jpg'
         }
     },
     methods: {
@@ -62,12 +72,11 @@ export default {
                 }
             })
         },
-        searchData(departureCity,arrivalCity){
-            searchFlightTB(departureCity,arrivalCity).then(res=>{
+        searchData(departureCity, arrivalCity) {
+            searchFlightTB(departureCity, arrivalCity).then(res => {
                 console.log(res)
-                if(res.status === 200)
-                {
-                    this.tableData=res.data.flightData
+                if (res.status === 200) {
+                    this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
                     console.log(this.tableData)
                 }
@@ -75,8 +84,12 @@ export default {
         },
         find() {
             console.log(this.formInline)
+<<<<<<< HEAD
+            this.searchData(this.formInline.start, this.formInline.destination)
+=======
             this.searchData(this.formInline.start,this.formInline.destination)
             console.log(this.tableData)
+>>>>>>> e4dae8e04ac37fcbecb3c3eeb9346c896217b4df
         },
         reset() {
             this.formInline = {}
@@ -90,6 +103,14 @@ export default {
         handleCurrentChange(val) {
             this.currentPage = val
             console.log(`当前页: ${val}`);
+        },
+        purchase() {
+            this.dialogFormVisible = true
+        },
+        check() {
+            this.$message({ message: '购买成功', type: 'success' })
+            this.dialogFormVisible = false
+
         }
     },
     computed: {
@@ -103,6 +124,11 @@ export default {
 }
 </script>
 <style lang="scss">
+img {
+    width: 200px;
+    height: 300px;
+}
+
 .ticketbook {
 
     .demo-form-inline,
@@ -117,6 +143,8 @@ export default {
             }
         }
     }
+
+    .el-dialog {}
 
     .el-pagination {
         text-align: left;
