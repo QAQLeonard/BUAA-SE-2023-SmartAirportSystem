@@ -3,7 +3,7 @@
         <!-- 查询和重置 -->
         <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="查询">
-                <el-input v-model="formInline.start" placeholder="请输入订单号" ></el-input>
+                <el-input v-model="formInline.start" placeholder="请输入订单号"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="find">查询</el-button>
@@ -14,20 +14,30 @@
         </el-form>
         <el-table :data="comData" border style="width: 100%">
             <el-table-column prop="id" label="订单号" align="center"></el-table-column>
-            <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
-            <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
+            <el-table-column prop="flightId" label="航班ID" align="center"></el-table-column>
+            <!-- <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
             <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
             <el-table-column prop="departureDateTime" label="出发时间" align="center"></el-table-column>
-            <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column>
-            <el-table-column prop="fare" label="价格" align="center"></el-table-column>
-            <el-table-column prop="statetext" label="状态" align="center"></el-table-column>
-            <el-table-column label="购买" align="center">
-                <template>
-                    <el-button type="primary" size="mini" icon="el-icon-s-goods" @click="purchase"></el-button>
+            <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column> -->
+            <el-table-column prop="seatNumber" label="座位号" align="center"></el-table-column>
+            <el-table-column prop="ticketPrice" label="票价" align="center"></el-table-column>
+            <el-table-column label="查看详细" align="center">
+                <template slot-scope="scope">
+                    <el-button type="primary" size="mini" icon="el-icon-s-goods" @click="viewFlight(scope.row)"></el-button>
                 </template>
             </el-table-column>
-
         </el-table>
+        <el-dialog title="航班详细信息" :visible.sync="dialogFormVisible" width="1000px">
+            <el-table :data="gridData">
+                <el-table-column prop="flightId" label="航班号" align="center"></el-table-column>
+                <el-table-column prop="departureCity" label="起点" align="center"></el-table-column>
+                <el-table-column prop="arrivalCity" label="终点" align="center"></el-table-column>
+                <el-table-column prop="departureDateTime" label="出发时间" align="center"></el-table-column>
+                <el-table-column prop="arrivalDateTime" label="到达时间" align="center"></el-table-column>
+                <!-- <el-table-column prop="fare" label="价格" align="center"></el-table-column> -->
+                <!-- <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column> -->
+            </el-table>
+        </el-dialog>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
             :page-sizes="[5, 10, 20, 30, , 40, 50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total">
@@ -35,16 +45,20 @@
     </div>
 </template>
 <script>
+import { getTicketById } from '@/api/api';
+import { getFlightByID } from '@/api/api';
 export default {
     data() {
         return {
+            dialogFormVisible: false,
             tableData: [],
             currentPage: 1,//当前页数
             pageSize: 10,//每页显示条数
             total: 15,
             formInline: {
 
-            }
+            },
+            gridData: []
         }
     }, computed: {
         comData() {
@@ -52,6 +66,13 @@ export default {
         }
     },
     methods: {
+        getData() {
+            getTicketById(localStorage.getItem('userid')).then(res => {
+                this.tableData = res.data.ticketData
+                this.total = res.data.TotalNumber
+            })
+        }
+        ,
         changeData() {
             console.log(1)
             this.tableData.forEach(item => {
@@ -59,14 +80,30 @@ export default {
                 item.status === 1 ? (item.statetext = '未到达') : item.status === 2 ? (item.statetext = '正在检票') : item.status === 3 ? (item.statetext = '飞行中') : item.status === 4 ? (item.statetext = '已到达') : item.status === 5 ? (item.statetext = '航班延迟') : item.status === 0 ? (item.statetext = '未发布') : (item.statetext = '回收站中')
             });
         },
-        find()
-        {
+        find() {
 
         },
-        reset()
-        {
+        reset() {
             
-        }
+        },
+        viewFlight(row) {
+            this.dialogFormVisible = true
+            console.log(row)
+            getFlightByID(row.flightId).then(res=>{
+                this.gridData = res.data.flightData
+            })
+        },
+        handleSizeChange(val) {
+            this.pageSize = val
+            this.currentPage = 1
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val
+            console.log(`当前页: ${val}`);
+        },
+    }, created() {
+        this.getData()
     }
 }
 </script>
