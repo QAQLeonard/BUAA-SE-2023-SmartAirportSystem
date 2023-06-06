@@ -331,6 +331,23 @@ export function getfinance(date){
         date
     })
 }
+//根据id获取乘客所有的已购买机票
+export function getTicketById(id){
+    return service({
+        method:'get',
+        url:`/ticketByPassengerId/${id}`,
+        id
+    })
+}
+//根据航班ID获取航班信息
+export function getFlightByID(id){
+    return service({
+        method:'get',
+        url:`/flight/${id}`,
+        id
+    })
+}
+
 //得到一个新的RRID
 export function createRID(params){
     return service({
