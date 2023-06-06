@@ -180,7 +180,7 @@ export function getAllParking(params) {
 export function searchParkingTB(id) {
     return service({
         method: 'get',
-        url: `/parkingSpace/${id}`,
+        url: `/parkingLot/${id}`,
         id
     })
 }
@@ -188,7 +188,7 @@ export function searchParkingTB(id) {
 export function searchParkingTB1(id,start) {
     return service({
         method: 'get',
-        url: `/parkingSpace/${id}/${start}`,
+        url: `/parkingLot/${id}/${start}`,
         id,
         start 
     })
