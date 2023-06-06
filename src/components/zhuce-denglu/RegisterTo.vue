@@ -15,6 +15,20 @@
                     <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
                     </el-upload>
                     </el-form-item>
+                    <el-form-item>
+                    <el-select v-model="value" placeholder="选择身份">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                        >
+                        </el-option>
+                    </el-select>
+                    </el-form-item>
+                    <el-form-item label="工号" prop="motto">
+                        <el-input  v-model="employeeid"  placeholder="仅限employee填写" :disabled='false'></el-input>
+                    </el-form-item>
                     <el-form-item label="用户名" prop="username">
                     <el-input v-model="ruleForm.username"></el-input>
                     </el-form-item>
@@ -30,12 +44,15 @@
                     <el-form-item label="邮箱" prop="phoneNumber">
                     <el-input type="tel" v-model="ruleForm.phoneNumber" id="phone" name="phone">
                     </el-input>
-                    <el-button id="sendCodeBtn" type="info" round>
-                    发送验证码
-                    </el-button>
+                    <!-- <el-button id="sendCodeBtn" type="info" round> -->
+                    <!-- 发送验证码 -->
+                    <!-- </el-button> -->
                     </el-form-item>
-                    <el-form-item label="验证码" prop="account">
-                    <el-input v-model="ruleForm.Checkcode"></el-input>
+                    <!-- <el-form-item label="验证码" prop="account"> -->
+                    <!-- <el-input v-model="ruleForm.Checkcode"></el-input> -->
+                    <!-- </el-form-item> -->
+                    <el-form-item label="motto" prop="motto">
+                        <el-input  v-model="ruleForm.motoo"  placeholder="motoo"></el-input>
                     </el-form-item>
                     <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -48,7 +65,7 @@
     </div>
 </template>
 <script>
-import { InsertUser } from '@/api/api';
+import { InsertUser, MerchantID } from '@/api/api';
 export default {
     data() {
         
@@ -102,6 +119,19 @@ export default {
         }
         }
         return {
+        options: [{
+            value: '选项1',
+            label: 'passenger'
+        }, {
+            value: '选项2',
+            label: 'employee'
+        }, {
+            value: '选项3',
+            label: 'merchant'
+        }, ],
+        value: '',
+        employeeid:'',
+        flag:'false',
         ruleForm: {
             pass: 'Ss111111',
             checkPass: 'Ss111111',
@@ -109,13 +139,17 @@ export default {
             username:'user30',
             Gender:'male',
             Checkcode:'111',
+            motto:''
         },
         RegForm:{
             username:'',
             password:'',
             id:'',
             avatar:'avatar11',
-            role:''
+            role:'',
+            email:'',
+            motto:'',
+            gender:''
         },
         imageUrl: '',
         rules: {
@@ -132,14 +166,34 @@ export default {
         };
     },
     methods: {
+        fuck(){
+            if(this.value=='employee'){
+                this.flag='false';
+            }
+        },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 alert('submit!');
-                //this.RegForm.Gender=this.ruleForm.Gender;
+                this.RegForm.gender=this.ruleForm.Gender;
                 this.RegForm.password=this.ruleForm.pass;
                 this.RegForm.username=this.ruleForm.username;
                 this.RegForm.avatar=this.imageUrl;
+                this.RegForm.email=this.ruleForm.phoneNumber;
+                this.RegForm.motto=this.ruleForm.motto;
+                this.RegForm.role=this.value;
+                if(this.value=='passenger')
+                {
+                    PassengerID().then(res=>{
+                        this.RegForm.id=res;
+                    })
+                }else if(this.value='merchant'){
+                    MerchantID().then(res=>{
+                        this.RegForm.id=res;
+                    })
+                }else{
+                    this.RegForm.id=this.employeeid;
+                }
                 InsertUser(this.RegForm).then(res=>{
                     console.log(res);
                 })
@@ -169,7 +223,8 @@ export default {
         return isJPG && isLt2M;
         }
         
-    }
+    },
+    
 }
 </script>
 

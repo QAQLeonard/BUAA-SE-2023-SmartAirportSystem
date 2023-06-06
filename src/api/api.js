@@ -205,6 +205,21 @@ export function updateParking(id,start,finish) {
     })
 }
 
+export function PassengerID(params) {
+    return service({
+        method: 'get',
+        url: '/passenger-id',
+        params
+    })
+}
+
+export function MerchantID(params) {
+    return service({
+        method: 'get',
+        url: '/merchant-id',
+        params
+    })
+}
 
 
 //处理事务界面获取所有报修请求接口
