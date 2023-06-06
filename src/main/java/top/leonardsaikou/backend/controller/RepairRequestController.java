@@ -85,4 +85,22 @@ public class RepairRequestController
         }
         return "fail";
     }
+
+    @ApiOperation("获取创建维修请求的id")
+    @GetMapping("/repairRequest-id")
+    public String getRepairRequestID()
+    {
+        int maxIdNum = repairRequestMapper.selectMaxId();
+        if (maxIdNum == 0)
+        {
+            // 如果还没有flight，那么返回 "F0001"
+            return "RR001";
+        }
+        else
+        {
+            // 否则，增加当前最大的flight ID
+            return "RR" + String.format("%03d", maxIdNum + 1);
+        }
+    }
+
 }
