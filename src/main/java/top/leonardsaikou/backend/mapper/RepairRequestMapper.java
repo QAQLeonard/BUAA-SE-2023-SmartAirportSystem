@@ -8,7 +8,7 @@ import top.leonardsaikou.backend.entity.RepairRequest;
 @Mapper
 public interface RepairRequestMapper extends BaseMapper<RepairRequest> {
 
-    @Select("SELECT MAX(CAST(SUBSTRING(id, 2) AS UNSIGNED)) FROM repair_requests")
+    @Select("SELECT MAX(CAST(SUBSTRING(id, 3) AS UNSIGNED)) FROM repair_requests")
     int selectMaxId();
 
 }
