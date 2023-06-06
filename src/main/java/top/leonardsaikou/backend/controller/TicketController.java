@@ -34,7 +34,7 @@ public class TicketController
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(ticketsList);
-        return "{"+"\"TotalNumber\":" + ticketsList.size() + ",\"ticketData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + ticketsList.size() + ",\"ticketData\":" + json + "}";
     }
 
     @ApiOperation("根据id获取单个机票信息")
@@ -47,7 +47,7 @@ public class TicketController
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(ticket);
-        return "{"+"\"TotalNumber\":" + 1 + ",\"ticketData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + 1 + ",\"ticketData\":" + json + "}";
     }
 
     @ApiOperation("插入机票信息")
@@ -106,20 +106,45 @@ public class TicketController
 
     @ApiOperation("获取某一天的所有票价之和")
     @GetMapping("/totalTicketPrice/{date}")
-    public Double getTotalTicketPrice(@PathVariable("date") @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate date) {
+    public Double getTotalTicketPrice(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
+    {
         return ticketMapper.selectTotalPriceByDate(date);
     }
 
     @ApiOperation("获取某一乘客的所有机票信息")
     @GetMapping("/ticketByPassengerId/{passengerId}")
-    public String getTicketByPassengerId(@PathVariable String passengerId) throws JsonProcessingException {
+    public String getTicketByPassengerId(@PathVariable String passengerId) throws JsonProcessingException
+    {
         List<Ticket> ticketsList = ticketMapper.selectByPassengerId(passengerId);
         //System.out.println(ticketsList);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         String json = objectMapper.writeValueAsString(ticketsList);
-        return "{"+"\"TotalNumber\":" + ticketsList.size() + ",\"ticketData\":"+ json + "}";
+        return "{" + "\"TotalNumber\":" + ticketsList.size() + ",\"ticketData\":" + json + "}";
+    }
+
+    @ApiOperation("获取某一周的所有票价")
+    @GetMapping("/weekTicketPrice/{date}")
+    public String getweekTicketPrice(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{\"TotalNumber\":7,\"ticketData\":[");
+        for(int i = 0; i < 7; i++)
+        {
+            stringBuilder.append("{");
+            stringBuilder.append(date.plusDays(i));
+            stringBuilder.append(":");
+            stringBuilder.append(ticketMapper.selectTotalPriceByDate(date.plusDays(i)));
+            stringBuilder.append("}");
+            if(i != 6)
+            {
+                stringBuilder.append(",");
+            }
+        }
+        stringBuilder.append("]}");
+
+        return stringBuilder.toString();
     }
 
 }

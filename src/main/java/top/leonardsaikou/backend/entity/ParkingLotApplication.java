@@ -17,9 +17,9 @@ public class ParkingLotApplication {
     @Id
     private String id;
     private String username;
-    private String startTime;
-    private String finishTime;
-    private String status;
+    private int startTime;
+    private int finishTime;
+    private int status;
     private String pid;
 
 }

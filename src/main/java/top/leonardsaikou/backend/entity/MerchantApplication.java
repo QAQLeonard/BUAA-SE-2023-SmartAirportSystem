@@ -25,5 +25,4 @@ public class MerchantApplication
      * 1: approved
      */
     private int status;
-    private float cost;
 }
