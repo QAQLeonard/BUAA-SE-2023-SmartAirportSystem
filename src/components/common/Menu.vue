@@ -31,6 +31,59 @@ export default {
     created() {
         console.log(this.$router.options.routes)
         this.menus = [...this.$router.options.routes].slice(0,-1);
+        this.menus.forEach((item)=>{
+            item.hidden = false
+        })
+        this.menus.forEach((item)=>{
+            if(localStorage.getItem('role') === 'passenger')
+            {
+                if(item.name === '机场报修')
+                {
+                    item.hidden = true
+                }
+                if(item.name === '机场管理')
+                {
+                    item.hidden = true
+                }
+                if(item.name === '商家入驻')
+                {
+                    item.hidden = true
+                }
+                if(item.name === '航司')
+                {
+                    item.hidden = true
+                }
+            }else if(localStorage.getItem('role') === 'employee')
+            {
+                if(item.name === '机场主页')
+                {
+                    item.hidden = true
+                }
+                if(item.name === '商家入驻')
+                {
+                    item.hidden = true
+                }
+
+            }else{
+                if(item.name === '机场主页')
+                {
+                    item.hidden = true
+                }
+                if(item.name === '机场报修')
+                {
+                    item.hidden = true
+                }
+                if(item.name === '机场管理')
+                {
+                    item.hidden = true
+                }
+                if(item.name === '航司')
+                {
+                    item.hidden = true
+                }
+            }
+
+        })
     }
 }
 </script>

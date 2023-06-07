@@ -97,6 +97,7 @@ export default {
                                 this.$message({ message: '登录成功', type: 'success' })
                                 localStorage.setItem('username', this.form.username)
                                 localStorage.setItem('userid', res.data.userData.id)
+                                localStorage.setItem('role',res.data.userData.role)
                                 console.log(localStorage.getItem('username'))
                                 this.$router.replace('/home')
                             } else if (this.form.password === '') {
@@ -130,6 +131,7 @@ export default {
                                 this.$message({ message: '登录成功', type: 'success' })
                                 localStorage.setItem('username', this.form.username)
                                 localStorage.setItem('userid', res.data.userData.id)
+                                localStorage.setItem('role',res.data.userData.role)
                                 console.log(localStorage.getItem('username'))
                                 this.$router.push('/home')
                             } else if (this.form.code === '') {

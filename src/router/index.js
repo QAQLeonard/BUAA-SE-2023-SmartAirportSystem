@@ -16,9 +16,12 @@ export default new Router({
             path:'/home',
             name:'机场主页',
             iconClass:'fa fa-plane',
-            // hidden:true,
-            redirect:'/home/ticketbook',
+            redirect:'/home/personalinformation',
             component:()=>import('@/components/Home'),
+            // hidden:false,
+            meta:{
+                hidden:true
+            },
             children:[
                 {
                     path: '/home/ticketbook',
@@ -51,6 +54,9 @@ export default new Router({
             name:'机场报修',
             iconClass:'fa fa-wrench',
             component:()=>import('@/components/Home'),
+            meta:{
+                hidden:true
+            },
             children:[
                 {
                     path: '/home/createrequest',
@@ -71,6 +77,9 @@ export default new Router({
             name:'机场管理',
             iconClass:'fa fa-user-plus',
             component:()=>import('@/components/Home'),
+            meta:{
+                hidden:true
+            },
             children:[
                 {
                     path: '/home/approvalrequest',
@@ -97,6 +106,9 @@ export default new Router({
             name:'商家入驻',
             iconClass:'fa fa-handshake-o',
             component:()=>import('@/components/Home'),
+            meta:{
+                hidden:true
+            },
             children:[
                 {
                     path: '/home/myshop',
@@ -117,6 +129,9 @@ export default new Router({
             name:'航司',
             iconClass:'fa fa-vcard',
             component:()=>import('@/components/Home'),
+            meta:{
+                hidden:true
+            },
             children:[
                 {
                     path: '/home/bin',
@@ -150,12 +165,12 @@ export default new Router({
                     iconClass:'fa fa-user',
                     component:()=>import('@/components/ge-ren-zhong-xin/PersonalInformation')
                 },
-                {
-                    path: '/home/myalerts',
-                    name:'我的通知',
-                    iconClass:'fa fa-bell',
-                    component:()=>import('@/components/ge-ren-zhong-xin/MyAlerts')
-                },
+                // {
+                //     path: '/home/myalerts',
+                //     name:'我的通知',
+                //     iconClass:'fa fa-bell',
+                //     component:()=>import('@/components/ge-ren-zhong-xin/MyAlerts')
+                // },
             ]
         },
         {
