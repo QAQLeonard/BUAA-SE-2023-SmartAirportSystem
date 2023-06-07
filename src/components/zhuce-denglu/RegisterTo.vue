@@ -2,7 +2,7 @@
     <div>
         <el-tabs type="border-card">
             <el-tab-pane label="旅客注册">
-                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
+                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" 
                     class="demo-ruleForm">
                     <!-- <el-form-item label="头像" prop="avatar">
                         <el-upload
@@ -17,28 +17,41 @@
                     </el-upload>
                     </el-form-item> -->
                     <el-form-item>
+                        <el-col >
                         <el-select v-model="value" placeholder="选择身份">
                             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
+                        </el-col>
                     </el-form-item>
-                    <el-form-item label="工号" prop="motto" :visible="false">
+                    <el-row style="text-align: center;">
+                    <el-form-item label="工号" prop="motto" :visible="false" > 
                         <el-input v-model="employeeid" placeholder="仅限employee填写" :disabled='false'></el-input>
                     </el-form-item>
+                    </el-row>
+                    <el-row style="text-align: center;">
                     <el-form-item label="用户名" prop="username">
                         <el-input v-model="ruleForm.username"></el-input>
                     </el-form-item>
+                    </el-row>
+                    <el-row style="text-align: center;">
                     <el-form-item label="性别" prop="Gender">
                         <el-input v-model="ruleForm.Gender"></el-input>
                     </el-form-item>
+                    </el-row>
+                    <el-row style="text-align: center;">
                     <el-form-item label="密码" prop="pass">
                         <el-input type="password" v-model="ruleForm.pass" autocomplete="off"
                             placeholder="8-16位由大小写字母、数字组成的密码"></el-input>
                     </el-form-item>
+                    </el-row>
+                    <el-row style="text-align: center;">
                     <el-form-item label="确认密码" prop="checkPass">
                         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"
                             placeholder="确认密码"></el-input>
                     </el-form-item>
+                    </el-row>
+                    <el-row style="text-align: center;">
                     <el-form-item label="邮箱" prop="phoneNumber">
                         <el-input v-model="ruleForm.phoneNumber">
                         </el-input>
@@ -46,12 +59,17 @@
                             发送验证码
                         </el-button>
                     </el-form-item>
+                    </el-row>
+                    <el-row style="text-align: center;">
                     <el-form-item label="验证码" prop="account">
                         <el-input v-model="ruleForm.Checkcode"></el-input>
                     </el-form-item>
+                    </el-row>
+                    <el-row style="text-align: center;">
                     <el-form-item label="motto" prop="motto">
-                        <el-input v-model="ruleForm.motoo" placeholder="motoo"></el-input>
+                        <el-input v-model="ruleForm.motoo" placeholder="motto"></el-input>
                     </el-form-item>
+                    </el-row>
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -109,11 +127,11 @@ export default {
             employeeid: '',
             flag: 'false',
             ruleForm: {
-                pass: 'Ss111111',
-                checkPass: 'Ss111111',
+                pass: '',
+                checkPass: '',
                 phoneNumber: "",
-                username: 'user30',
-                Gender: 'male',
+                username: '',
+                Gender: '',
                 Checkcode: '',
                 motto: ''
             },
@@ -256,6 +274,11 @@ export default {
 }
 
 .el-form-item {
-    width: 50%;
+    width: 35%;
+    position:relative;
+    align-self: center;
+    text-align: center;
+    display: inline-block;
 }
+
 </style>
