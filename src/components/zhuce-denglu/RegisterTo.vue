@@ -67,7 +67,7 @@
                     </el-row>
                     <el-row style="text-align: center;">
                     <el-form-item label="motto" prop="motto">
-                        <el-input v-model="ruleForm.motoo" placeholder="motoo"></el-input>
+                        <el-input v-model="ruleForm.motoo" placeholder="motto"></el-input>
                     </el-form-item>
                     </el-row>
                     <el-form-item>
@@ -127,11 +127,11 @@ export default {
             employeeid: '',
             flag: 'false',
             ruleForm: {
-                pass: 'Ss111111',
-                checkPass: 'Ss111111',
+                pass: '',
+                checkPass: '',
                 phoneNumber: "",
-                username: 'user30',
-                Gender: 'male',
+                username: '',
+                Gender: '',
                 Checkcode: '',
                 motto: ''
             },
