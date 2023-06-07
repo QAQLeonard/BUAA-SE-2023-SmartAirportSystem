@@ -126,7 +126,7 @@ export default {
                 console.log(res)
             })
             this.$message({ message: '购买成功', type: 'success' })
-
+            this.getData()
             this.dialogFormVisible = false
 
         }
