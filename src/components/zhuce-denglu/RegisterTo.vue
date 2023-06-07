@@ -3,18 +3,18 @@
         <el-tabs type="border-card" >
             <el-tab-pane label="旅客注册" >
                 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="头像" prop="avatar">
-                        <el-upload
-                        class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-                    </el-upload>
-                    </el-form-item>
+                    <!-- <el-form-item label="头像" prop="avatar"> -->
+                        <!-- <el-upload -->
+                        <!-- class="avatar-uploader" -->
+                        <!-- action="https://jsonplaceholder.typicode.com/posts/" -->
+                        <!-- :show-file-list="false" -->
+                        <!-- :on-success="handleAvatarSuccess" -->
+                        <!-- :before-upload="beforeAvatarUpload"> -->
+                        <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
+                        <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+                    <!-- <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon> -->
+                    <!-- </el-upload> -->
+                    <!-- </el-form-item> -->
                     <el-form-item>
                     <el-select v-model="value" placeholder="选择身份">
                         <el-option
