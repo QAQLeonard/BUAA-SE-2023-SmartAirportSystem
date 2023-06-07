@@ -66,16 +66,16 @@ export default {
   data() {
     return {
       ShopForm:{
-        id:'M010',
-        username: 'user30',
-        name: 'SuperShop',
-        contactPerson: 'Lee',
-        contactPhone: '11112222333',
-        storeLocation: 'Beihang University'
+        id:'',
+        username: '',
+        name: '',
+        contactPerson: '',
+        contactPhone: '',
+        storeLocation: ''
       },
       AppForm:{
-      id: 'MA010',
-      merchantId: 'M010',
+      id: '',
+      merchantId: '',
       storeAddress: '',
       status: 0,
       },
@@ -89,17 +89,18 @@ export default {
       UserID(this.ShopForm.username).then(res=>{
         console.log(res);
         this.AppForm.merchantId=res.data.userData.id;
-        this.ShopForm.id=this.AppForm.id;
+        this.ShopForm.id=this.AppForm.merchantId;
         //this.AppForm.merchantId=this.ShopForm.id
         this.AppForm.id='MA'+this.AppForm.merchantId.slice(1);
-      })
-      SubmitMerchantAppForm(this.AppForm).then(res=>{
+        SubmitMerchantApp(this.ShopForm).then(res => {
+        console.log(res);
+        SubmitMerchantAppForm(this.AppForm).then(res=>{
         console.log(res);
       })
-      SubmitMerchantApp(this.ShopForm).then(res => {
-        console.log(res);
+      this.$router.replace('/login');
       })
-      //this.$router.replace('/login');
+        
+      })
     },
     cancelEvent() {
       console.log("cancel!");

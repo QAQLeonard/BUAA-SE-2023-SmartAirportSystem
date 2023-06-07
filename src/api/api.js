@@ -158,6 +158,28 @@ export function SubmitMerchantApp(data){
         data:data
     })
 }
+
+export function SubmitPassengerApp(data){
+    data=JSON.stringify(data);
+    console.log(data);
+    return service({
+        method:'post',
+        url:'/passenger',
+        headers: {'Content-Type': 'application/json'},
+        data:data
+    })
+}
+
+export function SubmitEmployeeApp(data){
+    data=JSON.stringify(data);
+    console.log(data);
+    return service({
+        method:'post',
+        url:'/employee',
+        headers: {'Content-Type': 'application/json'},
+        data:data
+    })
+}
 //提交商家申请记录
 export function SubmitMerchantAppForm(data){
     data=JSON.stringify(data);
@@ -387,3 +409,4 @@ export function sendCode(data){
         data
     })
 }
+

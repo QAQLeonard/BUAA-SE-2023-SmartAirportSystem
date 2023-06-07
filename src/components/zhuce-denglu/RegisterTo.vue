@@ -81,7 +81,7 @@
     </div>
 </template>
 <script>
-import { InsertUser, MerchantID, sendCode,PassengerID } from '@/api/api';
+import { InsertUser, MerchantID, sendCode,PassengerID,SubmitEmployeeApp,SubmitMerchantApp,SubmitPassengerApp } from '@/api/api';
 export default {
     data() {
 
@@ -145,6 +145,21 @@ export default {
                 motto: '',
                 gender: ''
             },
+            PassengerForm:{
+                id: '',
+                username: '',
+                name:'X',
+                gender:'',
+                phone:'110',
+                ticketId:''
+            },
+            EmployeeForm:{
+                gender: '',
+                id:'',
+                name: 'aaa',
+                phone: '120',
+                username: ''
+            },
             imageUrl: '',
             code: '111',
             IDD: '',
@@ -196,6 +211,10 @@ export default {
                             InsertUser(this.RegForm).then(res => {
                                 console.log('222');
                                 console.log(res);
+                                this.PassengerForm.id=this.RegForm.id;
+                                this.PassengerForm.gender=this.RegForm.gender;
+                                this.PassengerForm.username=this.RegForm.username;
+                                SubmitPassengerApp(this.PassengerForm);
                             })
                         })
                     } else if (this.value == 'merchant') {
@@ -208,13 +227,20 @@ export default {
                             InsertUser(this.RegForm).then(res => {
                                 console.log('222');
                                 console.log(res);
+                                this.$router.replace('/home/residencyapplication')
                             })
                         })
                     } else {
                         this.RegForm.id = this.employeeid;
+                        this.EmployeeForm.id=this.RegForm.id;
+                        this.EmployeeForm.gender=this.RegForm.gender;
+                        this.EmployeeForm.username=this.RegForm.username;
+                        //SubmitEmployeeApp(this.EmployeeForm);
                     }
                     //console.log(this.RegForm.id);
+                    if(this.value!='merchant'){
                     this.$router.replace('/login');
+                    }
                 } else {
                     console.log('error submit!!');
                     return false;
