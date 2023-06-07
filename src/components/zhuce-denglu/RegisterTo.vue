@@ -63,7 +63,7 @@
     </div>
 </template>
 <script>
-import { InsertUser, MerchantID, sendCode } from '@/api/api';
+import { InsertUser, MerchantID, sendCode,PassengerID } from '@/api/api';
 export default {
     data() {
 
@@ -94,28 +94,6 @@ export default {
                 callback();
             }
         };
-        var generateVerificationCode = () => {
-            return Math.floor(Math.random() * 900000 + 100000);
-        };
-        var sendVerificationCode = () => {
-            var phoneInput = document.getElementById("phone");
-            var sendCodeBtn = document.getElementById("sendCodeBtn");
-            sendCodeBtn.disabled = true;
-            setTimeout(function () {
-                var code = this.generateVerificationCode();
-                sessionStorage.setItem("verificationCode", code);
-                alert("验证码已发送到您的手机，请注意查收！");
-                sendCodeBtn.disabled = false;
-            }, 2000);
-        };
-        var verifyCode = (rule, value, callback) => {
-            var storedCode = sessionStorage.getItem("verificationCode");
-            if (value === storedCode) {
-                alert("验证码正确！");
-            } else {
-                callback(new Error('验证码错误'));
-            }
-        }
         return {
             options: [{
                 value: 'passenger',
@@ -162,9 +140,6 @@ export default {
                 checkPass: [
                     { validator: validatePass2, trigger: 'blur' }
                 ],
-                Checkcode: [
-                    { validator: verifyCode, trigger: 'blur' }
-                ]
             }
         };
     },
