@@ -23,8 +23,8 @@
             <el-table-column prop="fare" label="价格" align="center"></el-table-column>
             <el-table-column prop="remainingSeats" label="剩余座位" align="center"></el-table-column>
             <el-table-column label="购买" align="center">
-                <template>
-                    <el-button type="primary" size="mini" icon="el-icon-s-goods" @click="purchase()"></el-button>
+                <template slot-scope="scope">
+                    <el-button type="primary" size="mini" icon="el-icon-s-goods" @click="purchase(scope.row)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -45,6 +45,9 @@
 
 import { getFlightAble } from '@/api/api'
 import { searchFlightTB } from '@/api/api'
+import { getNewTicketID } from '@/api/api'
+import { buyTicket } from '@/api/api'
+
 export default {
     data() {
         return {
@@ -57,7 +60,9 @@ export default {
                 start: '',
                 destination: ''
             },
+            ticketForm: {
 
+            },
             imgSrc: 'src\assets\img\img1.jpg'
         }
     },
@@ -85,7 +90,7 @@ export default {
         },
         find() {
             console.log(this.formInline)
-            this.searchData(this.formInline.start,this.formInline.destination)
+            this.searchData(this.formInline.start, this.formInline.destination)
             console.log(this.tableData)
         },
         reset() {
@@ -101,11 +106,27 @@ export default {
             this.currentPage = val
             console.log(`当前页: ${val}`);
         },
-        purchase() {
+        purchase(row) {
             this.dialogFormVisible = true
+            getNewTicketID().then(res => {
+                this.ticketForm.id = res.data.id
+                this.ticketForm.seatNumber = Math.floor((Math.random() * parseInt(row.remainingSeats)) + 1)
+                this.ticketForm.ticketPrice = row.fare
+                this.ticketForm.flightId = row.id
+                this.ticketForm.passengerId = localStorage.getItem('userid')
+                this.ticketForm.purchaseDateTime = row.departureDateTime
+                this.ticketForm.paymentStatus = 2
+                console.log(this.ticketForm)
+
+            })
         },
-        check() {
+        check(row) {
+            console.log(this.ticketForm)
+            buyTicket(this.ticketForm).then(res => {
+                console.log(res)
+            })
             this.$message({ message: '购买成功', type: 'success' })
+
             this.dialogFormVisible = false
 
         }

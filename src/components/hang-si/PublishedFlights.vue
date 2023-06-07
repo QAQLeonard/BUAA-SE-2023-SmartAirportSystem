@@ -116,8 +116,11 @@ export default {
                 if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
-                    console.log(this.tableData)
-                    this.changeData()
+                    console.log(this.tableData.length)
+                    if(this.tableData.length>=1)
+                    {
+                        this.changeData()
+                    }
                 }
             })
         },
@@ -127,7 +130,10 @@ export default {
                 if (res.status === 200) {
                     this.tableData = res.data.flightData
                     this.total = res.data.TotalNumber
-                    this.changeData()
+                    if(this.tableData.length>1)
+                    {
+                        this.changeData()
+                    }
                 }
             })
         },
