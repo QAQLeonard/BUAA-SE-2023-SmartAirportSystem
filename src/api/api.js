@@ -377,3 +377,13 @@ export function getNewTicketID(params){
         params
     })
 }
+
+export function sendCode(data){
+    data = JSON.stringify(data)
+    return service({
+        method:'post',
+        url:'/send-email',
+        headers:{'Content-Type': 'application/json'},
+        data
+    })
+}
