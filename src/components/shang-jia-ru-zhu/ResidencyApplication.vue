@@ -20,12 +20,12 @@
       </el-alert>
       <el-form-item label="Your Information">
       <i class="fa fa-user-o"></i>
-      <el-input
-      v-model="ShopForm.id"
-      label="id"
-      placeholder="id"
-      />
-      <el-divider border-style="dashed" />
+      <!-- <el-input -->
+      <!-- v-model="ShopForm.id" -->
+      <!-- label="id" -->
+      <!-- placeholder="id" -->
+      <!-- /> -->
+      <!-- <el-divider border-style="dashed" /> -->
             <el-input
               v-model="ShopForm.contactPerson"
               label="Real Name"
@@ -89,13 +89,14 @@ export default {
       UserID(this.ShopForm.username).then(res=>{
         console.log(res);
         this.AppForm.merchantId=res.data.userData.id;
+        this.ShopForm.id=this.AppForm.id;
         //this.AppForm.merchantId=this.ShopForm.id
         this.AppForm.id='MA'+this.AppForm.merchantId.slice(1);
       })
       SubmitMerchantAppForm(this.AppForm).then(res=>{
         console.log(res);
       })
-      SubmitMerchantApp(params).then(res => {
+      SubmitMerchantApp(this.ShopForm).then(res => {
         console.log(res);
       })
       //this.$router.replace('/login');
