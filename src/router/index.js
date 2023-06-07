@@ -39,12 +39,6 @@ export default new Router({
                     component:()=>import('@/components/ji-chang-zhu-ye/ParkingBook')
                 },
                 {
-                    path: '/home/baggagetracking',
-                    name:'行李跟踪',
-                    iconClass:'fa fa-suitcase',
-                    component:()=>import('@/components/ji-chang-zhu-ye/BaggageTracking')
-                },
-                {
                     path: '/home/scheduleview',
                     name:'航班表查看',
                     iconClass:'fa fa-table',
