@@ -156,6 +156,7 @@ export default {
                         if (res.data.userData === null) {
                             this.$message({ message: '用户名不存在', type: 'error' })
                         } else {
+                            this.Email.toEmail = res.data.userData.email
                             sendCode(this.Email).then(res => {
                                 console.log(res)
                                 if(res.status === 200)
